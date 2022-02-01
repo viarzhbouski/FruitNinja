@@ -11,6 +11,7 @@ public class FruitSpawner : MonoBehaviour
     [SerializeField]
     private Canvas gameField;
     private GameConfig gameConfig;
+    private Player player;
     private RectTransform rectTransform;
     private TapMovement tapMovement;
     private float currentTimeDelay;
@@ -20,11 +21,17 @@ public class FruitSpawner : MonoBehaviour
         gameConfig = GetComponent<GameConfig>();
         rectTransform = gameField.GetComponent<RectTransform>();
         tapMovement = GetComponent<TapMovement>();
+        player = GetComponent<Player>();
         currentTimeDelay = 0;
     }
     
     void Update()
     {
+        if (player.GameOver)
+        {
+            return;
+        }
+        
         SpawnFruit();
     }
 
@@ -52,7 +59,7 @@ public class FruitSpawner : MonoBehaviour
 
             var fruitMovement = newFruit.GetComponent<FruitMovement>();
             
-            fruitMovement.SetMovementConfig(directionVector, gameConfig.GravityVector, tapMovement);
+            fruitMovement.SetMovementConfig(directionVector, gameConfig.GravityVector, tapMovement, player);
             currentTimeDelay = gameConfig.SpawnDelay;
         }
     }
@@ -103,7 +110,7 @@ public class FruitSpawner : MonoBehaviour
 
     private Vector3 GetFruitMovementVector(SpawnZone spawnZone)
     {
-        var angleRad = Random.Range(spawnZone.MinAngle, spawnZone.MaxAngle) * Mathf.PI / 180 ;
+        var angleRad = Random.Range(spawnZone.MinAngle, spawnZone.MaxAngle) * Mathf.PI / 180;
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0);
     }
 

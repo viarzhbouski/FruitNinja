@@ -20,6 +20,8 @@ public class GameConfig : MonoBehaviour
     public List<GameObject> Fruits;
     
     public List<SpawnZone> SpawnZones;
+
+    public int LifeCount = 3;
     
 
     private void Start()

@@ -12,6 +12,7 @@ public class TapMovement : MonoBehaviour
     private bool isKeyUp = true;
     private Vector3 old;
     private float velocity;
+    private Player player;
     
     public float Velocity
     {
@@ -31,10 +32,17 @@ public class TapMovement : MonoBehaviour
         {
             canvasRectTransform = GameField.GetComponent<RectTransform>();
         }
+
+        player = GetComponent<Player>();
     }
     
     void FixedUpdate()
     {
+        if (player != null && player.GameOver)
+        {
+            return;
+        }
+        
         if (canvasRectTransform == null)
         {
             return;
@@ -75,13 +83,13 @@ public class TapMovement : MonoBehaviour
                     tapObject = Instantiate(Tap, tapPosition, Quaternion.identity, GameField.transform);
                 }
             }
-            
-            if (Input.GetMouseButtonUp(0))
+            else
             {
                 Destroy(tapObject);
                 tapObject = null;
             }
         }
+        
         if (tapObject != null)
         {
             old = tapObject.transform.position;;
@@ -93,6 +101,5 @@ public class TapMovement : MonoBehaviour
     private void CalculateVelocity()
     {
         velocity = Vector3.Distance(old, tapObject.transform.position) / Time.deltaTime;
-        Debug.Log(velocity);
     }
 }

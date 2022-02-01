@@ -5,9 +5,9 @@ using Random = UnityEngine.Random;
 public class FruitMovement : MonoBehaviour
 {
     private TapMovement tapMovement;
-    //private GameObject tapObject;
     private Vector3 gravityVector;
     private Vector3 directionVector;
+    private Player player;
     
     public GameObject FirstShape;
     public GameObject SecondShape;
@@ -18,9 +18,9 @@ public class FruitMovement : MonoBehaviour
     {
         if (fruitIsCatched)
         {
+            player.AddScore();
             SpawnShapes();
             Destroy(gameObject);
-            return;
         }
 
         Movement();
@@ -28,6 +28,7 @@ public class FruitMovement : MonoBehaviour
 
         if (!FruitOnGameField())
         {
+            player.DecreaseLife();
             Destroy(gameObject);
         }
     }
@@ -38,12 +39,12 @@ public class FruitMovement : MonoBehaviour
         transform.position = transform.position + directionVector * Time.deltaTime;
     }
 
-    public void SetMovementConfig(Vector3 directionVector, Vector3 gravityVector, TapMovement tapMovement)
+    public void SetMovementConfig(Vector3 directionVector, Vector3 gravityVector, TapMovement tapMovement, Player player)
     {
         this.directionVector = directionVector;
         this.gravityVector = gravityVector;
-        //this.tapObject = tapObject;
         this.tapMovement = tapMovement;
+        this.player = player;
     }
 
     private bool FruitOnGameField()
@@ -66,8 +67,8 @@ public class FruitMovement : MonoBehaviour
         
         var from = new Vector3(transform.position.x, transform.position.y, 0);
         var to = new Vector3(tapMovement.TapObject.transform.position.x, tapMovement.TapObject.transform.position.y, 0);
-
         var distance = Vector3.Distance(from, to);
+        
         Debug.DrawLine(from, to, Color.green);
 
         if (distance <= 1f && tapMovement.Velocity > 5)
