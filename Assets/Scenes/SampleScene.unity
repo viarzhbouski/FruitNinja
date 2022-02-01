@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -77, y: 0}
+  m_AnchoredPosition: {x: 138, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!96 &391693724
@@ -782,12 +782,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnDelay: 1
-  Speed: 10
+  Speed: 13
   GravityVector: {x: 0, y: -9.81, z: 0}
   Fruits:
   - {fileID: 7698001304981860566, guid: 6eb1144b16a525e45aa5ab78f78d9e7f, type: 3}
   BottomSpawnZones:
   - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}
+  - {fileID: 11400000, guid: 37e0f2fa75c9324448a249c0c5373eb1, type: 2}
+  - {fileID: 11400000, guid: 78431dbf10003694c9a519615d1f52ee, type: 2}
+  - {fileID: 11400000, guid: ad844b98e3fff4e4d8d919f48ef5e365, type: 2}
+  - {fileID: 11400000, guid: 0c8905d403a1e1b43b83146e44737ded, type: 2}
 --- !u!1 &1638390926
 GameObject:
   m_ObjectHideFlags: 0

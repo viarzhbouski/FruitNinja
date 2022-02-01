@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FruitSpawner : MonoBehaviour
 {
@@ -9,13 +12,11 @@ public class FruitSpawner : MonoBehaviour
     
     [SerializeField]
     private Vector2 spawnPoint;
-    
-    [SerializeField]
-    private GameObject fruit;
-    
+
     [SerializeField]
     private Canvas gameField;
 
+    private int xOffset = 10;
     private int yOffset = -5;
     private float currentTimeDelay = 0;
     
@@ -38,7 +39,7 @@ public class FruitSpawner : MonoBehaviour
             return;
         }
 
-        if (fruit != null && gameField != null)
+        if (gameField != null)
         {
             var spawnZone = GetSpawnZone();
             if (spawnZone == null)
@@ -48,7 +49,7 @@ public class FruitSpawner : MonoBehaviour
 
             var position = GetPosition(spawnZone);
             var directionVector = GetFruitMovementVector(spawnZone) * gameConfig.Speed;
-
+            var fruit = GetFruit();
             var newFruit = Instantiate(fruit, position, Quaternion.identity,
                 gameField.transform);
 
@@ -66,17 +67,23 @@ public class FruitSpawner : MonoBehaviour
         }
 
         SpawnZone spawnZone;
+       
         
-        var spawnZonesCount = gameConfig.BottomSpawnZones.Count();
+        var spawnZoneType = Random.Range(0, Enum.GetValues(typeof(SpawnZonePosition)).Length);
+        Debug.Log($"Type = {spawnZoneType} Count = {Enum.GetValues(typeof(SpawnZonePosition)).Length}");
+        
+        var spawnZones = gameConfig.SpawnZones
+                                                .Where(e => e.SpawnZonePosition == (SpawnZonePosition)spawnZoneType)
+                                                .ToList();
 
-        if (spawnZonesCount == 1)
+        if (spawnZones.Count() == 1)
         {
-            spawnZone = gameConfig.BottomSpawnZones.First();
+            spawnZone = spawnZones.First();
         }
         else
         {
-            var spawnZoneId = Random.Range(0, spawnZonesCount - 1);
-            spawnZone = gameConfig.BottomSpawnZones[spawnZoneId];
+            var spawnZoneId = Random.Range(0, spawnZones.Count - 1);
+            spawnZone = gameConfig.SpawnZones[spawnZoneId];
         }
         
         return spawnZone;
@@ -84,14 +91,36 @@ public class FruitSpawner : MonoBehaviour
 
     private Vector3 GetPosition(SpawnZone spawnZone)
     {
-        var positon = Random.Range(spawnZone.From, spawnZone.To);
+        var position = Random.Range(spawnZone.From, spawnZone.To);
         var rect = gameField.GetComponent<RectTransform>();
-        return new Vector3(positon, yOffset, rect.position.z);
+
+        switch (spawnZone.SpawnZonePosition)
+        {
+            case SpawnZonePosition.Bottom:
+                return new Vector3(position, yOffset, rect.position.z);
+            case SpawnZonePosition.Left:
+                return new Vector3(-xOffset, position, rect.position.z);
+            case SpawnZonePosition.Right:
+                return new Vector3(xOffset, position, rect.position.z);
+        }
+        
+        return Vector3.zero;
     }
 
     private Vector3 GetFruitMovementVector(SpawnZone spawnZone)
     {
         var angleRad = Random.Range(spawnZone.MinAngle, spawnZone.MaxAngle) * Mathf.PI / 180 ;
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0);
+    }
+
+    private GameObject GetFruit()
+    {
+        if (gameConfig.Fruits.Count() == 1)
+        {
+            return gameConfig.Fruits.First();
+        }
+        
+        var fruitId = Random.Range(0, gameConfig.Fruits.Count() - 1);
+        return gameConfig.Fruits[fruitId];
     }
 }

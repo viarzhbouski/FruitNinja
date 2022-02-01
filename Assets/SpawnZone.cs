@@ -1,3 +1,4 @@
+using DefaultNamespace;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New SpawnZone", menuName = "Spawn Zone", order = 51)]
@@ -13,4 +14,6 @@ public class SpawnZone : ScriptableObject
     
     [Range(0, 1)]
     public float Ratio;
+
+    public SpawnZonePosition SpawnZonePosition;
 }

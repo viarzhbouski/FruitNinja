@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70e54d487d79a19479664aaa254913c7, type: 3}
-  m_Name: Center
+  m_Name: LeftCenter
   m_EditorClassIdentifier: 
-  From: -3
-  To: 3
-  MinAngle: 60
-  MaxAngle: 120
-  Ratio: 0.5
+  From: 0
+  To: 0
+  MinAngle: 0
+  MaxAngle: 0
+  Ratio: 0
+  SpawnZonePosition: 0
