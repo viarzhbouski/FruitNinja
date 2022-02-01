@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e54d487d79a19479664aaa254913c7, type: 3}
   m_Name: Center
   m_EditorClassIdentifier: 
-  From: -10
-  To: 10
-  MinAngle: 64
-  MaxAngle: 45
-  Ratio: 0
+  From: -3
+  To: 3
+  MinAngle: 60
+  MaxAngle: 120
+  Ratio: 0.5

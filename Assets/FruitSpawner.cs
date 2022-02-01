@@ -91,9 +91,7 @@ public class FruitSpawner : MonoBehaviour
 
     private Vector3 GetFruitMovementVector(SpawnZone spawnZone)
     {
-        var angleRadians = Random.Range(spawnZone.MinAngle, spawnZone.MaxAngle) * Mathf.PI / 180;
-        var length = Mathf.Cos(angleRadians);
-        
-        return new Vector3(length, 1 - length, 0);
+        var angleRad = Random.Range(spawnZone.MinAngle, spawnZone.MaxAngle) * Mathf.PI / 180 ;
+        return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0);
     }
 }
