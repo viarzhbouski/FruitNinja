@@ -1,9 +1,24 @@
+using System;
 using UnityEngine;
 
 public class TapMovement : MonoBehaviour
 {
+    private RectTransform canvasRectTransform;
     public bool Mobile;
     private bool isKeyUp = true;
+    private Vector3 old;
+
+    private float velocity;
+    
+    public float Velocity
+    {
+        get { return velocity; }
+    }
+    
+    private void Start()
+    {
+        canvasRectTransform = transform.parent.GetComponent<RectTransform>();
+    }
     
     void Update()
     {
@@ -34,10 +49,19 @@ public class TapMovement : MonoBehaviour
                 isKeyUp = true;
             }
         }
-
+        old = transform.position;;
         if (!isKeyUp)
         {
-            transform.position = new Vector3(positon.x, positon.y, -1);
+            
+            transform.position = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 1);
         }
+
+        CalculateVelocity();
+    }
+
+    private void CalculateVelocity()
+    {
+        var distance = Vector3.Distance(old, transform.position);
+        velocity = distance;
     }
 }

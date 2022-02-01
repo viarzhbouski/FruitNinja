@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   From: -3
   To: 3
-  MinAngle: 60
-  MaxAngle: 120
+  MinAngle: 70
+  MaxAngle: 110
   Ratio: 0.5
   SpawnZonePosition: 2

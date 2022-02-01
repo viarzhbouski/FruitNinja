@@ -8,21 +8,26 @@ using Random = UnityEngine.Random;
 
 public class FruitSpawner : MonoBehaviour
 {
-    private GameConfig gameConfig;
-    
-    [SerializeField]
-    private Vector2 spawnPoint;
-
     [SerializeField]
     private Canvas gameField;
+    
+    [SerializeField]
+    private GameObject tapObject;
+    
+    private GameConfig gameConfig;
+    private RectTransform rectTransform;
 
-    private int xOffset = 10;
-    private int yOffset = -5;
-    private float currentTimeDelay = 0;
+    private int xOffset;
+    private int yOffset;
+    private float currentTimeDelay;
     
     void Start()
     {
         gameConfig = GetComponent<GameConfig>();
+        rectTransform = gameField.GetComponent<RectTransform>();
+        xOffset = gameConfig.XOffset;
+        yOffset = gameConfig.YOffset;
+        currentTimeDelay = 0;
     }
 
     // Update is called once per frame
@@ -54,7 +59,8 @@ public class FruitSpawner : MonoBehaviour
                 gameField.transform);
 
             var fruitMovement = newFruit.GetComponent<FruitMovement>();
-            fruitMovement.SetMovementConfig(directionVector, gameConfig.GravityVector);
+            
+            fruitMovement.SetMovementConfig(directionVector, gameConfig.GravityVector, tapObject);
             currentTimeDelay = gameConfig.SpawnDelay;
         }
     }
@@ -67,11 +73,8 @@ public class FruitSpawner : MonoBehaviour
         }
 
         SpawnZone spawnZone;
-       
         
         var spawnZoneType = Random.Range(0, Enum.GetValues(typeof(SpawnZonePosition)).Length);
-        Debug.Log($"Type = {spawnZoneType} Count = {Enum.GetValues(typeof(SpawnZonePosition)).Length}");
-        
         var spawnZones = gameConfig.SpawnZones
                                                 .Where(e => e.SpawnZonePosition == (SpawnZonePosition)spawnZoneType)
                                                 .ToList();
@@ -92,16 +95,15 @@ public class FruitSpawner : MonoBehaviour
     private Vector3 GetPosition(SpawnZone spawnZone)
     {
         var position = Random.Range(spawnZone.From, spawnZone.To);
-        var rect = gameField.GetComponent<RectTransform>();
-
+        
         switch (spawnZone.SpawnZonePosition)
         {
             case SpawnZonePosition.Bottom:
-                return new Vector3(position, yOffset, rect.position.z);
+                return new Vector3(position, yOffset, rectTransform.position.z);
             case SpawnZonePosition.Left:
-                return new Vector3(-xOffset, position, rect.position.z);
+                return new Vector3(-xOffset, position, rectTransform.position.z);
             case SpawnZonePosition.Right:
-                return new Vector3(xOffset, position, rect.position.z);
+                return new Vector3(xOffset, position, rectTransform.position.z);
         }
         
         return Vector3.zero;

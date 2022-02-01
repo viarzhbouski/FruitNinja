@@ -11,11 +11,16 @@ public class GameConfig : MonoBehaviour
     
     public float Speed;
     
+    public int XOffset;
+    
+    public int YOffset;
+    
     public Vector3 GravityVector;
     
     public List<GameObject> Fruits;
     
     public List<SpawnZone> SpawnZones;
+    
 
     private void Start()
     {
