@@ -88,5 +88,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357e14bfdf320a244892d42008ef69cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  gravityVector: {x: 0, y: -10, z: 0}
+  speed: 15
+  gravityVector: {x: 0, y: -9.81, z: 0}

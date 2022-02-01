@@ -4,31 +4,39 @@ using Random = UnityEngine.Random;
 
 public class FruitMovement : MonoBehaviour
 {
-    [SerializeField]
-    private float speed;
-
-    [SerializeField] 
     private Vector3 gravityVector;
-
-    private Vector3 velocityVector;
-    private void Start()
-    {
-        var angleRadians = Random.Range(50, 90) * Mathf.PI / 180;
-        var lengthX = Mathf.Cos(angleRadians);
-        
-        velocityVector = new Vector3(lengthX, 1 - lengthX, 0) * speed;
-    }
-
+    private Vector3 directionVector;
+    
     void FixedUpdate()
     {
         Movement();
+
+        if (!FruitOnGameField())
+        {
+            Destroy(gameObject);
+        }
     }
-    
-    
     
     private void Movement()
     {
-        velocityVector = velocityVector + gravityVector * Time.deltaTime;
-        transform.position = transform.position + velocityVector * Time.deltaTime;
+        directionVector = directionVector + gravityVector * Time.deltaTime;
+        transform.position = transform.position + directionVector * Time.deltaTime;
+    }
+
+    public void SetMovementConfig(Vector3 directionVector, Vector3 gravityVector)
+    {
+        this.directionVector = directionVector;
+        this.gravityVector = gravityVector;
+    }
+
+    private bool FruitOnGameField()
+    {
+        if (transform.position.x >= -20 && transform.position.x <= 20 &&
+            transform.position.y >= -10 && transform.position.y <= 10)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
