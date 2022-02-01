@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class TapMovement : MonoBehaviour
 {
-    private RectTransform canvasRectTransform;
+    public Canvas GameField;
+    public GameObject Tap;
     public bool Mobile;
+    
+    private GameObject tapObject;
+    private RectTransform canvasRectTransform;
     private bool isKeyUp = true;
     private Vector3 old;
-
     private float velocity;
     
     public float Velocity
@@ -15,25 +18,48 @@ public class TapMovement : MonoBehaviour
         get { return velocity; }
     }
     
+    public GameObject TapObject
+    {
+        get { return tapObject; }
+    }
+
     private void Start()
     {
-        canvasRectTransform = transform.parent.GetComponent<RectTransform>();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None;
+        if (GameField != null)
+        {
+            canvasRectTransform = GameField.GetComponent<RectTransform>();
+        }
     }
     
-    void Update()
+    void FixedUpdate()
     {
+        if (canvasRectTransform == null)
+        {
+            return;
+        }
+        
         Vector3 positon = Vector3.zero;
+        
         if (Mobile)
         {
             if (Input.touchCount > 0)
             {
-                Touch touch = Input.GetTouch(0);
+                var touch = Input.GetTouch(0);
                 positon = Camera.main.ScreenToWorldPoint(touch.position);
-                isKeyUp = false;
+                
+                var tapPosition = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 1);
+
+                if (tapObject == null)
+                {
+                    tapObject = Instantiate(Tap, tapPosition, Quaternion.identity, GameField.transform);
+                }
             }
             else
             {
-                isKeyUp = true;
+                Destroy(tapObject);
+                tapObject = null;
             }
         }
         else
@@ -41,27 +67,32 @@ public class TapMovement : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 positon = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                isKeyUp = false;
-            }
 
+                var tapPosition = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 1);
+
+                if (tapObject == null)
+                {
+                    tapObject = Instantiate(Tap, tapPosition, Quaternion.identity, GameField.transform);
+                }
+            }
+            
             if (Input.GetMouseButtonUp(0))
             {
-                isKeyUp = true;
+                Destroy(tapObject);
+                tapObject = null;
             }
         }
-        old = transform.position;;
-        if (!isKeyUp)
+        if (tapObject != null)
         {
-            
-            transform.position = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 1);
+            old = tapObject.transform.position;;
+            tapObject.transform.position = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 1);
+            CalculateVelocity();
         }
-
-        CalculateVelocity();
     }
 
     private void CalculateVelocity()
     {
-        var distance = Vector3.Distance(old, transform.position);
-        velocity = distance;
+        velocity = Vector3.Distance(old, tapObject.transform.position) / Time.deltaTime;
+        Debug.Log(velocity);
     }
 }

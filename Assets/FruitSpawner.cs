@@ -10,27 +10,19 @@ public class FruitSpawner : MonoBehaviour
 {
     [SerializeField]
     private Canvas gameField;
-    
-    [SerializeField]
-    private GameObject tapObject;
-    
     private GameConfig gameConfig;
     private RectTransform rectTransform;
-
-    private int xOffset;
-    private int yOffset;
+    private TapMovement tapMovement;
     private float currentTimeDelay;
     
     void Start()
     {
         gameConfig = GetComponent<GameConfig>();
         rectTransform = gameField.GetComponent<RectTransform>();
-        xOffset = gameConfig.XOffset;
-        yOffset = gameConfig.YOffset;
+        tapMovement = GetComponent<TapMovement>();
         currentTimeDelay = 0;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         SpawnFruit();
@@ -60,7 +52,7 @@ public class FruitSpawner : MonoBehaviour
 
             var fruitMovement = newFruit.GetComponent<FruitMovement>();
             
-            fruitMovement.SetMovementConfig(directionVector, gameConfig.GravityVector, tapObject);
+            fruitMovement.SetMovementConfig(directionVector, gameConfig.GravityVector, tapMovement);
             currentTimeDelay = gameConfig.SpawnDelay;
         }
     }
@@ -99,11 +91,11 @@ public class FruitSpawner : MonoBehaviour
         switch (spawnZone.SpawnZonePosition)
         {
             case SpawnZonePosition.Bottom:
-                return new Vector3(position, yOffset, rectTransform.position.z);
+                return new Vector3(position, gameConfig.YOffset, rectTransform.position.z);
             case SpawnZonePosition.Left:
-                return new Vector3(-xOffset, position, rectTransform.position.z);
+                return new Vector3(-gameConfig.XOffset, position, rectTransform.position.z);
             case SpawnZonePosition.Right:
-                return new Vector3(xOffset, position, rectTransform.position.z);
+                return new Vector3(gameConfig.XOffset, position, rectTransform.position.z);
         }
         
         return Vector3.zero;

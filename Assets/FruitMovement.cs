@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 public class FruitMovement : MonoBehaviour
 {
     private TapMovement tapMovement;
-    private GameObject tapObject;
+    //private GameObject tapObject;
     private Vector3 gravityVector;
     private Vector3 directionVector;
     
@@ -38,12 +38,12 @@ public class FruitMovement : MonoBehaviour
         transform.position = transform.position + directionVector * Time.deltaTime;
     }
 
-    public void SetMovementConfig(Vector3 directionVector, Vector3 gravityVector, GameObject tapObject)
+    public void SetMovementConfig(Vector3 directionVector, Vector3 gravityVector, TapMovement tapMovement)
     {
         this.directionVector = directionVector;
         this.gravityVector = gravityVector;
-        this.tapObject = tapObject;
-        tapMovement = tapObject.GetComponent<TapMovement>();
+        //this.tapObject = tapObject;
+        this.tapMovement = tapMovement;
     }
 
     private bool FruitOnGameField()
@@ -59,13 +59,18 @@ public class FruitMovement : MonoBehaviour
 
     private void FruitTapCollision()
     {
+        if (tapMovement.TapObject == null)
+        {
+            return;
+        }
+        
         var from = new Vector3(transform.position.x, transform.position.y, 0);
-        var to = new Vector3(tapObject.transform.position.x, tapObject.transform.position.y, 0);
+        var to = new Vector3(tapMovement.TapObject.transform.position.x, tapMovement.TapObject.transform.position.y, 0);
 
         var distance = Vector3.Distance(from, to);
         Debug.DrawLine(from, to, Color.green);
 
-        if (distance <= 0.7f)
+        if (distance <= 1f && tapMovement.Velocity > 5)
         {
             fruitIsCatched = true;
         }
