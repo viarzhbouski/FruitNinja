@@ -1,0 +1,62 @@
+﻿using UnityEngine;
+
+[CreateAssetMenu(fileName = "New Fruit", menuName = "Fruit", order = 53)]
+public class FruitConfig : ScriptableObject
+{
+    [SerializeField]
+    private GameObject fruitPrefab;
+    
+    [SerializeField]
+    private GameObject fragmentPrefab;
+    
+    [SerializeField]
+    private int fragmentCount;
+
+    [SerializeField]
+    private float fruitSpeed;
+    
+    [SerializeField]
+    private float fruitRotateSpeed;
+    
+    [SerializeField]
+    private float fragmentSpeed;
+
+    [SerializeField]
+    private float fragmentRotateSpeed;
+    
+    public GameObject FruitPrefab
+    {
+        get { return fruitPrefab; }
+    }
+    
+    public GameObject FragmentPrefab
+    {
+        get { return fragmentPrefab; }
+    }
+    
+    public int FragmentCount
+    {
+        get { return fragmentCount; }
+    }
+    
+    public float FruitSpeed
+    {
+        get { return fruitSpeed; }
+    }
+    
+    public float FruitRotateSpeed
+    {
+        get { return fruitRotateSpeed; }
+    }
+
+    
+    public float FragmentSpeed
+    {
+        get { return fragmentSpeed; }
+    }
+    
+    public float FragmentRotateSpeed
+    {
+        get { return fragmentRotateSpeed; }
+    }
+}
