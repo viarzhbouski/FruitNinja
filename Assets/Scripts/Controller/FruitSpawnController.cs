@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections;
 using DefaultNamespace;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -22,12 +23,14 @@ public class FruitSpawnController : MonoBehaviour
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
     
     private GameConfig gameConfig;
-    private float currentTimeDelay;
-
+    private float currentSpawnFruitPackDelay;
+    private float currentSpawnFruitDelay;
+    
     void Start()
     {
         gameConfig = gameConfigController.GameConfig;
-        currentTimeDelay = 0;
+        currentSpawnFruitPackDelay = 0;
+        currentSpawnFruitDelay = 0;
     }
     
     void Update()
@@ -37,27 +40,39 @@ public class FruitSpawnController : MonoBehaviour
             return;
         }
         
-        SpawnFruit();
+        SpawnFruitPack();
     }
 
-    private void SpawnFruit()
+    private void SpawnFruitPack()
     {
-        if (currentTimeDelay >= 0)
+        if (currentSpawnFruitPackDelay >= 0)
         {
-            currentTimeDelay -= Time.deltaTime;
+            currentSpawnFruitPackDelay -= Time.deltaTime;
             return;
         }
         
         var spawnZone = GetSpawnZone();
         var position = GetPosition(spawnZone);
-        var fruit = GetFruit();
-        var directionVector = GetFruitMovementVector(spawnZone) * fruit.FruitSpeed * spawnZone.SpeedMultiplier;
-        var newFruit = Instantiate(fruit.FruitPrefab, position, Quaternion.identity, gameField.transform);
         
-        newFruit.GetComponent<FruitController>()
-                .SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, entityOnGameFieldChecker);
-        
-        currentTimeDelay = gameConfig.SpawnDelay;
+        StartCoroutine(SpawnFruit(spawnZone, position));
+
+        currentSpawnFruitPackDelay = gameConfig.SpawnFruitPackDelay;
+    }
+    
+    IEnumerator SpawnFruit(SpawnZoneConfig spawnZone, Vector3 position)
+    {
+        for (int i = 0; i < gameConfig.FruitCountInPack; i++)
+        {
+            yield return new WaitForSeconds(gameConfig.SpawnFruitDelay);
+            
+            var fruit = GetFruit();
+            var directionVector = GetFruitMovementVector(spawnZone) * fruit.FruitSpeed * spawnZone.SpeedMultiplier;
+            var spawnedFruit = Instantiate(fruit.FruitPrefab, position, Quaternion.identity, gameField.transform);
+
+            spawnedFruit.GetComponent<FruitController>()
+                .SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController,
+                    entityOnGameFieldChecker);
+        }
     }
 
     private SpawnZoneConfig GetSpawnZone()

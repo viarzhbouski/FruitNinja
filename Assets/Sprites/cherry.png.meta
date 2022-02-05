@@ -52,11 +52,11 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 72}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -115,18 +115,14 @@ TextureImporter:
       name: cherry_0
       rect:
         serializedVersion: 2
-        x: 64
+        x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 64, y: 0, z: 68, w: 0}
-      outline:
-      - - {x: -38, y: -18}
-        - {x: -38, y: -14}
-        - {x: -30, y: -14}
-        - {x: -30, y: -18}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
@@ -140,10 +136,10 @@ TextureImporter:
       name: cherry_1
       rect:
         serializedVersion: 2
-        x: 0
+        x: 128
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,10 +157,10 @@ TextureImporter:
       name: cherry_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 256
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,11 +174,7 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    outline:
-    - - {x: 0, y: 64}
-      - {x: -64, y: -0.0000027975289}
-      - {x: 0.0000055950577, y: -64}
-      - {x: 64, y: 0.00000076319236}
+    outline: []
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000

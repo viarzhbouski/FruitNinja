@@ -13,7 +13,9 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private float yMaxBorder;
     [SerializeField]
-    private float spawnDelay;
+    private float spawnFruitPackDelay;
+    [SerializeField]
+    private float spawnFruitDelay;
     [SerializeField]
     private int lifeCount;
     [SerializeField]
@@ -26,6 +28,8 @@ public class GameConfig : ScriptableObject
     private float minDistanceForCutFruit;
     [SerializeField]
     private float minVelocityForCutFruit;
+    [SerializeField]
+    private int fruitCountInPack;
     
     public float XMinBorder
     {
@@ -47,9 +51,14 @@ public class GameConfig : ScriptableObject
         get { return yMaxBorder; }
     }
     
-    public float SpawnDelay
+    public float SpawnFruitPackDelay
     {
-        get { return spawnDelay; }
+        get { return spawnFruitPackDelay; }
+    }
+    
+    public float SpawnFruitDelay
+    {
+        get { return spawnFruitDelay; }
     }
 
     public int LifeCount
@@ -80,5 +89,10 @@ public class GameConfig : ScriptableObject
     public float MinVelocityForCutFruit
     {
         get { return minVelocityForCutFruit; }
+    }
+    
+    public int FruitCountInPack
+    {
+        get { return fruitCountInPack; }
     }
 }

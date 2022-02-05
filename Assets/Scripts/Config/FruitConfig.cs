@@ -5,12 +5,6 @@ public class FruitConfig : ScriptableObject
 {
     [SerializeField]
     private GameObject fruitPrefab;
-    
-    [SerializeField]
-    private GameObject fragmentPrefab;
-    
-    [SerializeField]
-    private int fragmentCount;
 
     [SerializeField]
     private float fruitSpeed;
@@ -27,16 +21,6 @@ public class FruitConfig : ScriptableObject
     public GameObject FruitPrefab
     {
         get { return fruitPrefab; }
-    }
-    
-    public GameObject FragmentPrefab
-    {
-        get { return fragmentPrefab; }
-    }
-    
-    public int FragmentCount
-    {
-        get { return fragmentCount; }
     }
     
     public float FruitSpeed
