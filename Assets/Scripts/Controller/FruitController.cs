@@ -5,6 +5,8 @@ public class FruitController : MonoBehaviour
 {
     [SerializeField] 
     private EntityPhysics entityPhysics;
+    [SerializeField] 
+    private GameObject[] fragments;
     
     private FruitConfig fruit;
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
@@ -70,9 +72,9 @@ public class FruitController : MonoBehaviour
 
     private void SpawnFruitFragments()
     {
-        for (int i = 0; i < fruit.FragmentCount; i++)
+        for (int i = 0; i < fragments.Length; i++)
         {
-            var spawnedFragment =  Instantiate(fruit.FragmentPrefab, transform.position, Quaternion.identity, transform.parent);
+            var spawnedFragment =  Instantiate(fragments[i], transform.position, Quaternion.identity, transform.parent);
             var x = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
             var y = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
             var vector = new Vector3(x, y, 0);
