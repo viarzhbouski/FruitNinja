@@ -16,9 +16,9 @@ MonoBehaviour:
   xMaxBorder: 10
   yMinBorder: -5
   yMaxBorder: 10
-  spawnDelay: 2
-  speed: 10
-  lifeCount: 3
+  spawnFruitPackDelay: 3
+  spawnFruitDelay: 0.5
+  lifeCount: 333
   gravityVector: {x: 0, y: -9.81, z: 0}
   fruits:
   - {fileID: 11400000, guid: 9f828276c492cec4bbca876abcc68bac, type: 2}
@@ -30,3 +30,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c8905d403a1e1b43b83146e44737ded, type: 2}
   minDistanceForCutFruit: 1
   minVelocityForCutFruit: 25
+  fruitCountInPack: 2
