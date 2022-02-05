@@ -1304,6 +1304,7 @@ GameObject:
   - component: {fileID: 1564027742}
   - component: {fileID: 1564027743}
   - component: {fileID: 1564027740}
+  - component: {fileID: 1564027741}
   - component: {fileID: 1564027744}
   - component: {fileID: 1564027745}
   m_Layer: 0
@@ -1331,6 +1332,7 @@ MonoBehaviour:
   swipeController: {fileID: 1564027742}
   scoreCountController: {fileID: 1564027744}
   lifeCountController: {fileID: 1564027745}
+  difficultyLogicController: {fileID: 1564027741}
   entityOnGameFieldChecker: {fileID: 1564027740}
 --- !u!4 &1564027739
 Transform:
@@ -1359,6 +1361,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameConfigManager: {fileID: 1564027743}
+--- !u!114 &1564027741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564027737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31141a0b38b669d438a06654adcaa698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameConfigController: {fileID: 1564027743}
+  scoreCountController: {fileID: 1564027744}
 --- !u!114 &1564027742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,6 +1417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0f38175f2e619498a1c2c0bd6ffb21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameConfigController: {fileID: 1564027743}
   scoreUI: {fileID: 1276390231}
 --- !u!114 &1564027745
 MonoBehaviour:

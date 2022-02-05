@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21851620e14e45efac0df3ada20f30f1, type: 3}
-  m_Name: Cherry
+  m_Name: Pear
   m_EditorClassIdentifier: 
-  fruitPrefab: {fileID: 7698001304981860566, guid: 6eb1144b16a525e45aa5ab78f78d9e7f, type: 3}
-  fragmentPrefab: {fileID: 2885349765925414574, guid: 3278178e4ce3462449cd87fae9a5e643, type: 3}
-  fragmentCount: 2
+  fruitPrefab: {fileID: 1331734859362366228, guid: 3a0aa9704c74d4841a6f1467d1ad2a5a, type: 3}
   fruitSpeed: 13
   fruitRotateSpeed: 0.1
   fragmentSpeed: 7
