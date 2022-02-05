@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f334d01e573dda448229163376e6e4f, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: 
+  xMinBorder: -10
+  xMaxBorder: 10
+  yMinBorder: -5
+  yMaxBorder: 10
+  spawnDelay: 2
+  speed: 10
+  lifeCount: 3
+  gravityVector: {x: 0, y: -9.81, z: 0}
+  fruits:
+  - {fileID: 11400000, guid: 9f828276c492cec4bbca876abcc68bac, type: 2}
+  spawnZones:
+  - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}
+  - {fileID: 11400000, guid: 37e0f2fa75c9324448a249c0c5373eb1, type: 2}
+  - {fileID: 11400000, guid: 78431dbf10003694c9a519615d1f52ee, type: 2}
+  - {fileID: 11400000, guid: ad844b98e3fff4e4d8d919f48ef5e365, type: 2}
+  - {fileID: 11400000, guid: 0c8905d403a1e1b43b83146e44737ded, type: 2}
+  minDistanceForCutFruit: 1
+  minVelocityForCutFruit: 25
