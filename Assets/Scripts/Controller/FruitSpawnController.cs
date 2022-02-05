@@ -19,6 +19,8 @@ public class FruitSpawnController : MonoBehaviour
     private ScoreCountController scoreCountController;
     [SerializeField]
     private LifeCountController lifeCountController;
+    [SerializeField]
+    private DifficultyLogicController difficultyLogicController;
     [SerializeField] 
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
     
@@ -56,14 +58,14 @@ public class FruitSpawnController : MonoBehaviour
         
         StartCoroutine(SpawnFruit(spawnZone, position));
 
-        currentSpawnFruitPackDelay = gameConfig.SpawnFruitPackDelay;
+        currentSpawnFruitPackDelay = difficultyLogicController.FruitPackDelay;
     }
     
     IEnumerator SpawnFruit(SpawnZoneConfig spawnZone, Vector3 position)
     {
-        for (int i = 0; i < gameConfig.FruitCountInPack; i++)
+        for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
         {
-            yield return new WaitForSeconds(gameConfig.SpawnFruitDelay);
+            yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
             
             var fruit = GetFruit();
             var directionVector = GetFruitMovementVector(spawnZone) * fruit.FruitSpeed * spawnZone.SpeedMultiplier;

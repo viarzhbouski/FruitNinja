@@ -30,6 +30,16 @@ public class GameConfig : ScriptableObject
     private float minVelocityForCutFruit;
     [SerializeField]
     private int fruitCountInPack;
+    [SerializeField]
+    private int maxFruitCountInPack;
+    [SerializeField]
+    private int cuttedFruitsForEncreaseFruitInPack;
+    [SerializeField]
+    private int cuttedFruitsForDecreaseFruitDelay;
+    [SerializeField]
+    private float subtractForFruitDelay;
+    [SerializeField]
+    private float subtractForFruitPackDelay;
     
     public float XMinBorder
     {
@@ -94,5 +104,30 @@ public class GameConfig : ScriptableObject
     public int FruitCountInPack
     {
         get { return fruitCountInPack; }
+    }
+    
+    public int MaxFruitCountInPack
+    {
+        get { return maxFruitCountInPack; }
+    }
+    
+    public int CuttedFruitsForEncreaseFruitInPack
+    {
+        get { return cuttedFruitsForEncreaseFruitInPack; }
+    }
+    
+    public int CuttedFruitsForDecreaseFruitDelay
+    {
+        get { return cuttedFruitsForDecreaseFruitDelay; }
+    }
+    
+    public float SubtractForFruitDelay
+    {
+        get { return subtractForFruitDelay; }
+    }
+    
+    public float SubtractForFruitPackDelay
+    {
+        get { return subtractForFruitPackDelay; }
     }
 }
