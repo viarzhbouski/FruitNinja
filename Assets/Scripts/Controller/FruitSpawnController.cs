@@ -133,7 +133,7 @@ public class FruitSpawnController : MonoBehaviour
             return gameConfig.Fruits.First();
         }
         
-        var fruitId = Random.Range(0, gameConfig.Fruits.Count() - 1);
+        var fruitId = Random.Range(0, gameConfig.Fruits.Count());
         return gameConfig.Fruits[fruitId];
     }
 }

@@ -17,6 +17,9 @@ public class FruitConfig : ScriptableObject
 
     [SerializeField]
     private float fragmentRotateSpeed;
+
+    [SerializeField]
+    private Color cutEffectColor;
     
     public GameObject FruitPrefab
     {
@@ -33,7 +36,6 @@ public class FruitConfig : ScriptableObject
         get { return fruitRotateSpeed; }
     }
 
-    
     public float FragmentSpeed
     {
         get { return fragmentSpeed; }
@@ -42,5 +44,10 @@ public class FruitConfig : ScriptableObject
     public float FragmentRotateSpeed
     {
         get { return fragmentRotateSpeed; }
+    }
+    
+    public Color CutEffectColor
+    {
+        get { return cutEffectColor; }
     }
 }

@@ -43,6 +43,7 @@ public class FruitController : MonoBehaviour
         
         if (fruitCanCut)
         {
+            SpawnCutEffect();
             scoreCountController.AddScore();
             SpawnFruitFragments();
             Destroy(gameObject);
@@ -81,5 +82,18 @@ public class FruitController : MonoBehaviour
             spawnedFragment.GetComponent<FruitFragmentController>()
                            .SetFruitFragmentConfig(entityOnGameFieldChecker, vector, fruit.FragmentRotateSpeed);
         }
+    }
+
+    private void SpawnCutEffect()
+    {
+        var cutEffect = gameConfig.CutEffect;
+        var main = cutEffect.main;
+        var trail = cutEffect.trails;
+        
+        main.startColor = fruit.CutEffectColor;
+        trail.colorOverLifetime = fruit.CutEffectColor;
+        trail.colorOverTrail = fruit.CutEffectColor;
+        
+        Instantiate(cutEffect.gameObject, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity, transform.parent);
     }
 }
