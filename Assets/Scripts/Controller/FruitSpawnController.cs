@@ -76,24 +76,28 @@ public class FruitSpawnController : MonoBehaviour
                     entityOnGameFieldChecker);
         }
     }
-
+    
     private SpawnZoneConfig GetSpawnZone()
     {
-        SpawnZoneConfig spawnZone;
-        
-        var spawnZoneType = Random.Range(0, Enum.GetValues(typeof(SpawnZonePosition)).Length);
-        var spawnZones = gameConfig.SpawnZones
-                                                .Where(e => e.SpawnZonePosition == (SpawnZonePosition)spawnZoneType)
-                                                .ToList();
-
-        if (spawnZones.Count() == 1)
+        if (gameConfig.SpawnZones.Count() == 1)
         {
-            spawnZone = spawnZones.First();
+            return gameConfig.SpawnZones.First();
         }
-        else
+        
+        var sumChance = gameConfig.SpawnZones.Sum(e => e.Chance);
+        var randomNum = Random.Range(0, sumChance);
+
+        SpawnZoneConfig spawnZone = null;
+        
+        foreach (var item in gameConfig.SpawnZones)
         {
-            var spawnZoneId = Random.Range(0, spawnZones.Count - 1);
-            spawnZone = gameConfig.SpawnZones[spawnZoneId];
+            if(randomNum < item.Chance)
+            {
+                spawnZone = item;
+                break;
+            }
+            
+            randomNum -= item.Chance;
         }
         
         return spawnZone;
