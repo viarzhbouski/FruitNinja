@@ -16,6 +16,6 @@ MonoBehaviour:
   to: 4
   minAngle: 180
   maxAngle: 145
-  chance: 0
+  chance: 0.4
   spawnZonePosition: 1
-  speedMultiplier: 0.5
+  speedMultiplier: 0.65

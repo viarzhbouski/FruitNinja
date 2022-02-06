@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   from: -3
   to: 3
-  minAngle: 70
-  maxAngle: 110
-  chance: 0
+  minAngle: 80
+  maxAngle: 100
+  chance: 1
   spawnZonePosition: 2
-  speedMultiplier: 1
+  speedMultiplier: 0.8
