@@ -43,6 +43,7 @@ public class FruitController : MonoBehaviour
         
         if (fruitCanCut)
         {
+            SpawnSprayffect();
             SpawnCutEffect();
             scoreCountController.AddScore();
             SpawnFruitFragments();
@@ -75,7 +76,9 @@ public class FruitController : MonoBehaviour
     {
         for (int i = 0; i < fragments.Length; i++)
         {
-            var spawnedFragment =  Instantiate(fragments[i], transform.position, Quaternion.identity, transform.parent);
+            var spawnedFragment = Instantiate(fragments[i], transform.position, Quaternion.identity, transform.parent);
+            spawnedFragment.transform.SetSiblingIndex(1);
+            
             var x = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
             var y = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
             var vector = new Vector3(x, y, 0);
@@ -94,6 +97,26 @@ public class FruitController : MonoBehaviour
         trail.colorOverLifetime = fruit.CutEffectColor;
         trail.colorOverTrail = fruit.CutEffectColor;
         
-        Instantiate(cutEffect.gameObject, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity, transform.parent);
+        var effect = Instantiate(cutEffect.gameObject, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity, transform.parent);
+        effect.transform.SetSiblingIndex(1);
+    }
+    
+    private void SpawnSprayffect()
+    {
+        var sprayEffect = gameConfig.SprayEffect;
+        var colorOverLifetime = sprayEffect.colorOverLifetime;
+
+        var gr = new ParticleSystem.MinMaxGradient();
+        
+        //colorOverLifetime.color = fruit.CutEffectColor;
+        var ourGradient = new Gradient();
+        ourGradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(fruit.CutEffectColor, 0.0f)},
+            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f)}
+        );
+        colorOverLifetime.color = ourGradient;
+        
+        var effect = Instantiate(sprayEffect.gameObject, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity, transform.parent);
+        effect.transform.SetSiblingIndex(1);
     }
 }

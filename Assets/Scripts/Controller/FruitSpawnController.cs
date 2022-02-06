@@ -70,7 +70,7 @@ public class FruitSpawnController : MonoBehaviour
             var fruit = GetFruit();
             var directionVector = GetFruitMovementVector(spawnZone) * fruit.FruitSpeed * spawnZone.SpeedMultiplier;
             var spawnedFruit = Instantiate(fruit.FruitPrefab, position, Quaternion.identity, gameField.transform);
-
+            spawnedFruit.transform.SetSiblingIndex(1);
             spawnedFruit.GetComponent<FruitController>()
                 .SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController,
                     entityOnGameFieldChecker);

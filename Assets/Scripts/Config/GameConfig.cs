@@ -42,7 +42,9 @@ public class GameConfig : ScriptableObject
     private float subtractForFruitPackDelay;
     [SerializeField]
     private ParticleSystem cutEffect;
-    
+    [SerializeField]
+    private ParticleSystem sprayEffect;
+
     public float XMinBorder
     {
         get { return xMinBorder; }
@@ -136,5 +138,9 @@ public class GameConfig : ScriptableObject
     public ParticleSystem CutEffect
     {
         get { return cutEffect; }
+    }
+    public ParticleSystem SprayEffect
+    {
+        get { return sprayEffect; }
     }
 }
