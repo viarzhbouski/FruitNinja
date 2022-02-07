@@ -15,16 +15,26 @@ public class GameOverPopupController : MonoBehaviour
     [SerializeField]
     private Animation gameOverPopupAnimation;
     [SerializeField]
+    private Animation loadSceneAnimation;
+    [SerializeField]
     private AnimationClip openClip;
     [SerializeField]
     private AnimationClip closeClip;
     [SerializeField]
+    private AnimationClip loadSceneClip;
+    [SerializeField]
     private Button gameOverPopupRestartButton;
+    [SerializeField]
+    private Button gameOverPopupMainMenuButton;
+    [SerializeField]
+    private float openPopupDelayTime;
+    [SerializeField]
+    private float loadSceneDelayTime;
     
-    // Start is called before the first frame update
     void Start()
     {
         gameOverPopupRestartButton.onClick.AddListener(RestartGameOnClick);
+        gameOverPopupMainMenuButton.onClick.AddListener(MainMenuOnClick);
         lifeCountController.GameOverEvent = new UnityEvent();
         lifeCountController.GameOverEvent.AddListener(GameOverEventHandler);
     }
@@ -36,14 +46,23 @@ public class GameOverPopupController : MonoBehaviour
     }
 
     private void RestartGameOnClick() => StartCoroutine(RestartGame());
+    
+    private void MainMenuOnClick() => StartCoroutine(MainMenu());
 
+    IEnumerator MainMenu()
+    {
+        loadSceneAnimation.Play(loadSceneClip.name);
+        yield return new WaitForSeconds(loadSceneDelayTime);
+        SceneManager.LoadScene(0);
+    }
+    
     IEnumerator RestartGame()
     {
         gameOverPopupAnimation.Play(closeClip.name);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(openPopupDelayTime);
         
         gameOverPopup.SetActive(false);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         lifeCountController.ResetLifeCount();
         scoreCountController.ResetScore();
     }

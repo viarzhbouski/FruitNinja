@@ -18,6 +18,7 @@ MonoBehaviour:
   yMaxBorder: 10
   spawnFruitPackDelay: 4
   spawnFruitDelay: 0.4
+  delayBeforeStart: 3
   lifeCount: 3
   gravityVector: {x: 0, y: -7, z: 0}
   fruits:

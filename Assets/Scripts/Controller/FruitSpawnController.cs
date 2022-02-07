@@ -27,22 +27,30 @@ public class FruitSpawnController : MonoBehaviour
     private GameConfig gameConfig;
     private float currentSpawnFruitPackDelay;
     private float currentSpawnFruitDelay;
+    private bool canStartGame;
     
     void Start()
     {
         gameConfig = gameConfigController.GameConfig;
         currentSpawnFruitPackDelay = 0;
         currentSpawnFruitDelay = 0;
+        StartCoroutine(DelayBeforeStart());
     }
     
     void Update()
     {
-        if (lifeCountController.GameOver)
+        if (lifeCountController.GameOver || !canStartGame)
         {
             return;
         }
         
         SpawnFruitPack();
+    }
+
+    IEnumerator DelayBeforeStart()
+    {
+        yield return new WaitForSeconds(gameConfig.DelayBeforeStart);
+        canStartGame = true;
     }
 
     private void SpawnFruitPack()
