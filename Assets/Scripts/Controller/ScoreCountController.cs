@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,12 +5,18 @@ using UnityEngine.Events;
 public class ScoreCountController : MonoBehaviour
 {
     [SerializeField]
+    private LifeCountController lifeCountController;
+    [SerializeField]
     private GameConfigController gameConfigController;
     [SerializeField]
+    private SaveScoreController saveScoreController;
+    [SerializeField]
     private TextMeshProUGUI scoreUI;
-
-    private UnityEvent difficultyDelayEvent;
-    private UnityEvent difficultyFruitPackEvent;
+    [SerializeField]
+    private TextMeshProUGUI bestScoreUI;
+    
+    private UnityEvent difficultyDelayEvent = new UnityEvent();
+    private UnityEvent difficultyFruitPackEvent = new UnityEvent();
     
     public UnityEvent DifficultyDelayEvent
     {
@@ -25,9 +30,20 @@ public class ScoreCountController : MonoBehaviour
         set { difficultyFruitPackEvent = value; }
     }
     
+    public TextMeshProUGUI ScoreUI
+    {
+        get { return scoreUI; }
+    }
+    
     private int cuttedFruitCount;
     private int cuttedFruitForPacksCount;
-    
+
+    private void Start()
+    {
+        saveScoreController.LoadBestScore(bestScoreUI);
+        lifeCountController.GameOverEvent.AddListener(SaveBestScore);
+    }
+
     public void AddScore()
     {
         cuttedFruitCount++;
@@ -46,6 +62,12 @@ public class ScoreCountController : MonoBehaviour
         }
         
         var currentScore = int.Parse(scoreUI.text) + 1;
+        
+        if (bestScoreUI.text == scoreUI.text)
+        {
+            bestScoreUI.text = currentScore.ToString();
+        }
+        
         scoreUI.text = currentScore.ToString();
     }
     
@@ -54,4 +76,6 @@ public class ScoreCountController : MonoBehaviour
         var currentScore = 0;
         scoreUI.text = currentScore.ToString();
     }
+
+    private void SaveBestScore() => saveScoreController.SaveBestScore(scoreUI);
 }

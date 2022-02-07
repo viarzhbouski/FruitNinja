@@ -2,9 +2,14 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
+    [SerializeField]
+    private SaveScoreController saveScoreController;
+    [SerializeField]
+    private TextMeshProUGUI bestScoreUI;
     [SerializeField]
     private Button startGameButton;
     [SerializeField]
@@ -17,6 +22,7 @@ public class MainMenuController : MonoBehaviour
     void Start()
     {
         startGameButton.onClick.AddListener(StartGameOnClick);
+        saveScoreController.LoadBestScore(bestScoreUI);
     }
 
     private void StartGameOnClick() => StartCoroutine(LoadScene());

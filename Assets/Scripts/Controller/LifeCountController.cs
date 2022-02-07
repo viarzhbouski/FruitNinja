@@ -9,8 +9,7 @@ public class LifeCountController : MonoBehaviour
     [SerializeField]
     private GameConfigController gameConfigController;
 
-    private UnityEvent gameOverEvent;
-    
+    private UnityEvent gameOverEvent = new UnityEvent();
     private int currentLifeCount;
     private bool gameOver;
 
