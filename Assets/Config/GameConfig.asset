@@ -18,7 +18,7 @@ MonoBehaviour:
   yMaxBorder: 10
   spawnFruitPackDelay: 4
   spawnFruitDelay: 0.4
-  lifeCount: 3
+  lifeCount: 1
   gravityVector: {x: 0, y: -7, z: 0}
   fruits:
   - {fileID: 11400000, guid: dfd308db31df97c4b96ad3ae192fefe5, type: 2}
