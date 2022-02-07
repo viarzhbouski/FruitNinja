@@ -17,6 +17,8 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private float spawnFruitDelay;
     [SerializeField]
+    private float delayBeforeStart;
+    [SerializeField]
     private int lifeCount;
     [SerializeField]
     private Vector3 gravityVector;
@@ -73,6 +75,11 @@ public class GameConfig : ScriptableObject
     public float SpawnFruitDelay
     {
         get { return spawnFruitDelay; }
+    }
+    
+    public float DelayBeforeStart
+    {
+        get { return delayBeforeStart; }
     }
 
     public int LifeCount
