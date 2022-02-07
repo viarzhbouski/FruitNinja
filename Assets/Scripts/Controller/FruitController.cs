@@ -105,18 +105,15 @@ public class FruitController : MonoBehaviour
     {
         var sprayEffect = gameConfig.SprayEffect;
         var colorOverLifetime = sprayEffect.colorOverLifetime;
-
-        var gr = new ParticleSystem.MinMaxGradient();
-        
-        //colorOverLifetime.color = fruit.CutEffectColor;
         var ourGradient = new Gradient();
+        
         ourGradient.SetKeys(
             new GradientColorKey[] { new GradientColorKey(fruit.CutEffectColor, 0.0f)},
             new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f)}
         );
         colorOverLifetime.color = ourGradient;
         
-        var effect = Instantiate(sprayEffect.gameObject, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity, transform.parent);
+        var effect = Instantiate(sprayEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
         effect.transform.SetSiblingIndex(1);
     }
 }

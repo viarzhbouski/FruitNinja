@@ -1,20 +1,15 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class LifeCountController : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI lifeUI;
     [SerializeField]
-    private GameObject gameOverPopup;
-    [SerializeField]
     private GameConfigController gameConfigController;
-    [SerializeField]
-    private ScoreCountController scoreCountController;
-    [SerializeField]
-    private Button gameOverPopupRestartButton;
+
+    private UnityEvent gameOverEvent;
     
     private int currentLifeCount;
     private bool gameOver;
@@ -24,11 +19,16 @@ public class LifeCountController : MonoBehaviour
         get { return gameOver; }
     }
     
+    public UnityEvent GameOverEvent
+    {
+        get { return gameOverEvent; }
+        set { gameOverEvent = value; }
+    }
+    
     void Start()
     {
         currentLifeCount = gameConfigController.GameConfig.LifeCount;
         lifeUI.text = currentLifeCount.ToString();
-        gameOverPopupRestartButton.onClick.AddListener(RestartGameOnClick);
     }
     
     public void DecreaseLife()
@@ -39,16 +39,13 @@ public class LifeCountController : MonoBehaviour
         
         if (gameOver)
         {
-            gameOverPopup.SetActive(true);
+            GameOverEvent.Invoke();
         }
     }
-    
-    private void RestartGameOnClick()
+
+    public void ResetLifeCount()
     {
-        SceneManager.LoadScene(0);
-        gameOverPopup.SetActive(false);
         gameOver = false;
         currentLifeCount = gameConfigController.GameConfig.LifeCount;
-        scoreCountController.ResetScore();
     }
 }
