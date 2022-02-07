@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
+using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,6 +12,8 @@ public class GameOverPopupController : MonoBehaviour
     private ScoreCountController scoreCountController;
     [SerializeField]
     private GameObject gameOverPopup;
+    [SerializeField]
+    private TextMeshProUGUI yourScoreUI;
     [SerializeField]
     private Animation gameOverPopupAnimation;
     [SerializeField]
@@ -35,7 +37,6 @@ public class GameOverPopupController : MonoBehaviour
     {
         gameOverPopupRestartButton.onClick.AddListener(RestartGameOnClick);
         gameOverPopupMainMenuButton.onClick.AddListener(MainMenuOnClick);
-        lifeCountController.GameOverEvent = new UnityEvent();
         lifeCountController.GameOverEvent.AddListener(GameOverEventHandler);
     }
 
@@ -43,6 +44,7 @@ public class GameOverPopupController : MonoBehaviour
     {
         gameOverPopup.SetActive(true);
         gameOverPopupAnimation.Play(openClip.name);
+        yourScoreUI.text = scoreCountController.ScoreUI.text;
     }
 
     private void RestartGameOnClick() => StartCoroutine(RestartGame());

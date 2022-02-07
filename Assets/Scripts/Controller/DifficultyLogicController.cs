@@ -31,8 +31,6 @@ public class DifficultyLogicController : MonoBehaviour
         fruitDelay = gameConfigController.GameConfig.SpawnFruitDelay;
         fruitPackDelay = gameConfigController.GameConfig.SpawnFruitPackDelay;
         fruitCountInPack = gameConfigController.GameConfig.FruitCountInPack;
-        scoreCountController.DifficultyDelayEvent = new UnityEvent();
-        scoreCountController.DifficultyFruitPackEvent = new UnityEvent();
         scoreCountController.DifficultyDelayEvent.AddListener(DecreaseDelay);
         scoreCountController.DifficultyFruitPackEvent.AddListener(EncreaseFruitInPack);
     }
