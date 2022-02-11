@@ -77,5 +77,14 @@ public class ScoreCountController : MonoBehaviour
         scoreUI.text = currentScore.ToString();
     }
 
-    private void SaveBestScore() => saveScoreController.SaveBestScore(scoreUI);
+    private void SaveBestScore()
+    {
+        var bestScore = int.Parse(bestScoreUI.text);
+        var currentScore = int.Parse(scoreUI.text);
+        
+        if (bestScore <= currentScore)
+        {
+            saveScoreController.SaveBestScore(scoreUI);
+        }
+    }
 }

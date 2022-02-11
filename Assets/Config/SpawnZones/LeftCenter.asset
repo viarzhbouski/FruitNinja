@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e54d487d79a19479664aaa254913c7, type: 3}
   m_Name: LeftCenter
   m_EditorClassIdentifier: 
-  from: 0
-  to: 4
+  fromX: 0
+  toX: 0
+  fromY: 0
+  toY: 0
   minAngle: 10
   maxAngle: 45
   chance: 0.4

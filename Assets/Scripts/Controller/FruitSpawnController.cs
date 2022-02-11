@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Collections;
 using DefaultNamespace;
@@ -7,10 +6,6 @@ using Random = UnityEngine.Random;
 
 public class FruitSpawnController : MonoBehaviour
 {
-    [SerializeField]
-    private Canvas gameField;
-    [SerializeField]
-    private RectTransform gameFieldRectTransform;
     [SerializeField]
     private GameConfigController gameConfigController;
     [SerializeField]
@@ -23,6 +18,8 @@ public class FruitSpawnController : MonoBehaviour
     private DifficultyLogicController difficultyLogicController;
     [SerializeField] 
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
+    [SerializeField] 
+    private Transform gameField;
     
     private GameConfig gameConfig;
     private float currentSpawnFruitPackDelay;
@@ -77,17 +74,21 @@ public class FruitSpawnController : MonoBehaviour
             
             var fruit = GetFruit();
             var directionVector = GetFruitMovementVector(spawnZone) * fruit.FruitSpeed * spawnZone.SpeedMultiplier;
-            var spawnedFruit = Instantiate(fruit.FruitPrefab, position, Quaternion.identity, gameField.transform);
-            spawnedFruit.transform.SetSiblingIndex(1);
-            spawnedFruit.GetComponent<FruitController>()
-                .SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController,
-                    entityOnGameFieldChecker);
+            var spawnedFruit = Instantiate(fruit.FruitController, position, Quaternion.identity, gameField);
+            spawnedFruit.transform.localPosition = new Vector3(spawnedFruit.transform.localPosition.x,
+                spawnedFruit.transform.localPosition.y, Vector3.zero.z);
+            spawnedFruit.SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, entityOnGameFieldChecker);
+            
+            //spawnedFruit.transform.SetSiblingIndex(1);
+            //spawnedFruit.GetComponent<FruitController>()
+               // .SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController,
+                 //   entityOnGameFieldChecker);
         }
     }
     
     private SpawnZoneConfig GetSpawnZone()
     {
-        if (gameConfig.SpawnZones.Count() == 1)
+        if (gameConfig.SpawnZones.Count == 1)
         {
             return gameConfig.SpawnZones.First();
         }
@@ -99,7 +100,7 @@ public class FruitSpawnController : MonoBehaviour
         
         foreach (var item in gameConfig.SpawnZones)
         {
-            if(randomNum < item.Chance)
+            if (randomNum < item.Chance)
             {
                 spawnZone = item;
                 break;
@@ -118,14 +119,14 @@ public class FruitSpawnController : MonoBehaviour
         switch (spawnZone.SpawnZonePosition)
         {
             case SpawnZonePosition.Bottom:
-                return new Vector3(position, gameConfig.YMinBorder, gameFieldRectTransform.position.z);
+                return swipeController.Camera.ViewportToWorldPoint(new Vector2(position, gameConfig.YMinBorder));
             case SpawnZonePosition.Left:
-                return new Vector3(gameConfig.XMinBorder, position, gameFieldRectTransform.position.z);
+                return swipeController.Camera.ViewportToWorldPoint(new Vector2(gameConfig.XMinBorder,position));
             case SpawnZonePosition.Right:
-                return new Vector3(gameConfig.XMaxBorder, position, gameFieldRectTransform.position.z);
+                return swipeController.Camera.ViewportToWorldPoint(new Vector2(gameConfig.XMaxBorder,position));
         }
-        
-        return Vector3.zero;
+
+        return Vector3.zero;;
     }
 
     private Vector3 GetFruitMovementVector(SpawnZoneConfig spawnZone)
@@ -136,12 +137,13 @@ public class FruitSpawnController : MonoBehaviour
 
     private FruitConfig GetFruit()
     {
-        if (gameConfig.Fruits.Count() == 1)
+        if (gameConfig.Fruits.Count == 1)
         {
             return gameConfig.Fruits.First();
         }
         
-        var fruitId = Random.Range(0, gameConfig.Fruits.Count());
+        var fruitId = Random.Range(0, gameConfig.Fruits.Count);
+        
         return gameConfig.Fruits[fruitId];
     }
 }

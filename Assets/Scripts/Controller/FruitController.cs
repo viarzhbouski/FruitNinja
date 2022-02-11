@@ -4,6 +4,8 @@ using Random = UnityEngine.Random;
 public class FruitController : MonoBehaviour
 {
     [SerializeField] 
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] 
     private EntityPhysics entityPhysics;
     [SerializeField] 
     private GameObject[] fragments;
@@ -28,7 +30,8 @@ public class FruitController : MonoBehaviour
         this.entityOnGameFieldChecker = entityOnGameFieldChecker;
         this.scoreCountController = scoreCountController;
         this.lifeCountController = lifeCountController;
-        
+
+        spriteRenderer.sprite = fruit.FruitSprite;
         gameConfig = entityOnGameFieldChecker.GameConfigManager.GameConfig;
         entityPhysics.GravityVector = gameConfig.GravityVector;
         entityPhysics.DirectionVector = directionVector;
@@ -46,7 +49,7 @@ public class FruitController : MonoBehaviour
             SpawnSprayffect();
             SpawnCutEffect();
             scoreCountController.AddScore();
-            SpawnFruitFragments();
+            //SpawnFruitFragments();
             Destroy(gameObject);
         }
         if (!entityOnGameFieldChecker.EntityOnGameField(transform.position.x, transform.position.y))

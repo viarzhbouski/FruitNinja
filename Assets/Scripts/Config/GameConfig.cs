@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New GameConfig", menuName = "Game Config", order = 52)]
 public class GameConfig : ScriptableObject
 {
+    [Header("\tав")]
     [SerializeField]
     private float xMinBorder;
     [SerializeField]
