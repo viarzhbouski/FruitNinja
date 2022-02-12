@@ -4,116 +4,157 @@ using Random = UnityEngine.Random;
 public class FruitController : MonoBehaviour
 {
     [SerializeField] 
-    private EntityPhysics entityPhysics;
+    private SpriteRenderer spriteRenderer;
     [SerializeField] 
-    private GameObject[] fragments;
+    private EntityPhysics entityPhysics;
+    [SerializeField]
+    private FruitFragmentController fragment;
+    [SerializeField]
+    private GameObject shadowPrefab;
     
-    private FruitConfig fruit;
-    private EntityOnGameFieldChecker entityOnGameFieldChecker;
-    private GameConfig gameConfig;
-    private SwipeController swipeController;
-    private ScoreCountController scoreCountController;
-    private LifeCountController lifeCountController;
-    private bool fruitCanCut;
-    
-    public void SetFruitConfig(Vector3 directionVector, 
-        FruitConfig fruit, 
-        SwipeController swipeController, 
-        ScoreCountController scoreCountController, 
-        LifeCountController lifeCountController, 
-        EntityOnGameFieldChecker entityOnGameFieldChecker)
+    private GameObject shadow;
+    private GameConfig _gameConfig;
+    private FruitConfig _fruitConfig;
+    private SwipeController _swipeController;
+    private ScoreCountController _scoreCountController;
+    private LifeCountController _lifeCountController;
+    private ComboController _comboController;
+    private EntityOnGameFieldChecker _entityOnGameFieldChecker;
+    private bool _fruitCanCut;
+    private float _rotateSpeed;
+
+    private void Start()
     {
-        this.fruit = fruit;
-        this.swipeController = swipeController;
-        this.entityOnGameFieldChecker = entityOnGameFieldChecker;
-        this.scoreCountController = scoreCountController;
-        this.lifeCountController = lifeCountController;
-        
-        gameConfig = entityOnGameFieldChecker.GameConfigManager.GameConfig;
-        entityPhysics.GravityVector = gameConfig.GravityVector;
-        entityPhysics.DirectionVector = directionVector;
+        shadow = Instantiate(shadowPrefab, transform.position, Quaternion.identity, transform.parent);
     }
     
     private void Update()
     {
-        if (lifeCountController.GameOver)
+        UpdateShadowPosition();
+        
+        if (_lifeCountController.GameOver)
         {
             return;
         }
         
-        if (fruitCanCut)
+        if (_fruitCanCut)
         {
             SpawnSprayffect();
             SpawnCutEffect();
-            scoreCountController.AddScore();
             SpawnFruitFragments();
+            _scoreCountController.AddScore(_fruitConfig.Score * _comboController.ComboMultiplier, transform.position);
+            _comboController.FruitCutEvent.Invoke();
+            Destroy(shadow);
             Destroy(gameObject);
         }
-        if (!entityOnGameFieldChecker.EntityOnGameField(transform.position.x, transform.position.y))
+        
+        if (!_entityOnGameFieldChecker.EntityOnGameField(transform.position.x, transform.position.y))
         {
-            lifeCountController.DecreaseLife();
+            _lifeCountController.DecreaseLife();
+            Destroy(shadow);
             Destroy(gameObject);
         }
 
         FruitSwipeCheckCollision();
-        transform.Rotate(0f, 0f, entityPhysics.DirectionVector.x > 0 ? fruit.FruitRotateSpeed : -fruit.FruitRotateSpeed, Space.Self);
+        transform.Rotate(0f, 0f, entityPhysics.DirectionVector.x > 0 ? _rotateSpeed : -_rotateSpeed, Space.Self);
+    }
+    
+    public void SetFruitConfig(Vector3 directionVector,
+        FruitConfig fruitConfig, 
+        SwipeController swipeController, 
+        ScoreCountController scoreCountController, 
+        LifeCountController lifeCountController, 
+        ComboController comboController, 
+        EntityOnGameFieldChecker entityOnGameFieldChecker)
+    {
+        _fruitConfig = fruitConfig;
+        _swipeController = swipeController;
+        _scoreCountController = scoreCountController;
+        _lifeCountController = lifeCountController;
+        _comboController = comboController;
+        _entityOnGameFieldChecker = entityOnGameFieldChecker;
+        _gameConfig = entityOnGameFieldChecker.GameConfigManager.GameConfig;
+        _rotateSpeed = Random.Range(0, _fruitConfig.FruitRotateSpeed);
+        spriteRenderer.sprite = _fruitConfig.FruitSprite;
+        entityPhysics.GravityVector = _gameConfig.GravityVector;
+        entityPhysics.DirectionVector = directionVector;
+    }
+
+    private void UpdateShadowPosition()
+    {
+        var fruitPosition = transform.position;
+        fruitPosition.y = fruitPosition.y - 1.5f;
+        fruitPosition.z = fruitPosition.z + 1;
+        
+        shadow.transform.position = fruitPosition;
     }
 
     private void FruitSwipeCheckCollision()
     {
         var from = new Vector3(transform.position.x, transform.position.y, 0);
-        var to = new Vector3(swipeController.Swipe.transform.position.x, swipeController.Swipe.transform.position.y, 0);
+        var to = new Vector3(_swipeController.Swipe.transform.position.x, _swipeController.Swipe.transform.position.y, 0);
         var distance = Vector3.Distance(from, to);
 
-        if (distance <= gameConfig.MinDistanceForCutFruit && 
-            swipeController.Velocity > gameConfig.MinVelocityForCutFruit)
+        if (distance <= _gameConfig.MinDistanceForCutFruit && 
+            _swipeController.Velocity > _gameConfig.MinVelocityForCutFruit)
         {
-            fruitCanCut = true;
+            _fruitCanCut = true;
         }
     }
 
     private void SpawnFruitFragments()
     {
-        for (int i = 0; i < fragments.Length; i++)
+        var offsetY = spriteRenderer.sprite.texture.height / 2;
+        var startY = 0;
+        var pivot = new Vector2(0.5f, 0.75f);
+        for (var i = 0; i < 2; i++)
         {
-            var spawnedFragment = Instantiate(fragments[i], transform.position, Quaternion.identity, transform.parent);
-            spawnedFragment.transform.SetSiblingIndex(1);
-            
-            var x = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
-            var y = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
+            var texture = spriteRenderer.sprite.texture;
+            var rect = new Rect(0, startY, texture.width, offsetY);
+            var fragmentSprite = Sprite.Create(texture, rect, pivot);
+            var x = Random.Range(-_fruitConfig.FragmentSpeed, _fruitConfig.FragmentSpeed);
+            var y = Random.Range(-_fruitConfig.FragmentSpeed, _fruitConfig.FragmentSpeed);
             var vector = new Vector3(x, y, 0);
-            spawnedFragment.GetComponent<FruitFragmentController>()
-                           .SetFruitFragmentConfig(entityOnGameFieldChecker, vector, fruit.FragmentRotateSpeed);
+            var spawnedFragment = Instantiate(fragment, transform.position, Quaternion.identity, transform.parent);
+            var spawnedFragmentTransform = spawnedFragment.transform;
+            var spawnedFragmentPosition = spawnedFragmentTransform.position;
+            
+            spawnedFragmentPosition = new Vector3(spawnedFragmentPosition.x, spawnedFragmentPosition.y, spawnedFragmentPosition.z - 2);
+            spawnedFragmentTransform.position = spawnedFragmentPosition;
+            spawnedFragment.SetFruitFragmentConfig(vector, _entityOnGameFieldChecker, fragmentSprite, _fruitConfig.FragmentRotateSpeed);
+            startY += offsetY;
+            pivot.y -= 0.5f;
         }
     }
 
     private void SpawnCutEffect()
     {
-        var cutEffect = gameConfig.CutEffect;
+        var cutEffect = _gameConfig.CutEffect;
         var main = cutEffect.main;
         var trail = cutEffect.trails;
         
-        main.startColor = fruit.CutEffectColor;
-        trail.colorOverLifetime = fruit.CutEffectColor;
-        trail.colorOverTrail = fruit.CutEffectColor;
-        
-        var effect = Instantiate(cutEffect.gameObject, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity, transform.parent);
-        effect.transform.SetSiblingIndex(1);
+        main.startColor = _fruitConfig.CutEffectColor;
+        trail.colorOverLifetime = _fruitConfig.CutEffectColor;
+        trail.colorOverTrail = _fruitConfig.CutEffectColor;
+        Instantiate(cutEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
     }
     
     private void SpawnSprayffect()
     {
-        var sprayEffect = gameConfig.SprayEffect;
+        var sprayEffect = _gameConfig.SprayEffect;
         var colorOverLifetime = sprayEffect.colorOverLifetime;
         var ourGradient = new Gradient();
         
         ourGradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(fruit.CutEffectColor, 0.0f)},
-            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f)}
+            new [] { new GradientColorKey(_fruitConfig.CutEffectColor, 0.0f)},
+            new [] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f)}
         );
         colorOverLifetime.color = ourGradient;
         
         var effect = Instantiate(sprayEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
-        effect.transform.SetSiblingIndex(1);
+        var position = effect.transform.position;
+        
+        position = new Vector3(position.x, position.y, position.z + 2);
+        effect.transform.position = position;
     }
 }

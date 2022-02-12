@@ -4,8 +4,11 @@
 public class FruitConfig : ScriptableObject
 {
     [SerializeField]
-    private GameObject fruitPrefab;
-
+    private FruitController fruitController;
+    
+    [SerializeField]
+    private Sprite fruitSprite;
+    
     [SerializeField]
     private float fruitSpeed;
     
@@ -17,13 +20,21 @@ public class FruitConfig : ScriptableObject
 
     [SerializeField]
     private float fragmentRotateSpeed;
-
+    
+    [SerializeField]
+    private int score;
+    
     [SerializeField]
     private Color cutEffectColor;
     
-    public GameObject FruitPrefab
+    public FruitController FruitController
     {
-        get { return fruitPrefab; }
+        get { return fruitController; }
+    }
+    
+    public Sprite FruitSprite
+    {
+        get { return fruitSprite; }
     }
     
     public float FruitSpeed
@@ -44,6 +55,11 @@ public class FruitConfig : ScriptableObject
     public float FragmentRotateSpeed
     {
         get { return fragmentRotateSpeed; }
+    }
+    
+    public int Score
+    {
+        get { return score; }
     }
     
     public Color CutEffectColor

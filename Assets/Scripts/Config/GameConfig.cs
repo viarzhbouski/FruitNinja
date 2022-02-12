@@ -4,6 +4,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New GameConfig", menuName = "Game Config", order = 52)]
 public class GameConfig : ScriptableObject
 {
+    [Header("\tMAIN")]
+    [SerializeField]
+    private float delayBeforeStart;
+    [SerializeField]
+    private int lifeCount;
+    [SerializeField]
+    private Vector3 gravityVector;
+    
+    [Header("\tGAMEFIELD BORDERS")]
     [SerializeField]
     private float xMinBorder;
     [SerializeField]
@@ -12,24 +21,22 @@ public class GameConfig : ScriptableObject
     private float yMinBorder;
     [SerializeField]
     private float yMaxBorder;
-    [SerializeField]
-    private float spawnFruitPackDelay;
-    [SerializeField]
-    private float spawnFruitDelay;
-    [SerializeField]
-    private float delayBeforeStart;
-    [SerializeField]
-    private int lifeCount;
-    [SerializeField]
-    private Vector3 gravityVector;
+
+    [Header("\tFRUIT CONFIGS")]
     [SerializeField]
     private List<FruitConfig> fruits;
+    
+    [Header("\tSPAWNZONE CONFIGS")]
     [SerializeField]
     private List<SpawnZoneConfig> spawnZones;
+    
+    [Header("\tFRUIT CUT SETTINGS")]
     [SerializeField]
     private float minDistanceForCutFruit;
     [SerializeField]
     private float minVelocityForCutFruit;
+    
+    [Header("\tDIFFICULT")]
     [SerializeField]
     private int fruitCountInPack;
     [SerializeField]
@@ -43,10 +50,55 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private float subtractForFruitPackDelay;
     [SerializeField]
+    private float spawnFruitPackDelay;
+    [SerializeField]
+    private float spawnFruitDelay;
+    
+    [Header("\tEFFECTS")]
+    [SerializeField]
     private ParticleSystem cutEffect;
     [SerializeField]
     private ParticleSystem sprayEffect;
-
+    
+    [Header("\tSCORE TEXT")]
+    [SerializeField]
+    private int scoreTextRotationMin;
+    [SerializeField]
+    private int scoreTextRotationMax;
+    
+    [Header("\tCOMBO")]
+    [SerializeField]
+    private int comboMax;
+    [SerializeField]
+    public float comboTime;
+    [SerializeField]
+    public float comboMultiplierTime;
+    
+    public int ComboMax
+    {
+        get { return comboMax; }
+    }
+    
+    public float ComboTime
+    {
+        get { return comboTime; }
+    }
+    
+    public float ComboMultiplierTime
+    {
+        get { return comboMultiplierTime; }
+    }
+    
+    public int ScoreTextRotationMin
+    {
+        get { return scoreTextRotationMin; }
+    }
+    
+    public int ScoreTextRotationMax
+    {
+        get { return scoreTextRotationMax; }
+    }
+    
     public float XMinBorder
     {
         get { return xMinBorder; }
