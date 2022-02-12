@@ -19,24 +19,24 @@ public class FruitSpawnController : MonoBehaviour
     [SerializeField] 
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
     [SerializeField] 
+    private ComboController comboController;
+    [SerializeField] 
     private Transform gameField;
     
-    private GameConfig gameConfig;
-    private float currentSpawnFruitPackDelay;
-    private float currentSpawnFruitDelay;
-    private bool canStartGame;
+    private GameConfig _gameConfig;
+    private float _currentSpawnFruitPackDelay;
+    private bool _canStartGame;
     
     void Start()
     {
-        gameConfig = gameConfigController.GameConfig;
-        currentSpawnFruitPackDelay = 0;
-        currentSpawnFruitDelay = 0;
+        _gameConfig = gameConfigController.GameConfig;
+        _currentSpawnFruitPackDelay = 0;
         StartCoroutine(DelayBeforeStart());
     }
     
     void Update()
     {
-        if (lifeCountController.GameOver || !canStartGame)
+        if (lifeCountController.GameOver || !_canStartGame)
         {
             return;
         }
@@ -46,15 +46,15 @@ public class FruitSpawnController : MonoBehaviour
 
     IEnumerator DelayBeforeStart()
     {
-        yield return new WaitForSeconds(gameConfig.DelayBeforeStart);
-        canStartGame = true;
+        yield return new WaitForSeconds(_gameConfig.DelayBeforeStart);
+        _canStartGame = true;
     }
 
     private void SpawnFruitPack()
     {
-        if (currentSpawnFruitPackDelay >= 0)
+        if (_currentSpawnFruitPackDelay >= 0)
         {
-            currentSpawnFruitPackDelay -= Time.deltaTime;
+            _currentSpawnFruitPackDelay -= Time.deltaTime;
             return;
         }
         
@@ -63,7 +63,7 @@ public class FruitSpawnController : MonoBehaviour
         
         StartCoroutine(SpawnFruit(spawnZone, position));
 
-        currentSpawnFruitPackDelay = difficultyLogicController.FruitPackDelay;
+        _currentSpawnFruitPackDelay = difficultyLogicController.FruitPackDelay;
     }
     
     IEnumerator SpawnFruit(SpawnZoneConfig spawnZone, Vector3 position)
@@ -75,30 +75,28 @@ public class FruitSpawnController : MonoBehaviour
             var fruit = GetFruit();
             var directionVector = GetFruitMovementVector(spawnZone) * fruit.FruitSpeed * spawnZone.SpeedMultiplier;
             var spawnedFruit = Instantiate(fruit.FruitController, position, Quaternion.identity, gameField);
-            spawnedFruit.transform.localPosition = new Vector3(spawnedFruit.transform.localPosition.x,
-                spawnedFruit.transform.localPosition.y, Vector3.zero.z);
-            spawnedFruit.SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, entityOnGameFieldChecker);
+            var spawnedFruitTransform = spawnedFruit.transform;
+            var spawnedFruitPosition = spawnedFruitTransform.localPosition;
             
-            //spawnedFruit.transform.SetSiblingIndex(1);
-            //spawnedFruit.GetComponent<FruitController>()
-               // .SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController,
-                 //   entityOnGameFieldChecker);
+            spawnedFruitPosition = new Vector3(spawnedFruitPosition.x, spawnedFruitPosition.y, Vector3.zero.z);
+            spawnedFruitTransform.localPosition = spawnedFruitPosition;
+            spawnedFruit.SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, comboController, entityOnGameFieldChecker);
         }
     }
     
     private SpawnZoneConfig GetSpawnZone()
     {
-        if (gameConfig.SpawnZones.Count == 1)
+        if (_gameConfig.SpawnZones.Count == 1)
         {
-            return gameConfig.SpawnZones.First();
+            return _gameConfig.SpawnZones.First();
         }
         
-        var sumChance = gameConfig.SpawnZones.Sum(e => e.Chance);
+        var sumChance = _gameConfig.SpawnZones.Sum(e => e.Chance);
         var randomNum = Random.Range(0, sumChance);
 
         SpawnZoneConfig spawnZone = null;
         
-        foreach (var item in gameConfig.SpawnZones)
+        foreach (var item in _gameConfig.SpawnZones)
         {
             if (randomNum < item.Chance)
             {
@@ -119,11 +117,11 @@ public class FruitSpawnController : MonoBehaviour
         switch (spawnZone.SpawnZonePosition)
         {
             case SpawnZonePosition.Bottom:
-                return swipeController.Camera.ViewportToWorldPoint(new Vector2(position, gameConfig.YMinBorder));
+                return swipeController.Camera.ViewportToWorldPoint(new Vector2(position, _gameConfig.YMinBorder));
             case SpawnZonePosition.Left:
-                return swipeController.Camera.ViewportToWorldPoint(new Vector2(gameConfig.XMinBorder,position));
+                return swipeController.Camera.ViewportToWorldPoint(new Vector2(_gameConfig.XMinBorder,position));
             case SpawnZonePosition.Right:
-                return swipeController.Camera.ViewportToWorldPoint(new Vector2(gameConfig.XMaxBorder,position));
+                return swipeController.Camera.ViewportToWorldPoint(new Vector2(_gameConfig.XMaxBorder,position));
         }
 
         return Vector3.zero;
@@ -137,13 +135,13 @@ public class FruitSpawnController : MonoBehaviour
 
     private FruitConfig GetFruit()
     {
-        if (gameConfig.Fruits.Count == 1)
+        if (_gameConfig.Fruits.Count == 1)
         {
-            return gameConfig.Fruits.First();
+            return _gameConfig.Fruits.First();
         }
         
-        var fruitId = Random.Range(0, gameConfig.Fruits.Count);
+        var fruitId = Random.Range(0, _gameConfig.Fruits.Count);
         
-        return gameConfig.Fruits[fruitId];
+        return _gameConfig.Fruits[fruitId];
     }
 }

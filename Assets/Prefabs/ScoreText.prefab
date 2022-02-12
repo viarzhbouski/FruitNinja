@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7679125417313891166}
   - component: {fileID: 7679125417313891104}
   - component: {fileID: 7679125417313891167}
-  - component: {fileID: 6288812663425092384}
   - component: {fileID: -7285427499778569273}
+  - component: {fileID: 6288812663425092384}
+  - component: {fileID: -3553572884932556598}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -37,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -51.65}
-  m_SizeDelta: {x: 210, y: 200}
+  m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7679125417313891104
 CanvasRenderer:
@@ -136,6 +137,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!111 &-7285427499778569273
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7679125417313891165}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 1f233d4ad30bbeb42a23691cf3657cd2, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 1f233d4ad30bbeb42a23691cf3657cd2, type: 2}
+  - {fileID: 7400000, guid: 5f4ffa72dcb0f47458281d64cbc210e5, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &6288812663425092384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,19 +167,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 1.5
---- !u!111 &-7285427499778569273
-Animation:
+--- !u!114 &-3553572884932556598
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7679125417313891165}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 1f233d4ad30bbeb42a23691cf3657cd2, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 1f233d4ad30bbeb42a23691cf3657cd2, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9438f919a6902a8499b5e445c7af9def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animation: {fileID: -7285427499778569273}
+  destroyScoreClip: {fileID: 7400000, guid: 5f4ffa72dcb0f47458281d64cbc210e5, type: 2}
+  delayTime: 1

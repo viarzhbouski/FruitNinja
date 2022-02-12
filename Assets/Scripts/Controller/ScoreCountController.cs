@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SocialPlatforms;
 
 public class ScoreCountController : MonoBehaviour
 {
@@ -19,6 +18,10 @@ public class ScoreCountController : MonoBehaviour
     private TextMeshProUGUI scoreUI;
     [SerializeField]
     private TextMeshProUGUI bestScoreUI;
+    [SerializeField]
+    private Animation scoreAnimation;
+    [SerializeField]
+    private Animation bestScoreAnimation;
     
     private UnityEvent difficultyDelayEvent = new UnityEvent();
     private UnityEvent difficultyFruitPackEvent = new UnityEvent();
@@ -70,9 +73,11 @@ public class ScoreCountController : MonoBehaviour
         
         if (bestScoreUI.text == scoreUI.text)
         {
+            bestScoreAnimation.Play();
             bestScoreUI.text = currentScore.ToString();
         }
-        
+
+        scoreAnimation.Play();
         scoreUI.text = currentScore.ToString();
         
         var rot = Quaternion.Euler(0, 0, Random.Range(gameConfigController.GameConfig.ScoreTextRotationMin, gameConfigController.GameConfig.ScoreTextRotationMax));

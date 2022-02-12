@@ -51,6 +51,27 @@ public class GameConfig : ScriptableObject
     private int scoreTextRotationMin;
     [SerializeField]
     private int scoreTextRotationMax;
+    [SerializeField]
+    private int comboMax;
+    [SerializeField]
+    public float comboTime;
+    [SerializeField]
+    public float comboMultiplierTime;
+    
+    public int ComboMax
+    {
+        get { return comboMax; }
+    }
+    
+    public float ComboTime
+    {
+        get { return comboTime; }
+    }
+    
+    public float ComboMultiplierTime
+    {
+        get { return comboMultiplierTime; }
+    }
     
     public int ScoreTextRotationMin
     {
