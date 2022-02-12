@@ -15,7 +15,8 @@ MonoBehaviour:
   fruitController: {fileID: -739055229776124981, guid: 118439ab5dfd0ae4e90ac0647fd18516, type: 3}
   fruitSprite: {fileID: -724105580326358498, guid: c0d04f52b5d7a7b4d843618417d6b28b, type: 3}
   fruitSpeed: 13
-  fruitRotateSpeed: 0.1
+  fruitRotateSpeed: 0.3
   fragmentSpeed: 7
-  fragmentRotateSpeed: 0.2
+  fragmentRotateSpeed: 0.3
+  score: 100
   cutEffectColor: {r: 0.9511088, g: 1, b: 0, a: 0}

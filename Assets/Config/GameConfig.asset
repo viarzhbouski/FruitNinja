@@ -47,3 +47,5 @@ MonoBehaviour:
   subtractForFruitPackDelay: 0.01
   cutEffect: {fileID: 5477999823580732270, guid: e2159c6ba89cd9342a722030394b06ef, type: 3}
   sprayEffect: {fileID: 5477999823580732270, guid: 57376a91f43cc0e4fb39fdfd87cc5615, type: 3}
+  scoreTextRotationMin: -20
+  scoreTextRotationMax: 20

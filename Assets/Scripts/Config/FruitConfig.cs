@@ -20,7 +20,10 @@ public class FruitConfig : ScriptableObject
 
     [SerializeField]
     private float fragmentRotateSpeed;
-
+    
+    [SerializeField]
+    private int score;
+    
     [SerializeField]
     private Color cutEffectColor;
     
@@ -52,6 +55,11 @@ public class FruitConfig : ScriptableObject
     public float FragmentRotateSpeed
     {
         get { return fragmentRotateSpeed; }
+    }
+    
+    public int Score
+    {
+        get { return score; }
     }
     
     public Color CutEffectColor

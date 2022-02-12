@@ -1,3 +1,4 @@
+using UnityEditor.Sprites;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -51,7 +52,7 @@ public class FruitController : MonoBehaviour
         {
             SpawnSprayffect();
             SpawnCutEffect();
-            scoreCountController.AddScore();
+            scoreCountController.AddScore(fruit.Score, transform.position);
             SpawnFruitFragments();
             Destroy(gameObject);
         }
@@ -84,36 +85,24 @@ public class FruitController : MonoBehaviour
     {
         var offsetY = spriteRenderer.sprite.texture.height / 2;
         var startY = 0;
-        
+        var pivot = new Vector2(0.5f, 0.75f);
         for (var i = 0; i < 2; i++)
         {
             var texture = spriteRenderer.sprite.texture;
             var rect = new Rect(0, startY, texture.width, offsetY);
-            var fragmentSprite = Sprite.Create(texture, rect, Vector2.one * 0.5f);
+            var fragmentSprite = Sprite.Create(texture, rect, pivot);
             var x = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
             var y = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
             var vector = new Vector3(x, y, 0);
             var spawnedFragment = Instantiate(fragment, transform.position, Quaternion.identity, transform.parent);
             
+            spawnedFragment.transform.position = new Vector3(spawnedFragment.transform.position.x,
+                spawnedFragment.transform.position.y, spawnedFragment.transform.position.z - 2);
             spawnedFragment.SetFruitFragmentConfig(vector, entityOnGameFieldChecker, fragmentSprite, fruit.FragmentRotateSpeed);
             startY += offsetY;
+            pivot.y -= 0.5f;
         }
     }
-
-    /*private void SpawnFruitFragments()
-    {
-        for (int i = 0; i < fragments.Length; i++)
-        {
-            var spawnedFragment = Instantiate(fragments[i], transform.position, Quaternion.identity, transform.parent);
-            spawnedFragment.transform.SetSiblingIndex(1);
-            
-            var x = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
-            var y = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
-            var vector = new Vector3(x, y, 0);
-            spawnedFragment.GetComponent<FruitFragmentController>()
-                           .SetFruitFragmentConfig(entityOnGameFieldChecker, vector, fruit.FragmentRotateSpeed);
-        }
-    }*/
 
     private void SpawnCutEffect()
     {
@@ -124,9 +113,7 @@ public class FruitController : MonoBehaviour
         main.startColor = fruit.CutEffectColor;
         trail.colorOverLifetime = fruit.CutEffectColor;
         trail.colorOverTrail = fruit.CutEffectColor;
-        
-        var effect = Instantiate(cutEffect.gameObject, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity, transform.parent);
-        effect.transform.SetSiblingIndex(1);
+        Instantiate(cutEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
     }
     
     private void SpawnSprayffect()
@@ -136,12 +123,12 @@ public class FruitController : MonoBehaviour
         var ourGradient = new Gradient();
         
         ourGradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(fruit.CutEffectColor, 0.0f)},
-            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f)}
+            new [] { new GradientColorKey(fruit.CutEffectColor, 0.0f)},
+            new [] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f)}
         );
         colorOverLifetime.color = ourGradient;
-        
         var effect = Instantiate(sprayEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
-        effect.transform.SetSiblingIndex(1);
+        effect.transform.position = new Vector3(effect.transform.position.x,
+            effect.transform.position.y, effect.transform.position.z + 2);
     }
 }

@@ -47,7 +47,21 @@ public class GameConfig : ScriptableObject
     private ParticleSystem cutEffect;
     [SerializeField]
     private ParticleSystem sprayEffect;
-
+    [SerializeField]
+    private int scoreTextRotationMin;
+    [SerializeField]
+    private int scoreTextRotationMax;
+    
+    public int ScoreTextRotationMin
+    {
+        get { return scoreTextRotationMin; }
+    }
+    
+    public int ScoreTextRotationMax
+    {
+        get { return scoreTextRotationMax; }
+    }
+    
     public float XMinBorder
     {
         get { return xMinBorder; }
