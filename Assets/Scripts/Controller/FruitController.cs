@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,8 +8,11 @@ public class FruitController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField] 
     private EntityPhysics entityPhysics;
-    [SerializeField] 
-    private GameObject[] fragments;
+    //[SerializeField] 
+    //private GameObject[] fragments;
+    //[SerializeField]
+    //private SpriteRenderer fragment;
+    
     
     private FruitConfig fruit;
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
@@ -49,6 +53,7 @@ public class FruitController : MonoBehaviour
             SpawnSprayffect();
             SpawnCutEffect();
             scoreCountController.AddScore();
+            //A();
             //SpawnFruitFragments();
             Destroy(gameObject);
         }
@@ -75,9 +80,34 @@ public class FruitController : MonoBehaviour
         }
     }
 
+    private void A()
+    {
+        Texture2D texture = spriteRenderer.sprite.texture;
+        var rect1 = new Rect(0, texture.height / 2, texture.width, texture.height / 2);
+        var rect2 = new Rect(0, texture.height / 2, texture.width, texture.height / 2);
+        var sprite1 = Sprite.Create(texture, rect1, Vector2.zero);
+        var sprite2 = Sprite.Create(texture, rect1, Vector2.zero);
+        //var sprite = Sprite.Create(texture, rect, Vector2.one * 0.5f);
+        var a1 = Instantiate(this, transform.position, Quaternion.identity, transform.parent);
+        var a2 = Instantiate(this, transform.position, Quaternion.identity, transform.parent);
+        
+        var x = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
+        var y = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
+        var vector = new Vector3(x, y, 0);
+        a1.SetFruitConfig(vector, fruit, swipeController, scoreCountController, lifeCountController, entityOnGameFieldChecker);
+        a1.GetComponent<SpriteRenderer>().sprite = sprite1;
+        x = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
+        y = Random.Range(-fruit.FragmentSpeed, fruit.FragmentSpeed);
+        vector = new Vector3(x, y, 0);
+        a2.SetFruitConfig(vector, fruit, swipeController, scoreCountController, lifeCountController, entityOnGameFieldChecker);
+        a2.GetComponent<SpriteRenderer>().sprite = sprite2;
+        //a1.sprite = sprite1;
+        //a2.sprite = sprite2;
+    }
+
     private void SpawnFruitFragments()
     {
-        for (int i = 0; i < fragments.Length; i++)
+        /*for (int i = 0; i < fragments.Length; i++)
         {
             var spawnedFragment = Instantiate(fragments[i], transform.position, Quaternion.identity, transform.parent);
             spawnedFragment.transform.SetSiblingIndex(1);
@@ -87,7 +117,7 @@ public class FruitController : MonoBehaviour
             var vector = new Vector3(x, y, 0);
             spawnedFragment.GetComponent<FruitFragmentController>()
                            .SetFruitFragmentConfig(entityOnGameFieldChecker, vector, fruit.FragmentRotateSpeed);
-        }
+        }*/
     }
 
     private void SpawnCutEffect()

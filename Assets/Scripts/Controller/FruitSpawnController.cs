@@ -126,7 +126,7 @@ public class FruitSpawnController : MonoBehaviour
                 return swipeController.Camera.ViewportToWorldPoint(new Vector2(gameConfig.XMaxBorder,position));
         }
 
-        return Vector3.zero;;
+        return Vector3.zero;
     }
 
     private Vector3 GetFruitMovementVector(SpawnZoneConfig spawnZone)

@@ -1931,7 +1931,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546902796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 683982931}
@@ -1975,15 +1975,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb662fd568f22c4fafeac43db410500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameField: {fileID: 1317859916}
-  gameFieldRectTransform: {fileID: 1317859917}
   gameConfigController: {fileID: 1564027743}
   swipeController: {fileID: 1564027742}
   scoreCountController: {fileID: 1564027744}
   lifeCountController: {fileID: 1564027745}
   difficultyLogicController: {fileID: 1564027741}
   entityOnGameFieldChecker: {fileID: 1564027740}
-  aaa: {fileID: 1546902796}
+  gameField: {fileID: 1546902797}
 --- !u!4 &1564027739
 Transform:
   m_ObjectHideFlags: 0
@@ -2011,6 +2009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameConfigManager: {fileID: 1564027743}
+  camera: {fileID: 519420031}
 --- !u!114 &1564027741
 MonoBehaviour:
   m_ObjectHideFlags: 0

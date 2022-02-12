@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f334d01e573dda448229163376e6e4f, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  xMinBorder: -10
-  xMaxBorder: 10
-  yMinBorder: -5
-  yMaxBorder: 10
+  xMinBorder: 0
+  xMaxBorder: 1
+  yMinBorder: 0
+  yMaxBorder: 1
   spawnFruitPackDelay: 4
   spawnFruitDelay: 0.4
   delayBeforeStart: 3
@@ -32,7 +32,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 40c8168053dc94040b83e938da170dca, type: 2}
   - {fileID: 11400000, guid: 9f828276c492cec4bbca876abcc68bac, type: 2}
   spawnZones:
+  - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}
+  - {fileID: 11400000, guid: 37e0f2fa75c9324448a249c0c5373eb1, type: 2}
+  - {fileID: 11400000, guid: 78431dbf10003694c9a519615d1f52ee, type: 2}
   - {fileID: 11400000, guid: ad844b98e3fff4e4d8d919f48ef5e365, type: 2}
+  - {fileID: 11400000, guid: 0c8905d403a1e1b43b83146e44737ded, type: 2}
   minDistanceForCutFruit: 1
   minVelocityForCutFruit: 10
   fruitCountInPack: 2

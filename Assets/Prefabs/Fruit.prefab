@@ -110,4 +110,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2727754377665431001}
   entityPhysics: {fileID: 8008613330224868381}
-  fragments: []
+  fragment: {fileID: 2727754377665431001}

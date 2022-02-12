@@ -4,6 +4,8 @@ public class EntityOnGameFieldChecker : MonoBehaviour
 {
     [SerializeField]
     private GameConfigController gameConfigManager;
+    [SerializeField]
+    private Camera camera;
 
     public GameConfigController GameConfigManager
     {
@@ -12,20 +14,12 @@ public class EntityOnGameFieldChecker : MonoBehaviour
     
     public bool EntityOnGameField(float x, float y)
     {
-        // if (x >= gameConfigManager.GameConfig.XMinBorder && x <= gameConfigManager.GameConfig.XMaxBorder &&
-        //     y >= gameConfigManager.GameConfig.YMinBorder && y <= gameConfigManager.GameConfig.YMaxBorder)
-        // {
-        //     return true;
-        // }
-
-        //return true;
+        var viewportPosition = camera.WorldToViewportPoint(new Vector2(x, y));
         
-        Debug.Log($"X={x}; Y={y}");
-        
-        if (x >= 0 && x <= 1 && 
-            y >= 0 && y <= 1)
+        if (viewportPosition.x >= gameConfigManager.GameConfig.XMinBorder && viewportPosition.x <= gameConfigManager.GameConfig.XMaxBorder && 
+            viewportPosition.y >= gameConfigManager.GameConfig.YMinBorder && viewportPosition.y <= gameConfigManager.GameConfig.YMaxBorder)
         {
-             return true;
+            return true;
         }
 
         return false;
