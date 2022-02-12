@@ -18,6 +18,7 @@ public class FruitController : MonoBehaviour
     private GameConfig gameConfig;
     
     private bool fruitCanCut;
+    private float rotateSpeed;
 
     public void SetFruitConfig(Vector3 directionVector,
         FruitConfig fruit, 
@@ -36,6 +37,7 @@ public class FruitController : MonoBehaviour
         gameConfig = entityOnGameFieldChecker.GameConfigManager.GameConfig;
         entityPhysics.GravityVector = gameConfig.GravityVector;
         entityPhysics.DirectionVector = directionVector;
+        rotateSpeed = Random.Range(0, fruit.FruitRotateSpeed);
     }
     
     private void Update()
@@ -62,7 +64,7 @@ public class FruitController : MonoBehaviour
         
 
         FruitSwipeCheckCollision();
-        transform.Rotate(0f, 0f, entityPhysics.DirectionVector.x > 0 ? fruit.FruitRotateSpeed : -fruit.FruitRotateSpeed, Space.Self);
+        transform.Rotate(0f, 0f, entityPhysics.DirectionVector.x > 0 ? rotateSpeed : -rotateSpeed, Space.Self);
     }
 
     private void FruitSwipeCheckCollision()

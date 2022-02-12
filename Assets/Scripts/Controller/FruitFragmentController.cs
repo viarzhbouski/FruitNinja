@@ -9,7 +9,7 @@ public class FruitFragmentController : MonoBehaviour
     
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
     private float fragmentRotateSpeed;
-    
+
     void Update()
     {
         if (!entityOnGameFieldChecker.EntityOnGameField(transform.position.x, transform.position.y))
@@ -24,7 +24,8 @@ public class FruitFragmentController : MonoBehaviour
     {
         spriteRenderer.sprite = sprite;
         this.entityOnGameFieldChecker = entityOnGameFieldChecker;
-        this.fragmentRotateSpeed = fragmentRotateSpeed;
+        this.fragmentRotateSpeed = Random.Range(0, fragmentRotateSpeed);
+        
         entityPhysics.GravityVector = entityOnGameFieldChecker.GameConfigManager.GameConfig.GravityVector;
         entityPhysics.DirectionVector = directionVector;
     }
