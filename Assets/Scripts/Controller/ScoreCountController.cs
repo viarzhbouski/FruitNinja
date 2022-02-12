@@ -70,8 +70,9 @@ public class ScoreCountController : MonoBehaviour
         }
         
         var currentScore = int.Parse(scoreUI.text) + score;
+        var bestScore = int.Parse(bestScoreUI.text);
         
-        if (bestScoreUI.text == scoreUI.text)
+        if (currentScore >= bestScore)
         {
             bestScoreAnimation.Play();
             bestScoreUI.text = currentScore.ToString();

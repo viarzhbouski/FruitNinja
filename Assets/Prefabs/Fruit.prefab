@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2727754377665431001}
   - component: {fileID: 8008613330224868381}
   - component: {fileID: -739055229776124981}
+  - component: {fileID: -1226453584115941362}
   m_Layer: 0
   m_Name: Fruit
   m_TagString: Untagged
@@ -111,3 +112,20 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2727754377665431001}
   entityPhysics: {fileID: 8008613330224868381}
   fragment: {fileID: 4103311339941916086, guid: ebeaf8075c78a4a4c8e0791d11d54617, type: 3}
+  shadowPrefab: {fileID: 1937067098835797528, guid: 8d147c04c29a8a34e9378e0621df7818, type: 3}
+--- !u!111 &-1226453584115941362
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3958200249994350653}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4f83370bf83564b41b36de2c2562544b, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4f83370bf83564b41b36de2c2562544b, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

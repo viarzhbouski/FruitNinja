@@ -25,7 +25,11 @@ public class MainMenuController : MonoBehaviour
         saveScoreController.LoadBestScore(bestScoreUI);
     }
 
-    private void StartGameOnClick() => StartCoroutine(LoadScene());
+    private void StartGameOnClick()
+    {
+        startGameButton.enabled = false;
+        StartCoroutine(LoadScene());
+    }
 
     IEnumerator LoadScene()
     {
