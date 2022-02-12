@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21851620e14e45efac0df3ada20f30f1, type: 3}
   m_Name: Pear
   m_EditorClassIdentifier: 
-  fruitPrefab: {fileID: 1331734859362366228, guid: 3a0aa9704c74d4841a6f1467d1ad2a5a, type: 3}
+  fruitController: {fileID: -739055229776124981, guid: 118439ab5dfd0ae4e90ac0647fd18516, type: 3}
+  fruitSprite: {fileID: 4321832919896367110, guid: ea22ca2e8d506d14c80ef0ad95a6874b, type: 3}
   fruitSpeed: 13
-  fruitRotateSpeed: 0.1
+  fruitRotateSpeed: 0.3
   fragmentSpeed: 7
-  fragmentRotateSpeed: 0.2
+  fragmentRotateSpeed: 0.3
+  score: 100
   cutEffectColor: {r: 1, g: 0.8435739, b: 0.5019608, a: 1}

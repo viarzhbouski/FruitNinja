@@ -4,14 +4,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New SpawnZone", menuName = "Spawn Zone", order = 51)]
 public class SpawnZoneConfig : ScriptableObject
 {
-    [Range(-10, 10)]
+    [Range(0, 1)]
     [SerializeField]
-    private int from;
+    private float from;
     
-    [Range(-10, 10)]
+    [Range(0, 1)]
     [SerializeField]
-    private int to;
-    
+    private float to;
+
     [SerializeField]
     private int minAngle;
     
@@ -29,16 +29,16 @@ public class SpawnZoneConfig : ScriptableObject
     [SerializeField]
     private float speedMultiplier;
 
-    public int From
+    public float From
     {
         get { return from; }
     }
     
-    public int To
+    public float To
     {
         get { return to; }
     }
-    
+
     public int MinAngle
     {
         get { return minAngle; }

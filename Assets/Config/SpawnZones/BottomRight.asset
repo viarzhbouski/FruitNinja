@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e54d487d79a19479664aaa254913c7, type: 3}
   m_Name: BottomRight
   m_EditorClassIdentifier: 
-  from: 10
-  to: 6
+  from: 0.7
+  to: 1
   minAngle: 100
   maxAngle: 120
   chance: 0.5

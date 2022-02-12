@@ -32,6 +32,14 @@ public class GameOverPopupController : MonoBehaviour
     private float openPopupDelayTime;
     [SerializeField]
     private float loadSceneDelayTime;
+    [SerializeField]
+    private Animation restartButtonAnimation;
+    [SerializeField]
+    private Animation mainMenuButtonAnimation;
+    [SerializeField]
+    private float showRestartButtonDelayTime;
+    [SerializeField]
+    private float showMainMenuButtonDelayTime;
     
     void Start()
     {
@@ -45,14 +53,29 @@ public class GameOverPopupController : MonoBehaviour
         gameOverPopup.SetActive(true);
         gameOverPopupAnimation.Play(openClip.name);
         yourScoreUI.text = scoreCountController.ScoreUI.text;
+        StartCoroutine(ShowRestartButton());
+        StartCoroutine(ShowMainMenuButton());
     }
 
-    private void RestartGameOnClick() => StartCoroutine(RestartGame());
+    private void RestartGameOnClick()
+    {
+        Debug.Log("ClICK1");
+        gameOverPopupRestartButton.enabled = false;
+        gameOverPopupMainMenuButton.enabled = false;
+        StartCoroutine(RestartGame());
+    }
     
-    private void MainMenuOnClick() => StartCoroutine(MainMenu());
+    private void MainMenuOnClick()
+    {
+        Debug.Log("ClICK2");
+        gameOverPopupRestartButton.enabled = false;
+        gameOverPopupMainMenuButton.enabled = false;
+        StartCoroutine(MainMenu());
+    }
 
     IEnumerator MainMenu()
     {
+        gameOverPopupAnimation.Play(closeClip.name);
         loadSceneAnimation.Play(loadSceneClip.name);
         yield return new WaitForSeconds(loadSceneDelayTime);
         SceneManager.LoadScene(0);
@@ -67,5 +90,17 @@ public class GameOverPopupController : MonoBehaviour
         SceneManager.LoadScene(1);
         lifeCountController.ResetLifeCount();
         scoreCountController.ResetScore();
+    }
+    
+    IEnumerator ShowRestartButton()
+    {
+        yield return new WaitForSeconds(showRestartButtonDelayTime);
+        restartButtonAnimation.Play();
+    }
+    
+    IEnumerator ShowMainMenuButton()
+    {
+        yield return new WaitForSeconds(showMainMenuButtonDelayTime);
+        mainMenuButtonAnimation.Play();
     }
 }
