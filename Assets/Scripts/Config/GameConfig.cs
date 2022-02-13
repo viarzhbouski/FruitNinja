@@ -22,9 +22,11 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private float yMaxBorder;
 
-    [Header("\tFRUIT CONFIGS")]
+    [Header("\tENTITY CONFIGS")]
     [SerializeField]
     private List<FruitConfig> fruits;
+    [SerializeField]
+    private FruitFragmentConfig fruitFragmentConfig;
     [SerializeField]
     private BombConfig bomb;
     
@@ -62,6 +64,8 @@ public class GameConfig : ScriptableObject
     private ParticleSystem cutEffect;
     [SerializeField]
     private ParticleSystem sprayEffect;
+    [SerializeField]
+    private ParticleSystem explodeEffect;
     
     [Header("\tSCORE TEXT")]
     [SerializeField]
@@ -152,6 +156,11 @@ public class GameConfig : ScriptableObject
         get { return fruits; }
     }
     
+    public FruitFragmentConfig FruitFragment
+    {
+        get { return fruitFragmentConfig; }
+    }
+    
     public BombConfig Bomb
     {
         get { return bomb; }
@@ -206,8 +215,14 @@ public class GameConfig : ScriptableObject
     {
         get { return cutEffect; }
     }
+    
     public ParticleSystem SprayEffect
     {
         get { return sprayEffect; }
+    }
+    
+    public ParticleSystem ExplodeEffect
+    {
+        get { return explodeEffect; }
     }
 }

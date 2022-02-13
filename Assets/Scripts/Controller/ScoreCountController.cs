@@ -23,19 +23,19 @@ public class ScoreCountController : MonoBehaviour
     [SerializeField]
     private Animation bestScoreAnimation;
     
-    private UnityEvent difficultyDelayEvent = new UnityEvent();
-    private UnityEvent difficultyFruitPackEvent = new UnityEvent();
+    private UnityEvent _difficultyDelayEvent = new UnityEvent();
+    private UnityEvent _difficultyFruitPackEvent = new UnityEvent();
     
     public UnityEvent DifficultyDelayEvent
     {
-        get { return difficultyDelayEvent; }
-        set { difficultyDelayEvent = value; }
+        get { return _difficultyDelayEvent; }
+        set { _difficultyDelayEvent = value; }
     }
     
     public UnityEvent DifficultyFruitPackEvent
     {
-        get { return difficultyFruitPackEvent; }
-        set { difficultyFruitPackEvent = value; }
+        get { return _difficultyFruitPackEvent; }
+        set { _difficultyFruitPackEvent = value; }
     }
     
     public TextMeshProUGUI ScoreUI
@@ -59,13 +59,13 @@ public class ScoreCountController : MonoBehaviour
         
         if (cuttedFruitCount == gameConfigController.GameConfig.CuttedFruitsForDecreaseFruitDelay)
         {
-            difficultyDelayEvent.Invoke();
+            _difficultyDelayEvent.Invoke();
             cuttedFruitCount = 0;
         }
         
         if (cuttedFruitForPacksCount == gameConfigController.GameConfig.CuttedFruitsForEncreaseFruitInPack)
         {
-            difficultyFruitPackEvent.Invoke();
+            _difficultyFruitPackEvent.Invoke();
             cuttedFruitForPacksCount = 0;
         }
         

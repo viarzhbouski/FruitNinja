@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class DifficultyLogicController : MonoBehaviour
 {
@@ -8,44 +7,44 @@ public class DifficultyLogicController : MonoBehaviour
     [SerializeField]
     private ScoreCountController scoreCountController;
 
-    private float fruitDelay;
-    private float fruitPackDelay;
-    private int fruitCountInPack;
+    private float _fruitDelay;
+    private float _fruitPackDelay;
+    private int _fruitCountInPack;
     public float FruitDelay
     {
-        get { return fruitDelay; }
+        get { return _fruitDelay; }
     }
     
     public float FruitPackDelay
     {
-        get { return fruitPackDelay; }
+        get { return _fruitPackDelay; }
     }
     
     public float FruitCountInPack
     {
-        get { return fruitCountInPack; }
+        get { return _fruitCountInPack; }
     }
     
     void Start()
     {
-        fruitDelay = gameConfigController.GameConfig.SpawnFruitDelay;
-        fruitPackDelay = gameConfigController.GameConfig.SpawnFruitPackDelay;
-        fruitCountInPack = gameConfigController.GameConfig.FruitCountInPack;
+        _fruitDelay = gameConfigController.GameConfig.SpawnFruitDelay;
+        _fruitPackDelay = gameConfigController.GameConfig.SpawnFruitPackDelay;
+        _fruitCountInPack = gameConfigController.GameConfig.FruitCountInPack;
         scoreCountController.DifficultyDelayEvent.AddListener(DecreaseDelay);
         scoreCountController.DifficultyFruitPackEvent.AddListener(EncreaseFruitInPack);
     }
 
     public void DecreaseDelay()
     {
-        fruitDelay -= gameConfigController.GameConfig.SubtractForFruitDelay;
-        fruitPackDelay -= gameConfigController.GameConfig.SubtractForFruitPackDelay;
+        _fruitDelay -= gameConfigController.GameConfig.SubtractForFruitDelay;
+        _fruitPackDelay -= gameConfigController.GameConfig.SubtractForFruitPackDelay;
     }
     
     public void EncreaseFruitInPack()
     {
-        if (fruitCountInPack < gameConfigController.GameConfig.MaxFruitCountInPack)
+        if (_fruitCountInPack < gameConfigController.GameConfig.MaxFruitCountInPack)
         {
-            fruitCountInPack++;
+            _fruitCountInPack++;
         }
     }
 }

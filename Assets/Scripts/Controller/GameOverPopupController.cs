@@ -59,7 +59,6 @@ public class GameOverPopupController : MonoBehaviour
 
     private void RestartGameOnClick()
     {
-        Debug.Log("ClICK1");
         gameOverPopupRestartButton.enabled = false;
         gameOverPopupMainMenuButton.enabled = false;
         StartCoroutine(RestartGame());
@@ -67,7 +66,6 @@ public class GameOverPopupController : MonoBehaviour
     
     private void MainMenuOnClick()
     {
-        Debug.Log("ClICK2");
         gameOverPopupRestartButton.enabled = false;
         gameOverPopupMainMenuButton.enabled = false;
         StartCoroutine(MainMenu());
@@ -85,7 +83,6 @@ public class GameOverPopupController : MonoBehaviour
     {
         gameOverPopupAnimation.Play(closeClip.name);
         yield return new WaitForSeconds(openPopupDelayTime);
-        
         gameOverPopup.SetActive(false);
         SceneManager.LoadScene(1);
         lifeCountController.ResetLifeCount();
