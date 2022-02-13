@@ -13,13 +13,13 @@ public class SwipeController : MonoBehaviour
     [SerializeField]
     private bool mobile;
     
-    private Vector3 velocityVector;
-    private Vector3 previousPosition;
-    private float velocity;
+    private Vector3 _velocityVector;
+    private Vector3 _previousPosition;
+    private float _velocity;
     
     public float Velocity
     {
-        get { return velocity; }
+        get { return _velocity; }
     }
     
     public GameObject Swipe
@@ -39,7 +39,7 @@ public class SwipeController : MonoBehaviour
             return;
         }
         
-        previousPosition = swipe.transform.position;
+        _previousPosition = swipe.transform.position;
         
         switch (mobile)
         {
@@ -65,7 +65,7 @@ public class SwipeController : MonoBehaviour
 
             if (!swipe.activeSelf)
             {
-                previousPosition = swipe.transform.position;
+                _previousPosition = swipe.transform.position;
                 swipe.SetActive(true);
             }
         }
@@ -85,7 +85,7 @@ public class SwipeController : MonoBehaviour
             
             if (!swipe.activeSelf)
             {
-                previousPosition = swipe.transform.position;
+                _previousPosition = swipe.transform.position;
                 swipe.SetActive(true);
             }
         }
@@ -97,8 +97,8 @@ public class SwipeController : MonoBehaviour
 
     private void CalculateSwipeVelocity()
     {
-        var currentVelocity = (swipe.transform.position - previousPosition) / Time.deltaTime;
-        velocityVector = Vector3.Lerp(velocityVector, currentVelocity, 0.1f);
-        velocity = velocityVector.magnitude;
+        var currentVelocity = (swipe.transform.position - _previousPosition) / Time.deltaTime;
+        _velocityVector = Vector3.Lerp(_velocityVector, currentVelocity, 0.1f);
+        _velocity = _velocityVector.magnitude;
     }
 }
