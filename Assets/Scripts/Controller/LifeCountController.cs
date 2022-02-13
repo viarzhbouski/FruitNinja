@@ -1,14 +1,17 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class LifeCountController : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI lifeUI;
+    private LifeController lifeImagePrefab;
+    [SerializeField]
+    private RectTransform lifeGrid;
     [SerializeField]
     private GameConfigController gameConfigController;
 
+    private Stack<LifeController> lifes = new Stack<LifeController>();
     private UnityEvent gameOverEvent = new UnityEvent();
     private int currentLifeCount;
     private bool gameOver;
@@ -27,13 +30,25 @@ public class LifeCountController : MonoBehaviour
     void Start()
     {
         currentLifeCount = gameConfigController.GameConfig.LifeCount;
-        lifeUI.text = currentLifeCount.ToString();
+        Init();
     }
-    
+
+    private void Init()
+    {
+        for (int i = 0; i < currentLifeCount; i++)
+        {
+            var life = Instantiate(lifeImagePrefab, lifeGrid);
+            life.PlayInitAnimation();
+            lifes.Push(life);
+        } 
+    }
+
     public void DecreaseLife()
     {
-        currentLifeCount = int.Parse(lifeUI.text) - 1;
-        lifeUI.text = currentLifeCount.ToString();
+        var life = lifes.Pop();
+        life.PlayDestroyAnimation();
+        
+        currentLifeCount--;
         gameOver = currentLifeCount == 0;
         
         if (gameOver)
@@ -46,5 +61,6 @@ public class LifeCountController : MonoBehaviour
     {
         gameOver = false;
         currentLifeCount = gameConfigController.GameConfig.LifeCount;
+        Init();
     }
 }

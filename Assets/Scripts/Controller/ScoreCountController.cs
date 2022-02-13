@@ -5,6 +5,10 @@ using UnityEngine.Events;
 public class ScoreCountController : MonoBehaviour
 {
     [SerializeField]
+    private Canvas canvas;
+    [SerializeField]
+    private TextMeshProUGUI scoreTextPrefab;
+    [SerializeField]
     private LifeCountController lifeCountController;
     [SerializeField]
     private GameConfigController gameConfigController;
@@ -14,6 +18,10 @@ public class ScoreCountController : MonoBehaviour
     private TextMeshProUGUI scoreUI;
     [SerializeField]
     private TextMeshProUGUI bestScoreUI;
+    [SerializeField]
+    private Animation scoreAnimation;
+    [SerializeField]
+    private Animation bestScoreAnimation;
     
     private UnityEvent difficultyDelayEvent = new UnityEvent();
     private UnityEvent difficultyFruitPackEvent = new UnityEvent();
@@ -44,7 +52,7 @@ public class ScoreCountController : MonoBehaviour
         lifeCountController.GameOverEvent.AddListener(SaveBestScore);
     }
 
-    public void AddScore()
+    public void AddScore(int score, Vector3 position)
     {
         cuttedFruitCount++;
         cuttedFruitForPacksCount++;
@@ -61,14 +69,21 @@ public class ScoreCountController : MonoBehaviour
             cuttedFruitForPacksCount = 0;
         }
         
-        var currentScore = int.Parse(scoreUI.text) + 1;
+        var currentScore = int.Parse(scoreUI.text) + score;
+        var bestScore = int.Parse(bestScoreUI.text);
         
-        if (bestScoreUI.text == scoreUI.text)
+        if (currentScore >= bestScore)
         {
+            bestScoreAnimation.Play();
             bestScoreUI.text = currentScore.ToString();
         }
-        
+
+        scoreAnimation.Play();
         scoreUI.text = currentScore.ToString();
+        
+        var rot = Quaternion.Euler(0, 0, Random.Range(gameConfigController.GameConfig.ScoreTextRotationMin, gameConfigController.GameConfig.ScoreTextRotationMax));
+        var spawnedScoreText = Instantiate(scoreTextPrefab, position, rot, canvas.transform);
+        spawnedScoreText.text = $"+{score}";
     }
     
     public void ResetScore()
@@ -77,5 +92,14 @@ public class ScoreCountController : MonoBehaviour
         scoreUI.text = currentScore.ToString();
     }
 
-    private void SaveBestScore() => saveScoreController.SaveBestScore(scoreUI);
+    private void SaveBestScore()
+    {
+        var bestScore = int.Parse(bestScoreUI.text);
+        var currentScore = int.Parse(scoreUI.text);
+        
+        if (bestScore <= currentScore)
+        {
+            saveScoreController.SaveBestScore(scoreUI);
+        }
+    }
 }
