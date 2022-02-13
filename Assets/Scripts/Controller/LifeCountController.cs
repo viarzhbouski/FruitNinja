@@ -11,47 +11,47 @@ public class LifeCountController : MonoBehaviour
     [SerializeField]
     private GameConfigController gameConfigController;
 
-    private Stack<LifeController> lifes = new Stack<LifeController>();
-    private UnityEvent gameOverEvent = new UnityEvent();
-    private int currentLifeCount;
-    private bool gameOver;
+    private Stack<LifeController> _lifes = new Stack<LifeController>();
+    private UnityEvent _gameOverEvent = new UnityEvent();
+    private int _currentLifeCount;
+    private bool _gameOver;
 
     public bool GameOver
     {
-        get { return gameOver; }
+        get { return _gameOver; }
     }
     
     public UnityEvent GameOverEvent
     {
-        get { return gameOverEvent; }
-        set { gameOverEvent = value; }
+        get { return _gameOverEvent; }
+        set { _gameOverEvent = value; }
     }
     
     void Start()
     {
-        currentLifeCount = gameConfigController.GameConfig.LifeCount;
+        _currentLifeCount = gameConfigController.GameConfig.LifeCount;
         Init();
     }
 
     private void Init()
     {
-        for (int i = 0; i < currentLifeCount; i++)
+        for (int i = 0; i < _currentLifeCount; i++)
         {
             var life = Instantiate(lifeImagePrefab, lifeGrid);
             life.PlayInitAnimation();
-            lifes.Push(life);
+            _lifes.Push(life);
         } 
     }
 
     public void DecreaseLife()
     {
-        var life = lifes.Pop();
+        var life = _lifes.Pop();
         life.PlayDestroyAnimation();
         
-        currentLifeCount--;
-        gameOver = currentLifeCount == 0;
+        _currentLifeCount--;
+        _gameOver = _currentLifeCount == 0;
         
-        if (gameOver)
+        if (_gameOver)
         {
             GameOverEvent.Invoke();
         }
@@ -59,8 +59,8 @@ public class LifeCountController : MonoBehaviour
 
     public void ResetLifeCount()
     {
-        gameOver = false;
-        currentLifeCount = gameConfigController.GameConfig.LifeCount;
+        _gameOver = false;
+        _currentLifeCount = gameConfigController.GameConfig.LifeCount;
         Init();
     }
 }

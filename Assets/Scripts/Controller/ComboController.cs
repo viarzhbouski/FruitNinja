@@ -17,7 +17,7 @@ public class ComboController : MonoBehaviour
     [SerializeField]
     private AnimationClip destroyComboClip;
     
-    private UnityEvent fruitCutEvent = new UnityEvent();
+    private UnityEvent _fruitCutEvent = new UnityEvent();
     private int _comboMultiplier;
     private int _combo;
     private float _currentTime;
@@ -25,7 +25,7 @@ public class ComboController : MonoBehaviour
     
     public UnityEvent FruitCutEvent
     {
-        get { return fruitCutEvent; }
+        get { return _fruitCutEvent; }
     }
     
     public int ComboMultiplier
@@ -39,7 +39,7 @@ public class ComboController : MonoBehaviour
         _combo = 1;
         _currentTime = 0;
         _currentMultiplierTime = 0;
-        fruitCutEvent.AddListener(FruitOnCut);
+        _fruitCutEvent.AddListener(FruitOnCut);
     }
 
     void Update()
@@ -52,7 +52,6 @@ public class ComboController : MonoBehaviour
         {
             _comboMultiplier = 1;
             comboAnimation.Play(destroyComboClip.name);
-            //comboUI.text = string.Empty;
         }
         
         if (_currentTime > 0) 

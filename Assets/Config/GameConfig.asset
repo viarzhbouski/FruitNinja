@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f334d01e573dda448229163376e6e4f, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  delayBeforeStart: 3
+  lifeCount: 5
+  gravityVector: {x: 0, y: -7, z: 0}
   xMinBorder: 0
   xMaxBorder: 1
   yMinBorder: 0
   yMaxBorder: 1
-  spawnFruitPackDelay: 4
-  spawnFruitDelay: 0.4
-  delayBeforeStart: 3
-  lifeCount: 1
-  gravityVector: {x: 0, y: -7, z: 0}
   fruits:
   - {fileID: 11400000, guid: dfd308db31df97c4b96ad3ae192fefe5, type: 2}
   - {fileID: 11400000, guid: 85205ee8e2dbb004d821a2bf9182025e, type: 2}
@@ -31,6 +29,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c95efb24aa26da478a0e00cf42b6e25, type: 2}
   - {fileID: 11400000, guid: 40c8168053dc94040b83e938da170dca, type: 2}
   - {fileID: 11400000, guid: 9f828276c492cec4bbca876abcc68bac, type: 2}
+  fruitFragmentConfig: {fileID: 11400000, guid: 3048fc9d3c4ce8e4683364cd44639736, type: 2}
+  bomb: {fileID: 11400000, guid: 735c90a3be801e64d85365fe261181a2, type: 2}
   spawnZones:
   - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}
   - {fileID: 11400000, guid: 37e0f2fa75c9324448a249c0c5373eb1, type: 2}
@@ -45,8 +45,11 @@ MonoBehaviour:
   cuttedFruitsForDecreaseFruitDelay: 5
   subtractForFruitDelay: 0.005
   subtractForFruitPackDelay: 0.05
+  spawnFruitPackDelay: 4
+  spawnFruitDelay: 0.4
   cutEffect: {fileID: 5477999823580732270, guid: e2159c6ba89cd9342a722030394b06ef, type: 3}
   sprayEffect: {fileID: 5477999823580732270, guid: 57376a91f43cc0e4fb39fdfd87cc5615, type: 3}
+  explodeEffect: {fileID: 6268700189231865453, guid: 94b76e00ca8f12347bc971cd5c1eea24, type: 3}
   scoreTextRotationMin: -20
   scoreTextRotationMax: 20
   comboMax: 2

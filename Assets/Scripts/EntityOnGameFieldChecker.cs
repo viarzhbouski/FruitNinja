@@ -16,8 +16,9 @@ public class EntityOnGameFieldChecker : MonoBehaviour
     {
         var viewportPosition = camera.WorldToViewportPoint(new Vector2(x, y));
         
-        if (viewportPosition.x >= gameConfigManager.GameConfig.XMinBorder && viewportPosition.x <= gameConfigManager.GameConfig.XMaxBorder && 
-            viewportPosition.y >= gameConfigManager.GameConfig.YMinBorder && viewportPosition.y <= gameConfigManager.GameConfig.YMaxBorder)
+        if (viewportPosition.x >= gameConfigManager.GameConfig.XMinBorder && 
+            viewportPosition.x <= gameConfigManager.GameConfig.XMaxBorder && 
+            viewportPosition.y >= gameConfigManager.GameConfig.YMinBorder)
         {
             return true;
         }
