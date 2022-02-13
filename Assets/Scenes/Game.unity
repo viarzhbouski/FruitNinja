@@ -1984,10 +1984,6 @@ MonoBehaviour:
   gameOverPopupMainMenuButton: {fileID: 1887824214}
   openPopupDelayTime: 0.3
   loadSceneDelayTime: 1.5
-  restartButtonAnimation: {fileID: 1897788705}
-  mainMenuButtonAnimation: {fileID: 1887824217}
-  showRestartButtonDelayTime: 0.5
-  showMainMenuButtonDelayTime: 1
 --- !u!114 &1564027747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2433,7 +2429,7 @@ RectTransform:
   m_GameObject: {fileID: 1887824212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1648190646}
   m_Father: {fileID: 2029898402}
@@ -2463,7 +2459,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2526,22 +2522,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887824212}
   m_CullTransparentMesh: 1
---- !u!111 &1887824217
-Animation:
+--- !u!95 &1887824217
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887824212}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 890539ba2ed4aa54e93eb56d6b208fc4, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 890539ba2ed4aa54e93eb56d6b208fc4, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 585c054b8216113469eec67b0e3b4acc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1897788700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2554,7 +2553,7 @@ GameObject:
   - component: {fileID: 1897788704}
   - component: {fileID: 1897788703}
   - component: {fileID: 1897788702}
-  - component: {fileID: 1897788705}
+  - component: {fileID: 1897788706}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -2571,7 +2570,7 @@ RectTransform:
   m_GameObject: {fileID: 1897788700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1823039318}
   m_Father: {fileID: 2029898402}
@@ -2601,7 +2600,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2664,22 +2663,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897788700}
   m_CullTransparentMesh: 1
---- !u!111 &1897788705
-Animation:
+--- !u!95 &1897788706
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897788700}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: c3ebf56af23ead2449efcd3668636858, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: c3ebf56af23ead2449efcd3668636858, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0242e5a30b70ed44ba86cdc08dee0776, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2029898401
 GameObject:
   m_ObjectHideFlags: 0
@@ -2707,7 +2709,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029898401}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -400}
+  m_LocalPosition: {x: 0, y: 0, z: -600}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 625621657}
