@@ -60,9 +60,8 @@ public class FruitSpawnController : MonoBehaviour
         
         var spawnZone = GetSpawnZone();
         var position = GetPosition(spawnZone);
-        
         StartCoroutine(SpawnFruit(spawnZone, position));
-
+        
         _currentSpawnFruitPackDelay = difficultyLogicController.FruitPackDelay;
     }
     
@@ -71,6 +70,13 @@ public class FruitSpawnController : MonoBehaviour
         for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
         {
             yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
+            
+            var bomb = GetBomb();
+            if (bomb != null)
+            {
+                SpawnBomb(spawnZone, position, bomb);
+                continue;
+            }
             
             var fruit = GetFruit();
             var directionVector = GetFruitMovementVector(spawnZone) * fruit.FruitSpeed * spawnZone.SpeedMultiplier;
@@ -82,6 +88,18 @@ public class FruitSpawnController : MonoBehaviour
             spawnedFruitTransform.localPosition = spawnedFruitPosition;
             spawnedFruit.SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, comboController, entityOnGameFieldChecker);
         }
+    }
+
+    private void SpawnBomb(SpawnZoneConfig spawnZone, Vector3 position, BombConfig bomb)
+    {
+        var directionVector = GetFruitMovementVector(spawnZone) * bomb.BombSpeed * spawnZone.SpeedMultiplier;
+        var spawnedBomb = Instantiate(bomb.BombController, position, Quaternion.identity, gameField);
+        var spawnedBombTransform = spawnedBomb.transform;
+        var spawnedBombPosition = spawnedBombTransform.localPosition;
+            
+        spawnedBombPosition = new Vector3(spawnedBombPosition.x, spawnedBombPosition.y, Vector3.zero.z);
+        spawnedBombTransform.localPosition = spawnedBombPosition;
+        spawnedBomb.SetBombConfig(directionVector, bomb, swipeController, lifeCountController, entityOnGameFieldChecker);
     }
     
     private SpawnZoneConfig GetSpawnZone()
@@ -109,6 +127,20 @@ public class FruitSpawnController : MonoBehaviour
         
         return spawnZone;
     }
+    
+    private BombConfig GetBomb()
+    {
+        var chance = _gameConfig.Bomb.Chance;
+        var randomNum = Random.Range(0f, 1f);
+        
+        if (randomNum <= chance)
+        {
+            return _gameConfig.Bomb;
+        }
+        
+        return null;
+    }
+    
 
     private Vector3 GetPosition(SpawnZoneConfig spawnZone)
     {

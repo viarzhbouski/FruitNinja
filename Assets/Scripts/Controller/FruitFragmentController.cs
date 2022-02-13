@@ -7,16 +7,11 @@ public class FruitFragmentController : MonoBehaviour
     [SerializeField] 
     private EntityPhysics entityPhysics;
     [SerializeField]
-    private GameObject shadowPrefab;
+    private SpriteRenderer shadowSpriteRenderer;
     
-    private GameObject shadow;
+    private SpriteRenderer _shadow;
     private EntityOnGameFieldChecker entityOnGameFieldChecker;
     private float fragmentRotateSpeed;
-
-    private void Start()
-    {
-        shadow = Instantiate(shadowPrefab, transform.position, Quaternion.identity, transform.parent);
-    }
     
     private void Update()
     {
@@ -24,7 +19,7 @@ public class FruitFragmentController : MonoBehaviour
         
         if (!entityOnGameFieldChecker.EntityOnGameField(transform.position.x, transform.position.y))
         {
-            Destroy(shadow);
+            Destroy(_shadow.gameObject);
             Destroy(gameObject);
         }
         
@@ -37,7 +32,8 @@ public class FruitFragmentController : MonoBehaviour
         fruitPosition.y = fruitPosition.y - 1.5f;
         fruitPosition.z = fruitPosition.z + 1;
         
-        shadow.transform.position = fruitPosition;
+        _shadow.transform.position = fruitPosition;
+        _shadow.transform.rotation = transform.rotation;
     }
     
     public void SetFruitFragmentConfig(Vector3 directionVector, EntityOnGameFieldChecker entityOnGameFieldChecker, Sprite sprite, float fragmentRotateSpeed)
@@ -46,6 +42,8 @@ public class FruitFragmentController : MonoBehaviour
         this.entityOnGameFieldChecker = entityOnGameFieldChecker;
         this.fragmentRotateSpeed = Random.Range(0, fragmentRotateSpeed);
         
+        _shadow = Instantiate(shadowSpriteRenderer, transform.position, Quaternion.identity, transform.parent);
+        _shadow.sprite = sprite;
         entityPhysics.GravityVector = entityOnGameFieldChecker.GameConfigManager.GameConfig.GravityVector;
         entityPhysics.DirectionVector = directionVector;
     }

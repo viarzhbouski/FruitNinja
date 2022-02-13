@@ -112,7 +112,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2727754377665431001}
   entityPhysics: {fileID: 8008613330224868381}
   fragment: {fileID: 4103311339941916086, guid: ebeaf8075c78a4a4c8e0791d11d54617, type: 3}
-  shadowPrefab: {fileID: 1937067098835797528, guid: 8d147c04c29a8a34e9378e0621df7818, type: 3}
+  shadowSpriteRenderer: {fileID: 708591555655570428, guid: 8d147c04c29a8a34e9378e0621df7818, type: 3}
 --- !u!111 &-1226453584115941362
 Animation:
   m_ObjectHideFlags: 0

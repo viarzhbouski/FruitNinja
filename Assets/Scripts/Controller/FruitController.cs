@@ -10,9 +10,9 @@ public class FruitController : MonoBehaviour
     [SerializeField]
     private FruitFragmentController fragment;
     [SerializeField]
-    private GameObject shadowPrefab;
+    private SpriteRenderer shadowSpriteRenderer;
     
-    private GameObject shadow;
+    private SpriteRenderer _shadow;
     private GameConfig _gameConfig;
     private FruitConfig _fruitConfig;
     private SwipeController _swipeController;
@@ -23,11 +23,6 @@ public class FruitController : MonoBehaviour
     private bool _fruitCanCut;
     private float _rotateSpeed;
 
-    private void Start()
-    {
-        shadow = Instantiate(shadowPrefab, transform.position, Quaternion.identity, transform.parent);
-    }
-    
     private void Update()
     {
         UpdateShadowPosition();
@@ -39,19 +34,19 @@ public class FruitController : MonoBehaviour
         
         if (_fruitCanCut)
         {
-            SpawnSprayffect();
+            SpawnSprayEffect();
             SpawnCutEffect();
             SpawnFruitFragments();
             _scoreCountController.AddScore(_fruitConfig.Score * _comboController.ComboMultiplier, transform.position);
             _comboController.FruitCutEvent.Invoke();
-            Destroy(shadow);
+            Destroy(_shadow.gameObject);
             Destroy(gameObject);
         }
         
         if (!_entityOnGameFieldChecker.EntityOnGameField(transform.position.x, transform.position.y))
         {
             _lifeCountController.DecreaseLife();
-            Destroy(shadow);
+            Destroy(_shadow.gameObject);
             Destroy(gameObject);
         }
 
@@ -76,6 +71,8 @@ public class FruitController : MonoBehaviour
         _gameConfig = entityOnGameFieldChecker.GameConfigManager.GameConfig;
         _rotateSpeed = Random.Range(0, _fruitConfig.FruitRotateSpeed);
         spriteRenderer.sprite = _fruitConfig.FruitSprite;
+        _shadow = Instantiate(shadowSpriteRenderer, transform.position, Quaternion.identity, transform.parent);
+        _shadow.sprite = _fruitConfig.FruitSprite;
         entityPhysics.GravityVector = _gameConfig.GravityVector;
         entityPhysics.DirectionVector = directionVector;
     }
@@ -86,7 +83,8 @@ public class FruitController : MonoBehaviour
         fruitPosition.y = fruitPosition.y - 1.5f;
         fruitPosition.z = fruitPosition.z + 1;
         
-        shadow.transform.position = fruitPosition;
+        _shadow.transform.position = fruitPosition;
+        _shadow.transform.rotation = transform.rotation;
     }
 
     private void FruitSwipeCheckCollision()
@@ -139,7 +137,7 @@ public class FruitController : MonoBehaviour
         Instantiate(cutEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
     }
     
-    private void SpawnSprayffect()
+    private void SpawnSprayEffect()
     {
         var sprayEffect = _gameConfig.SprayEffect;
         var colorOverLifetime = sprayEffect.colorOverLifetime;

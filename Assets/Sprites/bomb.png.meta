@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: a95a7f4c6b929184faa64d85e3b8b41a
+guid: b4930552ea1a78c4c82d9768d3a5ec72
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2613247888821195678
+      213: -8497796373158085798
     second: bomb_0
   externalObjects: {}
   serializedVersion: 11
@@ -50,7 +50,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 175, y: 161, z: 172, w: 171}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -109,19 +109,19 @@ TextureImporter:
       name: bomb_0
       rect:
         serializedVersion: 2
-        x: 175
-        y: 160
-        width: 248
-        height: 262
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 45
+        y: 40
+        width: 195
+        height: 203
+      alignment: 9
+      pivot: {x: 0.4192938, y: 0.40811777}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 26ce5c404e0ebbbd0800000000000000
-      internalID: -2613247888821195678
+      spriteID: a5b3f4cc833c11a80800000000000000
+      internalID: -8497796373158085798
       vertices: []
       indices: 
       edges: []

@@ -25,6 +25,9 @@ public class GameConfig : ScriptableObject
     [Header("\tFRUIT CONFIGS")]
     [SerializeField]
     private List<FruitConfig> fruits;
+    [SerializeField]
+    private BombConfig bomb;
+    
     
     [Header("\tSPAWNZONE CONFIGS")]
     [SerializeField]
@@ -147,6 +150,11 @@ public class GameConfig : ScriptableObject
     public List<FruitConfig> Fruits
     {
         get { return fruits; }
+    }
+    
+    public BombConfig Bomb
+    {
+        get { return bomb; }
     }
     
     public List<SpawnZoneConfig> SpawnZones
