@@ -32,14 +32,6 @@ public class GameOverPopupController : MonoBehaviour
     private float openPopupDelayTime;
     [SerializeField]
     private float loadSceneDelayTime;
-    [SerializeField]
-    private Animation restartButtonAnimation;
-    [SerializeField]
-    private Animation mainMenuButtonAnimation;
-    [SerializeField]
-    private float showRestartButtonDelayTime;
-    [SerializeField]
-    private float showMainMenuButtonDelayTime;
     
     void Start()
     {
@@ -53,8 +45,6 @@ public class GameOverPopupController : MonoBehaviour
         gameOverPopup.SetActive(true);
         gameOverPopupAnimation.Play(openClip.name);
         yourScoreUI.text = scoreCountController.ScoreUI.text;
-        StartCoroutine(ShowRestartButton());
-        StartCoroutine(ShowMainMenuButton());
     }
 
     private void RestartGameOnClick()
@@ -87,17 +77,5 @@ public class GameOverPopupController : MonoBehaviour
         SceneManager.LoadScene(1);
         lifeCountController.ResetLifeCount();
         scoreCountController.ResetScore();
-    }
-    
-    IEnumerator ShowRestartButton()
-    {
-        yield return new WaitForSeconds(showRestartButtonDelayTime);
-        restartButtonAnimation.Play();
-    }
-    
-    IEnumerator ShowMainMenuButton()
-    {
-        yield return new WaitForSeconds(showMainMenuButtonDelayTime);
-        mainMenuButtonAnimation.Play();
     }
 }
