@@ -31,13 +31,19 @@ public class FruitController : EntityController
                                SwipeController swipeController, 
                                ScoreCountController scoreCountController, 
                                LifeCountController lifeCountController, 
-                               ComboController comboController, 
+                               ComboController comboController,
+                               EntityRepositoryController entityRepositoryController,
                                EntityOnGameFieldChecker entityOnGameFieldChecker)
     {
-        SetEntityConfig(directionVector, fruitConfig, swipeController, lifeCountController, entityOnGameFieldChecker);
+        SetEntityConfig(directionVector, fruitConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
         _scoreCountController = scoreCountController;
         _comboController = comboController;
         _entityOutOfBorder += _lifeCountController.DecreaseLife;
+    }
+
+    public void PushFruit(Vector3 vector)
+    {
+        entityPhysics.DirectionVector = vector;
     }
 
     private void SpawnFruitFragments()
@@ -63,7 +69,7 @@ public class FruitController : EntityController
             
             spawnedFragmentPosition = new Vector3(spawnedFragmentPosition.x, spawnedFragmentPosition.y, spawnedFragmentPosition.z - 2);
             spawnedFragmentTransform.position = spawnedFragmentPosition;
-            spawnedFragment.SetFruitFragmentConfig(vector, fragmentConfig, _swipeController, _lifeCountController,  _entityOnGameFieldChecker, fragmentSprite);
+            spawnedFragment.SetFruitFragmentConfig(vector, fragmentConfig, _swipeController, _lifeCountController, _entityRepositoryController,  _entityOnGameFieldChecker, fragmentSprite);
             startY += offsetY;
             pivot.y -= 0.5f;
         }

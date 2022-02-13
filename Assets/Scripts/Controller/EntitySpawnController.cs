@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 public class EntitySpawnController : MonoBehaviour
 {
     [SerializeField]
+    private EntityRepositoryController entityRepositoryController;
+    [SerializeField]
     private GameConfigController gameConfigController;
     [SerializeField]
     private SwipeController swipeController;
@@ -86,7 +88,7 @@ public class EntitySpawnController : MonoBehaviour
             
             spawnedFruitPosition = new Vector3(spawnedFruitPosition.x, spawnedFruitPosition.y, Vector3.zero.z);
             spawnedFruitTransform.localPosition = spawnedFruitPosition;
-            spawnedFruit.SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, comboController, entityOnGameFieldChecker);
+            spawnedFruit.SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, comboController, entityRepositoryController, entityOnGameFieldChecker);
         }
     }
 
@@ -99,7 +101,7 @@ public class EntitySpawnController : MonoBehaviour
             
         spawnedBombPosition = new Vector3(spawnedBombPosition.x, spawnedBombPosition.y, Vector3.zero.z);
         spawnedBombTransform.localPosition = spawnedBombPosition;
-        spawnedBomb.SetBombConfig(directionVector, bomb, swipeController, lifeCountController, entityOnGameFieldChecker);
+        spawnedBomb.SetBombConfig(directionVector, bomb, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
     }
     
     private SpawnZoneConfig GetSpawnZone()
@@ -141,7 +143,6 @@ public class EntitySpawnController : MonoBehaviour
         return null;
     }
     
-
     private Vector3 GetPosition(SpawnZoneConfig spawnZone)
     {
         var position = Random.Range(spawnZone.From, spawnZone.To);

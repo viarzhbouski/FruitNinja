@@ -8,7 +8,8 @@ public class EntityController : MonoBehaviour
     private protected SpriteRenderer spriteRenderer;
     [SerializeField] 
     private protected EntityPhysics entityPhysics;
-
+    
+    private protected EntityRepositoryController _entityRepositoryController;
     private protected SwipeController _swipeController;
     private protected LifeCountController _lifeCountController;
     private protected GameConfig _gameConfig;
@@ -25,17 +26,20 @@ public class EntityController : MonoBehaviour
                                 EntityConfig entityConfig,
                                 SwipeController swipeController,
                                 LifeCountController lifeCountController,
+                                EntityRepositoryController entityRepositoryController,
                                 EntityOnGameFieldChecker entityOnGameFieldChecker,
                                 Sprite sprite = null)
     {
         _entityConfig = entityConfig;
         _swipeController = swipeController;
         _lifeCountController = lifeCountController;
+        _entityRepositoryController = entityRepositoryController;
         _entityOnGameFieldChecker = entityOnGameFieldChecker;
         _gameConfig = entityOnGameFieldChecker.GameConfigManager.GameConfig;
         _rotateSpeed = Random.Range(0, _entityConfig.RotateSpeed);
         _shadowSpriteRenderer = Instantiate(shadowSpriteRenderer, transform.position, Quaternion.identity, transform.parent);
         
+        _entityRepositoryController.Entities.Add(this);
         _shadowSpriteRenderer.sprite = sprite == null ? _entityConfig.EntitySprite : sprite;
         spriteRenderer.sprite = sprite == null ? _entityConfig.EntitySprite : sprite;
         
@@ -45,6 +49,7 @@ public class EntityController : MonoBehaviour
 
     private protected void EntityDestroy()
     {
+        _entityRepositoryController.Entities.Remove(this);
         Destroy(_shadowSpriteRenderer.gameObject);
         Destroy(gameObject);
     }

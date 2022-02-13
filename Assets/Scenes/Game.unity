@@ -1697,7 +1697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1465405918
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1822,6 +1822,7 @@ GameObject:
   - component: {fileID: 1564027746}
   - component: {fileID: 1564027748}
   - component: {fileID: 1564027747}
+  - component: {fileID: 1564027749}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1841,6 +1842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb662fd568f22c4fafeac43db410500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityRepositoryController: {fileID: 1564027749}
   gameConfigController: {fileID: 1564027743}
   swipeController: {fileID: 1564027742}
   scoreCountController: {fileID: 1564027744}
@@ -2016,6 +2018,18 @@ MonoBehaviour:
   showComboClip: {fileID: 7400000, guid: f8bb6ee30f624b04cb42ac9926923d2b, type: 2}
   increaseComboClip: {fileID: 7400000, guid: 994e250f4bb7efe47a9dd1415d3cb657, type: 2}
   destroyComboClip: {fileID: 7400000, guid: 4326d001818f93a44908daaf9c2b59eb, type: 2}
+--- !u!114 &1564027749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564027737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79f2be922fc5fbd44b36e00e3499e03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1638390926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2050,7 +2064,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24.999878, y: -50}
+  m_AnchoredPosition: {x: -24.999756, y: -50}
   m_SizeDelta: {x: -50.000095, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1638390928

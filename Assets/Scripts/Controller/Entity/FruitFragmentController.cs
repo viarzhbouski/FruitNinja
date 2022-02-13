@@ -11,9 +11,10 @@ public class FruitFragmentController : EntityController
         FruitFragmentConfig fruitConfig, 
         SwipeController swipeController, 
         LifeCountController lifeCountController,
+        EntityRepositoryController entityRepositoryController,
         EntityOnGameFieldChecker entityOnGameFieldChecker,
         Sprite sprite)
     {
-        SetEntityConfig(directionVector, fruitConfig, swipeController, lifeCountController, entityOnGameFieldChecker, sprite);
+        SetEntityConfig(directionVector, fruitConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker, sprite);
     }
 }
