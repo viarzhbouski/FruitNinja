@@ -36,8 +36,15 @@ public class DifficultyLogicController : MonoBehaviour
 
     public void DecreaseDelay()
     {
-        _fruitDelay -= gameConfigController.GameConfig.SubtractForFruitDelay;
-        _fruitPackDelay -= gameConfigController.GameConfig.SubtractForFruitPackDelay;
+        if (_fruitDelay > 0.05)
+        {
+            _fruitDelay -= gameConfigController.GameConfig.SubtractForFruitDelay;
+        }
+
+        if (_fruitPackDelay > 0.5)
+        {
+            _fruitPackDelay -= gameConfigController.GameConfig.SubtractForFruitPackDelay;
+        }
     }
     
     public void EncreaseFruitInPack()

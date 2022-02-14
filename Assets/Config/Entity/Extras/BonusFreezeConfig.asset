@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541b0419f42b72b40ac0e138f485a116, type: 3}
+  m_Name: BonusFreezeConfig
+  m_EditorClassIdentifier: 
+  entityController: {fileID: -5071780299091452274, guid: 7dbca0f930feb724caba0f9fd3e2aa71, type: 3}
+  entitySprite: {fileID: -8850356728054043240, guid: e80e6913d30a01e4a84ca223ffaf9c13, type: 3}
+  speed: 14
+  rotateSpeed: 0.2
+  chance: 0.3
+  freezeForce: 0.05
+  freezeTime: 5

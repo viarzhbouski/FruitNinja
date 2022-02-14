@@ -24,6 +24,8 @@ public class EntitySpawnController : MonoBehaviour
     [SerializeField] 
     private ComboController comboController;
     [SerializeField] 
+    private GameTimeController gameTimeController;
+    [SerializeField] 
     private Transform gameField;
 
     private List<EntityConfig> _entityConfigs;
@@ -40,6 +42,7 @@ public class EntitySpawnController : MonoBehaviour
         _entityConfigs = new List<EntityConfig>(_gameConfig.Fruits);
         _entityConfigs.Add(_gameConfig.Bomb);
         _entityConfigs.Add(_gameConfig.BonusLife);
+        _entityConfigs.Add(_gameConfig.BonusFreeze);
     }
     
     void Update()
@@ -68,12 +71,12 @@ public class EntitySpawnController : MonoBehaviour
         
         var spawnZone = GetSpawnZone();
         var position = GetPosition(spawnZone);
-        StartCoroutine(SpawnFruit(spawnZone, position));
+        StartCoroutine(SpawnEntityPack(spawnZone, position));
         
         _currentSpawnFruitPackDelay = difficultyLogicController.FruitPackDelay;
     }
     
-    IEnumerator SpawnFruit(SpawnZoneConfig spawnZone, Vector3 position)
+    IEnumerator SpawnEntityPack(SpawnZoneConfig spawnZone, Vector3 position)
     {
         for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
         {
@@ -108,6 +111,10 @@ public class EntitySpawnController : MonoBehaviour
         else if (entityConfig is FruitFragmentConfig)
         {
             ((FruitFragmentController)spawnedEntity).SetFruitFragmentConfig(directionVector, (FruitFragmentConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController,  entityOnGameFieldChecker, sprite!);
+        }
+        else if (entityConfig is BonusFreezeConfig)
+        {
+            ((BonusFreezeController)spawnedEntity).SetBonusFreezeConfig(directionVector, (BonusFreezeConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController, gameTimeController, entityOnGameFieldChecker);
         }
     }
 

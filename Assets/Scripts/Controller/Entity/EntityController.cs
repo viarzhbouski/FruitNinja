@@ -21,6 +21,11 @@ public class EntityController : MonoBehaviour
     private protected event EntityOutOfBorder _entityOutOfBorder; 
     
     private float _rotateSpeed;
+
+    public EntityPhysics EntityPhysics
+    {
+        get { return entityPhysics; }
+    }
     
     private protected void SetEntityConfig(Vector3 directionVector,
                                 EntityConfig entityConfig,
