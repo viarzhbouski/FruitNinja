@@ -16,5 +16,5 @@ MonoBehaviour:
   entitySprite: {fileID: -8497796373158085798, guid: b4930552ea1a78c4c82d9768d3a5ec72, type: 3}
   speed: 14
   rotateSpeed: 0.3
-  chance: 0
+  chance: 0.7
   explodeForce: 5
