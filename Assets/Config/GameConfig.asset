@@ -31,6 +31,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9f828276c492cec4bbca876abcc68bac, type: 2}
   fruitFragmentConfig: {fileID: 11400000, guid: 3048fc9d3c4ce8e4683364cd44639736, type: 2}
   bomb: {fileID: 11400000, guid: 735c90a3be801e64d85365fe261181a2, type: 2}
+  bonusLifeConfig: {fileID: 11400000, guid: 1a1fee229874ef6478d6a5ca5ccbc6f8, type: 2}
   spawnZones:
   - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}
   - {fileID: 11400000, guid: 37e0f2fa75c9324448a249c0c5373eb1, type: 2}

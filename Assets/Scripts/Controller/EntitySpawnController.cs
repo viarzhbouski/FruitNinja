@@ -74,9 +74,17 @@ public class EntitySpawnController : MonoBehaviour
             yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
             
             var bomb = GetBomb();
+            var bonusLife = GetBonusLife();
+            
             if (bomb != null)
             {
                 SpawnBomb(spawnZone, position, bomb);
+                continue;
+            }
+            
+            if (bonusLife != null)
+            {
+                SpawnBonusLife(spawnZone, position, bonusLife);
                 continue;
             }
             
@@ -102,6 +110,18 @@ public class EntitySpawnController : MonoBehaviour
         spawnedBombPosition = new Vector3(spawnedBombPosition.x, spawnedBombPosition.y, Vector3.zero.z);
         spawnedBombTransform.localPosition = spawnedBombPosition;
         spawnedBomb.SetBombConfig(directionVector, bomb, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
+    }
+    
+    private void SpawnBonusLife(SpawnZoneConfig spawnZone, Vector3 position, BonusLifeConfig bonusLife)
+    {
+        var directionVector = GetFruitMovementVector(spawnZone) * bonusLife.Speed * spawnZone.SpeedMultiplier;
+        var spawnedBonusLife = (BonusLifeController)Instantiate(bonusLife.EntityController, position, Quaternion.identity, gameField);
+        var spawnedBonusLifeTransform = spawnedBonusLife.transform;
+        var spawnedBonusLifePosition = spawnedBonusLifeTransform.localPosition;
+            
+        spawnedBonusLifePosition = new Vector3(spawnedBonusLifePosition.x, spawnedBonusLifePosition.y, Vector3.zero.z);
+        spawnedBonusLifeTransform.localPosition = spawnedBonusLifePosition;
+        spawnedBonusLife.SetBonusLifeConfig(directionVector, bonusLife, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
     }
     
     private SpawnZoneConfig GetSpawnZone()
@@ -138,6 +158,19 @@ public class EntitySpawnController : MonoBehaviour
         if (randomNum <= chance)
         {
             return _gameConfig.Bomb;
+        }
+        
+        return null;
+    }
+    
+    private BonusLifeConfig GetBonusLife()
+    {
+        var chance = _gameConfig.BonusLife.Chance;
+        var randomNum = Random.Range(0f, 1f);
+        
+        if (randomNum <= chance)
+        {
+            return _gameConfig.BonusLife;
         }
         
         return null;
