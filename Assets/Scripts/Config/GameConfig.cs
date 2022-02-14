@@ -31,7 +31,9 @@ public class GameConfig : ScriptableObject
     private BombConfig bomb;
     [SerializeField]
     private BonusLifeConfig bonusLifeConfig;
-
+    [SerializeField]
+    private BonusFreezeConfig bonusFreezeConfig;
+    
     [Header("\tSPAWNZONE CONFIGS")]
     [SerializeField]
     private List<SpawnZoneConfig> spawnZones;
@@ -65,6 +67,8 @@ public class GameConfig : ScriptableObject
     private ParticleSystem cutEffect;
     [SerializeField]
     private ParticleSystem cutBonusLifeEffect;
+    [SerializeField]
+    private ParticleSystem cutBonusFreezeEffect;
     [SerializeField]
     private ParticleSystem sprayEffect;
     [SerializeField]
@@ -174,6 +178,11 @@ public class GameConfig : ScriptableObject
         get { return bonusLifeConfig; }
     }
     
+    public BonusFreezeConfig BonusFreeze
+    {
+        get { return bonusFreezeConfig; }
+    }
+    
     public List<SpawnZoneConfig> SpawnZones
     {
         get { return spawnZones; }
@@ -227,6 +236,11 @@ public class GameConfig : ScriptableObject
     public ParticleSystem CutBonusLifeEffect
     {
         get { return cutBonusLifeEffect; }
+    }
+    
+    public ParticleSystem CutBonusFreezeEffect
+    {
+        get { return cutBonusFreezeEffect; }
     }
     
     public ParticleSystem SprayEffect
