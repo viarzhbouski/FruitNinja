@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -24,7 +25,8 @@ public class EntitySpawnController : MonoBehaviour
     private ComboController comboController;
     [SerializeField] 
     private Transform gameField;
-    
+
+    private List<EntityConfig> _entityConfigs;
     private GameConfig _gameConfig;
     private float _currentSpawnFruitPackDelay;
     private bool _canStartGame;
@@ -34,6 +36,10 @@ public class EntitySpawnController : MonoBehaviour
         _gameConfig = gameConfigController.GameConfig;
         _currentSpawnFruitPackDelay = 0;
         StartCoroutine(DelayBeforeStart());
+        
+        _entityConfigs = new List<EntityConfig>(_gameConfig.Fruits);
+        _entityConfigs.Add(_gameConfig.Bomb);
+        _entityConfigs.Add(_gameConfig.BonusLife);
     }
     
     void Update()
@@ -72,56 +78,58 @@ public class EntitySpawnController : MonoBehaviour
         for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
         {
             yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
-            
-            var bomb = GetBomb();
-            var bonusLife = GetBonusLife();
-            
-            if (bomb != null)
-            {
-                SpawnBomb(spawnZone, position, bomb);
-                continue;
-            }
-            
-            if (bonusLife != null)
-            {
-                SpawnBonusLife(spawnZone, position, bonusLife);
-                continue;
-            }
-            
-            var fruit = GetFruit();
-            var directionVector = GetFruitMovementVector(spawnZone) * fruit.Speed * spawnZone.SpeedMultiplier;
-            var spawnedFruit = (FruitController)Instantiate(fruit.EntityController, position, Quaternion.identity, gameField);
-            var spawnedFruitTransform = spawnedFruit.transform;
-            var spawnedFruitPosition = spawnedFruitTransform.localPosition;
-            
-            spawnedFruitPosition = new Vector3(spawnedFruitPosition.x, spawnedFruitPosition.y, Vector3.zero.z);
-            spawnedFruitTransform.localPosition = spawnedFruitPosition;
-            spawnedFruit.SetFruitConfig(directionVector, fruit, swipeController, scoreCountController, lifeCountController, comboController, entityRepositoryController, entityOnGameFieldChecker);
+            var entityConfig = GetEntityConfig();
+            SpawnEntity(spawnZone, position, entityConfig);
         }
     }
 
-    private void SpawnBomb(SpawnZoneConfig spawnZone, Vector3 position, BombConfig bomb)
+    public void SpawnEntity(SpawnZoneConfig spawnZone, Vector3 position, EntityConfig entityConfig, Vector3? vector = null, Sprite sprite = null)
     {
-        var directionVector = GetFruitMovementVector(spawnZone) * bomb.Speed * spawnZone.SpeedMultiplier;
-        var spawnedBomb = (BombController)Instantiate(bomb.EntityController, position, Quaternion.identity, gameField);
-        var spawnedBombTransform = spawnedBomb.transform;
-        var spawnedBombPosition = spawnedBombTransform.localPosition;
+        var directionVector = vector ?? GetMovementVector(spawnZone) * entityConfig.Speed * spawnZone.SpeedMultiplier;
+        var spawnedEntity = Instantiate(entityConfig.EntityController, position, Quaternion.identity, gameField);
+        var spawnedEntityTransform = spawnedEntity.transform;
+        var spawnedEntityPosition = spawnedEntityTransform.localPosition;
             
-        spawnedBombPosition = new Vector3(spawnedBombPosition.x, spawnedBombPosition.y, Vector3.zero.z);
-        spawnedBombTransform.localPosition = spawnedBombPosition;
-        spawnedBomb.SetBombConfig(directionVector, bomb, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
+        spawnedEntityPosition = new Vector3(spawnedEntityPosition.x, spawnedEntityPosition.y, Vector3.zero.z);
+        spawnedEntityTransform.localPosition = spawnedEntityPosition;
+        
+        if (entityConfig is FruitConfig)
+        {
+            ((FruitController)spawnedEntity).SetFruitConfig(directionVector, (FruitConfig)entityConfig, swipeController, scoreCountController, lifeCountController, comboController, entityRepositoryController, this, entityOnGameFieldChecker);
+        }
+        else if (entityConfig is BombConfig)
+        {
+            ((BombController)spawnedEntity).SetBombConfig(directionVector, (BombConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
+        }
+        else if (entityConfig is BonusLifeConfig)
+        {
+            ((BonusLifeController)spawnedEntity).SetBonusLifeConfig(directionVector, (BonusLifeConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
+        }
+        else if (entityConfig is FruitFragmentConfig)
+        {
+            ((FruitFragmentController)spawnedEntity).SetFruitFragmentConfig(directionVector, (FruitFragmentConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController,  entityOnGameFieldChecker, sprite!);
+        }
     }
-    
-    private void SpawnBonusLife(SpawnZoneConfig spawnZone, Vector3 position, BonusLifeConfig bonusLife)
+
+    private EntityConfig GetEntityConfig()
     {
-        var directionVector = GetFruitMovementVector(spawnZone) * bonusLife.Speed * spawnZone.SpeedMultiplier;
-        var spawnedBonusLife = (BonusLifeController)Instantiate(bonusLife.EntityController, position, Quaternion.identity, gameField);
-        var spawnedBonusLifeTransform = spawnedBonusLife.transform;
-        var spawnedBonusLifePosition = spawnedBonusLifeTransform.localPosition;
+        var sumChance = _entityConfigs.Sum(e => e.Chance);
+        var randomNum = Random.Range(0, sumChance);
+
+        EntityConfig entityConfig = null;
+        
+        foreach (var item in _entityConfigs)
+        {
+            if (randomNum < item.Chance)
+            {
+                entityConfig = item;
+                break;
+            }
             
-        spawnedBonusLifePosition = new Vector3(spawnedBonusLifePosition.x, spawnedBonusLifePosition.y, Vector3.zero.z);
-        spawnedBonusLifeTransform.localPosition = spawnedBonusLifePosition;
-        spawnedBonusLife.SetBonusLifeConfig(directionVector, bonusLife, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
+            randomNum -= item.Chance;
+        }
+
+        return entityConfig;
     }
     
     private SpawnZoneConfig GetSpawnZone()
@@ -149,33 +157,7 @@ public class EntitySpawnController : MonoBehaviour
         
         return spawnZone;
     }
-    
-    private BombConfig GetBomb()
-    {
-        var chance = _gameConfig.Bomb.Chance;
-        var randomNum = Random.Range(0f, 1f);
-        
-        if (randomNum <= chance)
-        {
-            return _gameConfig.Bomb;
-        }
-        
-        return null;
-    }
-    
-    private BonusLifeConfig GetBonusLife()
-    {
-        var chance = _gameConfig.BonusLife.Chance;
-        var randomNum = Random.Range(0f, 1f);
-        
-        if (randomNum <= chance)
-        {
-            return _gameConfig.BonusLife;
-        }
-        
-        return null;
-    }
-    
+
     private Vector3 GetPosition(SpawnZoneConfig spawnZone)
     {
         var position = Random.Range(spawnZone.From, spawnZone.To);
@@ -193,21 +175,9 @@ public class EntitySpawnController : MonoBehaviour
         return Vector3.zero;
     }
 
-    private Vector3 GetFruitMovementVector(SpawnZoneConfig spawnZone)
+    private Vector3 GetMovementVector(SpawnZoneConfig spawnZone)
     {
         var angleRad = Random.Range(spawnZone.MinAngle, spawnZone.MaxAngle) * Mathf.PI / 180;
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0);
-    }
-
-    private FruitConfig GetFruit()
-    {
-        if (_gameConfig.Fruits.Count == 1)
-        {
-            return _gameConfig.Fruits.First();
-        }
-        
-        var fruitId = Random.Range(0, _gameConfig.Fruits.Count);
-        
-        return _gameConfig.Fruits[fruitId];
     }
 }

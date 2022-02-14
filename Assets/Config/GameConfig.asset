@@ -42,13 +42,14 @@ MonoBehaviour:
   minVelocityForCutFruit: 10
   fruitCountInPack: 2
   maxFruitCountInPack: 5
-  cuttedFruitsForEncreaseFruitInPack: 50
+  cuttedFruitsForEncreaseFruitInPack: 20
   cuttedFruitsForDecreaseFruitDelay: 5
-  subtractForFruitDelay: 0.005
-  subtractForFruitPackDelay: 0.05
-  spawnFruitPackDelay: 4
-  spawnFruitDelay: 0.4
+  subtractForFruitDelay: 0.01
+  subtractForFruitPackDelay: 0.1
+  spawnFruitPackDelay: 3
+  spawnFruitDelay: 0.3
   cutEffect: {fileID: 5477999823580732270, guid: e2159c6ba89cd9342a722030394b06ef, type: 3}
+  cutBonusLifeEffect: {fileID: 6268700189231865453, guid: 611685325c4f472438a8a90537a4826d, type: 3}
   sprayEffect: {fileID: 5477999823580732270, guid: 57376a91f43cc0e4fb39fdfd87cc5615, type: 3}
   explodeEffect: {fileID: 6268700189231865453, guid: 94b76e00ca8f12347bc971cd5c1eea24, type: 3}
   scoreTextRotationMin: -20

@@ -64,6 +64,8 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private ParticleSystem cutEffect;
     [SerializeField]
+    private ParticleSystem cutBonusLifeEffect;
+    [SerializeField]
     private ParticleSystem sprayEffect;
     [SerializeField]
     private ParticleSystem explodeEffect;
@@ -220,6 +222,11 @@ public class GameConfig : ScriptableObject
     public ParticleSystem CutEffect
     {
         get { return cutEffect; }
+    }
+    
+    public ParticleSystem CutBonusLifeEffect
+    {
+        get { return cutBonusLifeEffect; }
     }
     
     public ParticleSystem SprayEffect

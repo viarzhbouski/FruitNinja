@@ -14,6 +14,7 @@ public class BonusLifeController : EntityController
 
     private void BonusLifeCut()
     {
+        SpawnCutBonusLifeEffect();
         _lifeCountController.EncreaseLife();
         EntityDestroy();
     }
@@ -26,5 +27,11 @@ public class BonusLifeController : EntityController
         EntityOnGameFieldChecker entityOnGameFieldChecker)
     {
         SetEntityConfig(directionVector, bonusLifeConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
+    }
+    
+    private void SpawnCutBonusLifeEffect()
+    {
+        var cutBonusLifeEffect = _gameConfig.CutBonusLifeEffect;
+        Instantiate(cutBonusLifeEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
     }
 }
