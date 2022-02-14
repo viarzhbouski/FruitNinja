@@ -1823,6 +1823,7 @@ GameObject:
   - component: {fileID: 1564027748}
   - component: {fileID: 1564027747}
   - component: {fileID: 1564027749}
+  - component: {fileID: 1564027750}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1850,6 +1851,7 @@ MonoBehaviour:
   difficultyLogicController: {fileID: 1564027741}
   entityOnGameFieldChecker: {fileID: 1564027740}
   comboController: {fileID: 1564027748}
+  gameTimeController: {fileID: 1564027750}
   gameField: {fileID: 1546902797}
 --- !u!4 &1564027739
 Transform:
@@ -2024,6 +2026,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79f2be922fc5fbd44b36e00e3499e03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1564027750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564027737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da105d3f990b08847a37e250ac158c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1638390926

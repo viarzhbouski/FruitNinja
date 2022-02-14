@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c0d04f52b5d7a7b4d843618417d6b28b
+guid: e80e6913d30a01e4a84ca223ffaf9c13
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -724105580326358498
-    second: pineapple_0
+      213: -8850356728054043240
+    second: bonusfreeze_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -106,22 +106,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pineapple_0
+      name: bonusfreeze_0
       rect:
         serializedVersion: 2
-        x: 57
-        y: 22
-        width: 142
-        height: 212
-      alignment: 9
-      pivot: {x: 0.50615716, y: 0.40514484}
+        x: 53
+        y: 44
+        width: 150
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e12f4c8afc573f5f0800000000000000
-      internalID: -724105580326358498
+      spriteID: 89da9d072773d2580800000000000000
+      internalID: -8850356728054043240
       vertices: []
       indices: 
       edges: []
