@@ -3,6 +3,7 @@ using Random = UnityEngine.Random;
 
 public class FruitController : EntityController
 {
+    private EntitySpawnController _entitySpawnController;
     private ScoreCountController _scoreCountController;
     private ComboController _comboController;
 
@@ -33,11 +34,13 @@ public class FruitController : EntityController
                                LifeCountController lifeCountController, 
                                ComboController comboController,
                                EntityRepositoryController entityRepositoryController,
+                               EntitySpawnController entitySpawnController,
                                EntityOnGameFieldChecker entityOnGameFieldChecker)
     {
         SetEntityConfig(directionVector, fruitConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
         _scoreCountController = scoreCountController;
         _comboController = comboController;
+        _entitySpawnController = entitySpawnController;
         _entityOutOfBorder += _lifeCountController.DecreaseLife;
     }
 
@@ -63,13 +66,8 @@ public class FruitController : EntityController
             var y = Random.Range(-fragmentConfig.Speed, fragmentConfig.Speed);
             
             var vector = new Vector3(x, y, 0);
-            var spawnedFragment = (FruitFragmentController)Instantiate(fragmentConfig.EntityController, transform.position, Quaternion.identity, transform.parent);
-            var spawnedFragmentTransform = spawnedFragment.transform;
-            var spawnedFragmentPosition = spawnedFragmentTransform.position;
+            _entitySpawnController.SpawnEntity(null, transform.position, fragmentConfig, vector, fragmentSprite);
             
-            spawnedFragmentPosition = new Vector3(spawnedFragmentPosition.x, spawnedFragmentPosition.y, spawnedFragmentPosition.z - 2);
-            spawnedFragmentTransform.position = spawnedFragmentPosition;
-            spawnedFragment.SetFruitFragmentConfig(vector, fragmentConfig, _swipeController, _lifeCountController, _entityRepositoryController,  _entityOnGameFieldChecker, fragmentSprite);
             startY += offsetY;
             pivot.y -= 0.5f;
         }

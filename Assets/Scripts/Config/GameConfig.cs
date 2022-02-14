@@ -29,8 +29,9 @@ public class GameConfig : ScriptableObject
     private FruitFragmentConfig fruitFragmentConfig;
     [SerializeField]
     private BombConfig bomb;
-    
-    
+    [SerializeField]
+    private BonusLifeConfig bonusLifeConfig;
+
     [Header("\tSPAWNZONE CONFIGS")]
     [SerializeField]
     private List<SpawnZoneConfig> spawnZones;
@@ -62,6 +63,8 @@ public class GameConfig : ScriptableObject
     [Header("\tEFFECTS")]
     [SerializeField]
     private ParticleSystem cutEffect;
+    [SerializeField]
+    private ParticleSystem cutBonusLifeEffect;
     [SerializeField]
     private ParticleSystem sprayEffect;
     [SerializeField]
@@ -166,6 +169,11 @@ public class GameConfig : ScriptableObject
         get { return bomb; }
     }
     
+    public BonusLifeConfig BonusLife
+    {
+        get { return bonusLifeConfig; }
+    }
+    
     public List<SpawnZoneConfig> SpawnZones
     {
         get { return spawnZones; }
@@ -214,6 +222,11 @@ public class GameConfig : ScriptableObject
     public ParticleSystem CutEffect
     {
         get { return cutEffect; }
+    }
+    
+    public ParticleSystem CutBonusLifeEffect
+    {
+        get { return cutBonusLifeEffect; }
     }
     
     public ParticleSystem SprayEffect

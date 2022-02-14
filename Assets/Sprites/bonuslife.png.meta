@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 765cfc4eac08dd54a8be731d19eb3331
+guid: 762d9ae4696f11a48ba2398dd626c2d6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8497796373158085798
-    second: heart_0
+      213: 8163103089215002532
+    second: bonuslife_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -106,22 +106,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: heart_0
+      name: bonuslife_0
       rect:
         serializedVersion: 2
-        x: 61
-        y: 58
-        width: 134
-        height: 140
+        x: 5
+        y: 10
+        width: 246
+        height: 236
       alignment: 9
-      pivot: {x: 0.5043499, y: 0.564533}
+      pivot: {x: 0.50236946, y: 0.47159708}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5b3f4cc833c11a80800000000000000
-      internalID: -8497796373158085798
+      spriteID: 4a7dd89720b294170800000000000000
+      internalID: 8163103089215002532
       vertices: []
       indices: 
       edges: []
