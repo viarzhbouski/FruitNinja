@@ -56,6 +56,14 @@ public class LifeCountController : MonoBehaviour
             GameOverEvent.Invoke();
         }
     }
+    
+    public void EncreaseLife()
+    {
+        _currentLifeCount++;
+        var life = Instantiate(lifeImagePrefab, lifeGrid);
+        life.PlayInitAnimation();
+        _lifes.Push(life);
+    }
 
     public void ResetLifeCount()
     {

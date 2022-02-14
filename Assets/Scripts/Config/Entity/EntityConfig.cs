@@ -14,6 +14,15 @@ public class EntityConfig : ScriptableObject
     [SerializeField]
     private float rotateSpeed;
     
+    [SerializeField]
+    [Range(0, 1)]
+    private float chance;
+    
+    public float Chance
+    {
+        get { return chance; }
+    }
+    
     public EntityController EntityController
     {
         get { return entityController; }

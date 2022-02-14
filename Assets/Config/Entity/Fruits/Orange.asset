@@ -16,7 +16,6 @@ MonoBehaviour:
   entitySprite: {fileID: -6410442598547967069, guid: b07f235bd0cce944593e65ef93ec3a3d, type: 3}
   speed: 14
   rotateSpeed: 0.3
-  fragmentSpeed: 7
-  fragmentRotateSpeed: 0.3
+  chance: 0.6
   score: 10
   fruitColor: {r: 1, g: 0.7600515, b: 0, a: 1}
