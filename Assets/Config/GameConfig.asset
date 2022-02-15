@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   delayBeforeStart: 3
-  startLifeCount: 0
-  maxLifeCount: 0
+  startLifeCount: 3
+  maxLifeCount: 5
   gravityVector: {x: 0, y: -7, z: 0}
   xMinBorder: 0
   xMaxBorder: 1
