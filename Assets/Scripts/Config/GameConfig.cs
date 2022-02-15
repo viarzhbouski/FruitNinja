@@ -8,7 +8,9 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private float delayBeforeStart;
     [SerializeField]
-    private int lifeCount;
+    private int startLifeCount;
+    [SerializeField]
+    private int maxLifeCount;
     [SerializeField]
     private Vector3 gravityVector;
     
@@ -33,6 +35,21 @@ public class GameConfig : ScriptableObject
     private BonusLifeConfig bonusLifeConfig;
     [SerializeField]
     private BonusFreezeConfig bonusFreezeConfig;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float ratioOfBonusBlocksToFruits;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float fruitChance;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float bombChance;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float bonusLifeChance;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float bonusFreezeChance;
     
     [Header("\tSPAWNZONE CONFIGS")]
     [SerializeField]
@@ -79,10 +96,14 @@ public class GameConfig : ScriptableObject
     private int scoreTextRotationMin;
     [SerializeField]
     private int scoreTextRotationMax;
+    [SerializeField]
+    private float scoreCountDelay;
     
     [Header("\tCOMBO")]
     [SerializeField]
     private int comboMax;
+    [SerializeField]
+    private int comboMultiplierMax;
     [SerializeField]
     public float comboTime;
     [SerializeField]
@@ -93,6 +114,11 @@ public class GameConfig : ScriptableObject
         get { return comboMax; }
     }
     
+    public int ComboMultiplierMax
+    {
+        get { return comboMultiplierMax; }
+    }
+
     public float ComboTime
     {
         get { return comboTime; }
@@ -111,6 +137,11 @@ public class GameConfig : ScriptableObject
     public int ScoreTextRotationMax
     {
         get { return scoreTextRotationMax; }
+    }
+    
+    public float ScoreCountDelay
+    {
+        get { return scoreCountDelay; }
     }
     
     public float XMinBorder
@@ -148,9 +179,14 @@ public class GameConfig : ScriptableObject
         get { return delayBeforeStart; }
     }
 
-    public int LifeCount
+    public int StartLifeCount
     {
-        get { return lifeCount; }
+        get { return startLifeCount; }
+    }
+    
+    public int MaxLifeCount
+    {
+        get { return maxLifeCount; }
     }
     
     public Vector3 GravityVector
@@ -181,6 +217,31 @@ public class GameConfig : ScriptableObject
     public BonusFreezeConfig BonusFreeze
     {
         get { return bonusFreezeConfig; }
+    }
+    
+    public float RatioOfBonusBlocksToFruits
+    {
+        get { return ratioOfBonusBlocksToFruits; }
+    }
+    
+    public float FruitChance
+    {
+        get { return fruitChance; }
+    }
+    
+    public float BombChance
+    {
+        get { return bombChance; }
+    }
+    
+    public float BonusLifeChance
+    {
+        get { return bonusLifeChance; }
+    }
+    
+    public float BonusFreezeChance
+    {
+        get { return bonusFreezeChance; }
     }
     
     public List<SpawnZoneConfig> SpawnZones

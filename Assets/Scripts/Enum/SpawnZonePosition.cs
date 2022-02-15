@@ -1,9 +1,6 @@
-﻿namespace DefaultNamespace
+﻿public enum SpawnZonePosition
 {
-    public enum SpawnZonePosition
-    {
-        Left,
-        Right,
-        Bottom
-    }
+    Left,
+    Right,
+    Bottom
 }

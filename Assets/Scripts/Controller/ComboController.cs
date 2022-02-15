@@ -72,7 +72,11 @@ public class ComboController : MonoBehaviour
         {
             _currentMultiplierTime = gameConfigController.GameConfig.ComboMultiplierTime;
             _combo = 1;
-            _comboMultiplier++;
+            
+            if (_comboMultiplier < gameConfigController.GameConfig.ComboMultiplierMax)
+            {
+                _comboMultiplier++;
+            }
 
             if (comboUI.text == string.Empty)
             {

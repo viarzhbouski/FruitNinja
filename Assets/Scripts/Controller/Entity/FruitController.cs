@@ -88,19 +88,14 @@ public class FruitController : EntityController
     private void SpawnSprayEffect()
     {
         var sprayEffect = _gameConfig.SprayEffect;
-        var colorOverLifetime = sprayEffect.colorOverLifetime;
-        var ourGradient = new Gradient();
+        var main = sprayEffect.main;
         
-        ourGradient.SetKeys(
-            new [] { new GradientColorKey(((FruitConfig)_entityConfig).FruitColor, 0.0f)},
-            new [] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f)}
-        );
-        colorOverLifetime.color = ourGradient;
+        main.startColor = ((FruitConfig)_entityConfig).FruitColor;
         
         var effect = Instantiate(sprayEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
         var position = effect.transform.position;
-        
-        position = new Vector3(position.x, position.y, position.z + 2);
+        var zIndex = position.z + 2.0f;
+        position = new Vector3(position.x, position.y, Random.Range(zIndex, zIndex + 3.0f));
         effect.transform.position = position;
     }
 }

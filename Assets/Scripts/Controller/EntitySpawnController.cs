@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using DefaultNamespace;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -27,22 +26,18 @@ public class EntitySpawnController : MonoBehaviour
     private GameTimeController gameTimeController;
     [SerializeField] 
     private Transform gameField;
-
-    private List<EntityConfig> _entityConfigs;
+    
+    private Dictionary<EntityType, float> _entityChances;
     private GameConfig _gameConfig;
     private float _currentSpawnFruitPackDelay;
     private bool _canStartGame;
-    
+
     void Start()
     {
         _gameConfig = gameConfigController.GameConfig;
         _currentSpawnFruitPackDelay = 0;
         StartCoroutine(DelayBeforeStart());
-        
-        _entityConfigs = new List<EntityConfig>(_gameConfig.Fruits);
-        _entityConfigs.Add(_gameConfig.Bomb);
-        _entityConfigs.Add(_gameConfig.BonusLife);
-        _entityConfigs.Add(_gameConfig.BonusFreeze);
+        FillEntityChancesDict();
     }
     
     void Update()
@@ -78,6 +73,29 @@ public class EntitySpawnController : MonoBehaviour
     
     IEnumerator SpawnEntityPack(SpawnZoneConfig spawnZone, Vector3 position)
     {
+        // var pack = new List<EntityConfig>();
+        // var bonusBlocksAtPack = (int)(difficultyLogicController.FruitCountInPack * _gameConfig.RatioOfBonusBlocksToFruits);
+        //
+        // for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
+        // {
+        //     var entityConfig = GetEntityConfig();
+        //     
+        //     if (pack.Count(e => e is BombConfig) >= bonusBlocksAtPack)
+        //     {
+        //         i--;
+        //         continue;
+        //     }
+        //     
+        //     pack.Add(entityConfig);
+        // }
+        //
+        // foreach (var entity in pack)
+        // {
+        //     yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
+        //     SpawnEntity(spawnZone, position, entity);
+        // }
+        
+        
         for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
         {
             yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
@@ -118,25 +136,54 @@ public class EntitySpawnController : MonoBehaviour
         }
     }
 
+    private void FillEntityChancesDict()
+    {
+        _entityChances = new Dictionary<EntityType, float>
+        {
+            {EntityType.Fruit, _gameConfig.FruitChance},
+            {EntityType.Bomb, _gameConfig.BombChance},
+            {EntityType.BonusLife, _gameConfig.BonusLifeChance},
+            {EntityType.BonusFreeze, _gameConfig.BonusFreezeChance}
+        };
+    }
+
     private EntityConfig GetEntityConfig()
     {
-        var sumChance = _entityConfigs.Sum(e => e.Chance);
+        var sumChance = _entityChances.Values.Sum();
         var randomNum = Random.Range(0, sumChance);
-
-        EntityConfig entityConfig = null;
+        var entityType = EntityType.Fruit;
         
-        foreach (var item in _entityConfigs)
+        foreach (var item in _entityChances)
         {
-            if (randomNum < item.Chance)
+            if (randomNum < item.Value)
             {
-                entityConfig = item;
+                if (item.Key == EntityType.BonusLife &&
+                    lifeCountController.CurrentLifeCount == _gameConfig.MaxLifeCount)
+                {
+                    continue;
+                }
+                
+                entityType = item.Key;
                 break;
             }
             
-            randomNum -= item.Chance;
+            randomNum -= item.Value;
         }
 
-        return entityConfig;
+        switch (entityType)
+        {
+            case EntityType.Fruit:
+                var fruitRandom = Random.Range(0, _gameConfig.Fruits.Count - 1);
+                return _gameConfig.Fruits[fruitRandom];
+            case EntityType.Bomb:
+                return _gameConfig.Bomb;
+            case EntityType.BonusLife:
+                return _gameConfig.BonusLife;
+            case EntityType.BonusFreeze:
+                return _gameConfig.BonusFreeze;
+            default:
+                return null;
+        }
     }
     
     private SpawnZoneConfig GetSpawnZone()

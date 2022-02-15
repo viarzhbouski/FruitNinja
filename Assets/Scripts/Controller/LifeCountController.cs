@@ -15,7 +15,12 @@ public class LifeCountController : MonoBehaviour
     private UnityEvent _gameOverEvent = new UnityEvent();
     private int _currentLifeCount;
     private bool _gameOver;
-
+    
+    public int CurrentLifeCount
+    {
+        get { return _currentLifeCount; }
+    }
+    
     public bool GameOver
     {
         get { return _gameOver; }
@@ -29,7 +34,7 @@ public class LifeCountController : MonoBehaviour
     
     void Start()
     {
-        _currentLifeCount = gameConfigController.GameConfig.LifeCount;
+        _currentLifeCount = gameConfigController.GameConfig.StartLifeCount;
         Init();
     }
 
@@ -59,6 +64,11 @@ public class LifeCountController : MonoBehaviour
     
     public void EncreaseLife()
     {
+        if (_currentLifeCount == gameConfigController.GameConfig.MaxLifeCount)
+        {
+            return;
+        }
+        
         _currentLifeCount++;
         var life = Instantiate(lifeImagePrefab, lifeGrid);
         life.PlayInitAnimation();
@@ -68,7 +78,7 @@ public class LifeCountController : MonoBehaviour
     public void ResetLifeCount()
     {
         _gameOver = false;
-        _currentLifeCount = gameConfigController.GameConfig.LifeCount;
+        _currentLifeCount = gameConfigController.GameConfig.StartLifeCount;
         Init();
     }
 }
