@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class ScoreCountController : MonoBehaviour
 {
@@ -43,48 +44,61 @@ public class ScoreCountController : MonoBehaviour
         get { return scoreUI; }
     }
     
-    private int cuttedFruitCount;
-    private int cuttedFruitForPacksCount;
-
+    private int _cuttedFruitCount;
+    private int _cuttedFruitForPacksCount;
+    private int _scoreSum;
+    
     private void Start()
     {
         saveScoreController.LoadBestScore(bestScoreUI);
         lifeCountController.GameOverEvent.AddListener(SaveBestScore);
+        _scoreSum = 0;
+    }
+
+    private void FixedUpdate()
+    {
+        var scoreUIValue = int.Parse(scoreUI.text);
+        
+        if (scoreUIValue < _scoreSum)
+        {
+            scoreUIValue++;
+            scoreAnimation.Play();
+            scoreUI.text = scoreUIValue.ToString();
+            
+            var bestScoreUIValue = int.Parse(bestScoreUI.text);
+            
+            if (scoreUIValue >= bestScoreUIValue)
+            {
+                bestScoreAnimation.Play();
+                bestScoreUI.text = scoreUIValue.ToString();
+            }
+        }
     }
 
     public void AddScore(int score, Vector3 position)
     {
-        cuttedFruitCount++;
-        cuttedFruitForPacksCount++;
+        _cuttedFruitCount++;
+        _cuttedFruitForPacksCount++;
         
-        if (cuttedFruitCount == gameConfigController.GameConfig.CuttedFruitsForDecreaseFruitDelay)
+        if (_cuttedFruitCount == gameConfigController.GameConfig.CuttedFruitsForDecreaseFruitDelay)
         {
             _difficultyDelayEvent.Invoke();
-            cuttedFruitCount = 0;
+            _cuttedFruitCount = 0;
         }
         
-        if (cuttedFruitForPacksCount == gameConfigController.GameConfig.CuttedFruitsForEncreaseFruitInPack)
+        if (_cuttedFruitForPacksCount == gameConfigController.GameConfig.CuttedFruitsForEncreaseFruitInPack)
         {
             _difficultyFruitPackEvent.Invoke();
-            cuttedFruitForPacksCount = 0;
+            _cuttedFruitForPacksCount = 0;
         }
         
-        var currentScore = int.Parse(scoreUI.text) + score;
-        var bestScore = int.Parse(bestScoreUI.text);
-        
-        if (currentScore >= bestScore)
-        {
-            bestScoreAnimation.Play();
-            bestScoreUI.text = currentScore.ToString();
-        }
-
-        scoreAnimation.Play();
-        scoreUI.text = currentScore.ToString();
+        _scoreSum += score;
         
         var rot = Quaternion.Euler(0, 0, Random.Range(gameConfigController.GameConfig.ScoreTextRotationMin, gameConfigController.GameConfig.ScoreTextRotationMax));
         var spawnedScoreText = Instantiate(scoreTextPrefab, position, rot, canvas.transform);
         spawnedScoreText.text = $"+{score}";
     }
+    
     
     public void ResetScore()
     {
