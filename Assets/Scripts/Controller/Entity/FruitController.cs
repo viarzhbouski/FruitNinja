@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,7 +14,7 @@ public class FruitController : EntityController
             FruitCut();
         }
     }
-
+    
     private void FruitCut()
     {
         var config = (FruitConfig)EntityConfig;
@@ -41,8 +43,8 @@ public class FruitController : EntityController
             var x = Random.Range(-fragmentConfig.Speed, fragmentConfig.Speed);
             var y = Random.Range(-fragmentConfig.Speed, fragmentConfig.Speed);
             
-            var vector = new Vector3(x, y, 0);
-            EntityControllersProvider.EntitySpawnController.SpawnEntity(null, transform.position, fragmentConfig, vector, fragmentSprite);
+            var directionVector = new Vector3(x, y, 0);
+            EntityControllersProvider.EntitySpawnController.SpawnEntity(directionVector, transform.position, fragmentConfig, fragmentSprite);
             
             startY += offsetY;
             pivot.y -= 0.5f;
