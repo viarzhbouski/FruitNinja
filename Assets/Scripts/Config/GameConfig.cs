@@ -30,11 +30,13 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private FruitFragmentConfig fruitFragmentConfig;
     [SerializeField]
-    private BombConfig bomb;
+    private BombConfig bombConfig;
     [SerializeField]
     private BonusLifeConfig bonusLifeConfig;
     [SerializeField]
     private BonusFreezeConfig bonusFreezeConfig;
+    [SerializeField]
+    private BonusFruitBagConfig bonusFruitBagConfig;
     [SerializeField]
     [Range(0f, 1f)]
     private float ratioOfBonusBlocksToFruits;
@@ -50,6 +52,9 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     [Range(0f, 1f)]
     private float bonusFreezeChance;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float bonusFruitBagChance;
     
     [Header("\tSPAWNZONE CONFIGS")]
     [SerializeField]
@@ -206,7 +211,7 @@ public class GameConfig : ScriptableObject
     
     public BombConfig Bomb
     {
-        get { return bomb; }
+        get { return bombConfig; }
     }
     
     public BonusLifeConfig BonusLife
@@ -217,6 +222,11 @@ public class GameConfig : ScriptableObject
     public BonusFreezeConfig BonusFreeze
     {
         get { return bonusFreezeConfig; }
+    }
+    
+    public BonusFruitBagConfig BonusFruitBag
+    {
+        get { return bonusFruitBagConfig; }
     }
     
     public float RatioOfBonusBlocksToFruits
@@ -242,6 +252,11 @@ public class GameConfig : ScriptableObject
     public float BonusFreezeChance
     {
         get { return bonusFreezeChance; }
+    }
+    
+    public float BonusFruitBagChance
+    {
+        get { return bonusFruitBagChance; }
     }
     
     public List<SpawnZoneConfig> SpawnZones

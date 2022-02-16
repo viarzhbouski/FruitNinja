@@ -91,13 +91,14 @@ public class EntitySpawnController : MonoBehaviour
         for (int i = 0; i < entityConfigsPack.Count; i++)
         {
             yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
-            SpawnEntity(spawnZone, position, entityConfigsPack[i]);
+            
+            var directionVector = GetMovementVector(spawnZone) * entityConfigsPack[i].Speed * spawnZone.SpeedMultiplier;
+            SpawnEntity(directionVector, position, entityConfigsPack[i]);
         }
     }
 
-    public void SpawnEntity(SpawnZoneConfig spawnZone, Vector3 position, EntityConfig entityConfig, Vector3? vector = null, Sprite sprite = null)
+    public EntityController SpawnEntity(Vector3 directionVector, Vector3 position, EntityConfig entityConfig, Sprite sprite = null)
     {
-        var directionVector = vector ?? GetMovementVector(spawnZone) * entityConfig.Speed * spawnZone.SpeedMultiplier;
         var spawnedEntity = Instantiate(entityConfig.EntityController, position, Quaternion.identity, gameField);
         var spawnedEntityTransform = spawnedEntity.transform;
         var spawnedEntityPosition = spawnedEntityTransform.localPosition;
@@ -106,6 +107,8 @@ public class EntitySpawnController : MonoBehaviour
         spawnedEntityTransform.localPosition = spawnedEntityPosition;
 
         spawnedEntity.SetEntityConfig(directionVector, entityConfig, _entityControllersProvider, sprite);
+
+        return spawnedEntity;
     }
 
     private void FillEntityChancesDict()
@@ -115,7 +118,8 @@ public class EntitySpawnController : MonoBehaviour
             {EntityType.Fruit, _gameConfig.FruitChance},
             {EntityType.Bomb, _gameConfig.BombChance},
             {EntityType.BonusLife, _gameConfig.BonusLifeChance},
-            {EntityType.BonusFreeze, _gameConfig.BonusFreezeChance}
+            {EntityType.BonusFreeze, _gameConfig.BonusFreezeChance},
+            {EntityType.BonusFruitBag, _gameConfig.BonusFruitBagChance}
         };
     }
 
@@ -171,6 +175,9 @@ public class EntitySpawnController : MonoBehaviour
                     break;
                 case EntityType.BonusFreeze:
                     pack.Add(_gameConfig.BonusFreeze);
+                    break;
+                case EntityType.BonusFruitBag:
+                    pack.Add(_gameConfig.BonusFruitBag);
                     break;
             }
         }
