@@ -2,13 +2,11 @@ using UnityEngine;
 
 public class BonusFreezeController : EntityController
 {
-    private GameTimeController _gameTimeController;
-    
-    void Update()
+    private void Update()
     {
         UpdateEntity();
         
-        if (_entityCanCut)
+        if (EntityCanCut)
         {
             BonusFreezeCut();
         }
@@ -16,26 +14,15 @@ public class BonusFreezeController : EntityController
     
     private void BonusFreezeCut()
     {
+        var config = (BonusFreezeConfig)EntityConfig;
+        EntityControllersProvider.GameTimeController.FreezeTime(config.FreezeForce, config.FreezeTime);
         SpawnCutBonusFreezeEffect();
-        _gameTimeController.FreezeTime(((BonusFreezeConfig) _entityConfig).FreezeForce, ((BonusFreezeConfig) _entityConfig).FreezeTime);
         EntityDestroy();
     }
 
-    public void SetBonusFreezeConfig(Vector3 directionVector,
-        BonusFreezeConfig bonusFreezeConfig, 
-        SwipeController swipeController,
-        LifeCountController lifeCountController,
-        EntityRepositoryController entityRepositoryController,
-        GameTimeController gameTimeController,
-        EntityOnGameFieldChecker entityOnGameFieldChecker)
-    {
-        _gameTimeController = gameTimeController;
-        SetEntityConfig(directionVector, bonusFreezeConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
-    }
-    
     private void SpawnCutBonusFreezeEffect()
     {
-        var cutBonusFreezeEffect = _gameConfig.CutBonusFreezeEffect;
+        var cutBonusFreezeEffect = GameConfig.CutBonusFreezeEffect;
         Instantiate(cutBonusFreezeEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
     }
 }

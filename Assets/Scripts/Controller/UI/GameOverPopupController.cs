@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using TMPro;
@@ -10,6 +11,8 @@ public class GameOverPopupController : MonoBehaviour
     private LifeCountController lifeCountController;
     [SerializeField]
     private ScoreCountController scoreCountController;
+    [SerializeField]
+    private EntityRepositoryController entityRepositoryController;
     [SerializeField]
     private GameObject gameOverPopup;
     [SerializeField]
@@ -33,14 +36,21 @@ public class GameOverPopupController : MonoBehaviour
     [SerializeField]
     private float loadSceneDelayTime;
     
-    void Start()
+    private void Start()
     {
         gameOverPopupRestartButton.onClick.AddListener(RestartGameOnClick);
         gameOverPopupMainMenuButton.onClick.AddListener(MainMenuOnClick);
-        lifeCountController.GameOverEvent.AddListener(GameOverEventHandler);
     }
 
-    private void GameOverEventHandler()
+    private void Update()
+    {
+        if (lifeCountController.GameOver && entityRepositoryController.Entities.Count == 0 && !gameOverPopup.activeSelf)
+        {
+            OpenGameOverPopup();
+        }
+    }
+
+    private void OpenGameOverPopup()
     {
         gameOverPopup.SetActive(true);
         gameOverPopupAnimation.Play(openClip.name);

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   delayBeforeStart: 3
-  lifeCount: 3
+  startLifeCount: 3
+  maxLifeCount: 5
   gravityVector: {x: 0, y: -7, z: 0}
   xMinBorder: 0
   xMaxBorder: 1
@@ -33,6 +34,11 @@ MonoBehaviour:
   bomb: {fileID: 11400000, guid: 735c90a3be801e64d85365fe261181a2, type: 2}
   bonusLifeConfig: {fileID: 11400000, guid: 62201debe516d1042a5df01a09139a81, type: 2}
   bonusFreezeConfig: {fileID: 11400000, guid: c7b0e0469dde2de4aa6bf605edf61f55, type: 2}
+  ratioOfBonusBlocksToFruits: 0.5
+  fruitChance: 1
+  bombChance: 0.05
+  bonusLifeChance: 0.005
+  bonusFreezeChance: 0.01
   spawnZones:
   - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}
   - {fileID: 11400000, guid: 37e0f2fa75c9324448a249c0c5373eb1, type: 2}
@@ -40,7 +46,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ad844b98e3fff4e4d8d919f48ef5e365, type: 2}
   - {fileID: 11400000, guid: 0c8905d403a1e1b43b83146e44737ded, type: 2}
   minDistanceForCutFruit: 1
-  minVelocityForCutFruit: 10
+  minVelocityForCutFruit: 7
   fruitCountInPack: 2
   maxFruitCountInPack: 6
   cuttedFruitsForEncreaseFruitInPack: 20
@@ -56,6 +62,8 @@ MonoBehaviour:
   explodeEffect: {fileID: 6268700189231865453, guid: 94b76e00ca8f12347bc971cd5c1eea24, type: 3}
   scoreTextRotationMin: -20
   scoreTextRotationMax: 20
+  scoreCountDelay: 0.005
   comboMax: 2
+  comboMultiplierMax: 5
   comboTime: 0.1
   comboMultiplierTime: 5

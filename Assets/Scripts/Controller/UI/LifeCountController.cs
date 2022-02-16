@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
@@ -10,12 +11,17 @@ public class LifeCountController : MonoBehaviour
     private RectTransform lifeGrid;
     [SerializeField]
     private GameConfigController gameConfigController;
-
+    
     private Stack<LifeController> _lifes = new Stack<LifeController>();
     private UnityEvent _gameOverEvent = new UnityEvent();
     private int _currentLifeCount;
     private bool _gameOver;
-
+    
+    public int CurrentLifeCount
+    {
+        get { return _currentLifeCount; }
+    }
+    
     public bool GameOver
     {
         get { return _gameOver; }
@@ -27,12 +33,12 @@ public class LifeCountController : MonoBehaviour
         set { _gameOverEvent = value; }
     }
     
-    void Start()
+    private void Start()
     {
-        _currentLifeCount = gameConfigController.GameConfig.LifeCount;
+        _currentLifeCount = gameConfigController.GameConfig.StartLifeCount;
         Init();
     }
-
+    
     private void Init()
     {
         for (int i = 0; i < _currentLifeCount; i++)
@@ -45,6 +51,11 @@ public class LifeCountController : MonoBehaviour
 
     public void DecreaseLife()
     {
+        if (_lifes.Count == 0)
+        {
+            return;
+        }
+        
         var life = _lifes.Pop();
         life.PlayDestroyAnimation();
         
@@ -59,6 +70,11 @@ public class LifeCountController : MonoBehaviour
     
     public void EncreaseLife()
     {
+        if (_currentLifeCount == gameConfigController.GameConfig.MaxLifeCount)
+        {
+            return;
+        }
+        
         _currentLifeCount++;
         var life = Instantiate(lifeImagePrefab, lifeGrid);
         life.PlayInitAnimation();
@@ -68,7 +84,7 @@ public class LifeCountController : MonoBehaviour
     public void ResetLifeCount()
     {
         _gameOver = false;
-        _currentLifeCount = gameConfigController.GameConfig.LifeCount;
+        _currentLifeCount = gameConfigController.GameConfig.StartLifeCount;
         Init();
     }
 }

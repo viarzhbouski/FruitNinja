@@ -108,6 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafdad2b8e8e8344aacca464b9c65594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 2727754377665431001}
-  entityPhysics: {fileID: 8008613330224868381}
   shadowSpriteRenderer: {fileID: 708591555655570428, guid: 8d147c04c29a8a34e9378e0621df7818, type: 3}
+  spriteRenderer: {fileID: 2727754377665431001}
+  entityPhysicsController: {fileID: 8008613330224868381}
