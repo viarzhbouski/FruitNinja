@@ -129,7 +129,7 @@ public class EntitySpawnController : MonoBehaviour
 
         var pack = new List<EntityConfig>();
         
-        for (var i = 0; i < _gameConfig.FruitCountInPack; i++)
+        for (var i = 0; i < difficultyLogicController.FruitCountInPack; i++)
         {
             var sumChance = _entityChances.Values.Sum();
             var randomNum = Random.Range(0, sumChance);
