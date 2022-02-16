@@ -16,4 +16,4 @@ MonoBehaviour:
   entitySprite: {fileID: 0}
   speed: 7
   rotateSpeed: 0.2
-  chance: 0
+  entityType: 1

@@ -3,15 +3,11 @@ using Random = UnityEngine.Random;
 
 public class FruitController : EntityController
 {
-    private EntitySpawnController _entitySpawnController;
-    private ScoreCountController _scoreCountController;
-    private ComboController _comboController;
-
     private void Update()
     {
         UpdateEntity();
         
-        if (_entityCanCut)
+        if (EntityCanCut)
         {
             FruitCut();
         }
@@ -19,34 +15,14 @@ public class FruitController : EntityController
 
     private void FruitCut()
     {
-        SpawnSprayEffect();
-        SpawnCutEffect();
+        var config = (FruitConfig)EntityConfig;
+        
+        EntityControllersProvider.ScoreCountController.AddScore(config.Score * EntityControllersProvider.ComboController.ComboMultiplier, transform.position);
+        EntityControllersProvider.ComboController.FruitCutEvent.Invoke();
+        SpawnSprayEffect(config);
+        SpawnCutEffect(config);
         SpawnFruitFragments();
-        _scoreCountController.AddScore(((FruitConfig)_entityConfig).Score * _comboController.ComboMultiplier, transform.position);
-        _comboController.FruitCutEvent.Invoke();
         EntityDestroy();
-    }
-
-    public void SetFruitConfig(Vector3 directionVector,
-                               FruitConfig fruitConfig, 
-                               SwipeController swipeController, 
-                               ScoreCountController scoreCountController, 
-                               LifeCountController lifeCountController, 
-                               ComboController comboController,
-                               EntityRepositoryController entityRepositoryController,
-                               EntitySpawnController entitySpawnController,
-                               EntityOnGameFieldChecker entityOnGameFieldChecker)
-    {
-        SetEntityConfig(directionVector, fruitConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
-        _scoreCountController = scoreCountController;
-        _comboController = comboController;
-        _entitySpawnController = entitySpawnController;
-        _entityOutOfBorder += _lifeCountController.DecreaseLife;
-    }
-
-    public void PushFruit(Vector3 vector)
-    {
-        entityPhysics.DirectionVector = vector;
     }
 
     private void SpawnFruitFragments()
@@ -54,7 +30,7 @@ public class FruitController : EntityController
         var offsetY = spriteRenderer.sprite.texture.height / 2;
         var startY = 0;
         var pivot = new Vector2(0.5f, 0.75f);
-        var fragmentConfig = _gameConfig.FruitFragment;
+        var fragmentConfig = GameConfig.FruitFragment;
 
         for (var i = 0; i < 2; i++)
         {
@@ -66,31 +42,31 @@ public class FruitController : EntityController
             var y = Random.Range(-fragmentConfig.Speed, fragmentConfig.Speed);
             
             var vector = new Vector3(x, y, 0);
-            _entitySpawnController.SpawnEntity(null, transform.position, fragmentConfig, vector, fragmentSprite);
+            EntityControllersProvider.EntitySpawnController.SpawnEntity(null, transform.position, fragmentConfig, vector, fragmentSprite);
             
             startY += offsetY;
             pivot.y -= 0.5f;
         }
     }
 
-    private void SpawnCutEffect()
+    private void SpawnCutEffect(FruitConfig config)
     {
-        var cutEffect = _gameConfig.CutEffect;
+        var cutEffect = GameConfig.CutEffect;
         var main = cutEffect.main;
         var trail = cutEffect.trails;
         
-        main.startColor = ((FruitConfig)_entityConfig).FruitColor;
-        trail.colorOverLifetime = ((FruitConfig)_entityConfig).FruitColor;
-        trail.colorOverTrail = ((FruitConfig)_entityConfig).FruitColor;
+        main.startColor = config.FruitColor;
+        trail.colorOverLifetime = config.FruitColor;
+        trail.colorOverTrail = config.FruitColor;
         Instantiate(cutEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
     }
     
-    private void SpawnSprayEffect()
+    private void SpawnSprayEffect(FruitConfig config)
     {
-        var sprayEffect = _gameConfig.SprayEffect;
+        var sprayEffect = GameConfig.SprayEffect;
         var main = sprayEffect.main;
         
-        main.startColor = ((FruitConfig)_entityConfig).FruitColor;
+        main.startColor = config.FruitColor;
         
         var effect = Instantiate(sprayEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
         var position = effect.transform.position;

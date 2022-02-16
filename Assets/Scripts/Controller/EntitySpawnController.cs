@@ -19,14 +19,15 @@ public class EntitySpawnController : MonoBehaviour
     [SerializeField]
     private DifficultyLogicController difficultyLogicController;
     [SerializeField] 
-    private EntityOnGameFieldChecker entityOnGameFieldChecker;
+    private EntityOnGameFieldCheckerController entityOnGameFieldCheckerController;
     [SerializeField] 
     private ComboController comboController;
     [SerializeField] 
     private GameTimeController gameTimeController;
     [SerializeField] 
     private Transform gameField;
-    
+
+    private EntityControllersProvider _entityControllersProvider;
     private Dictionary<EntityType, float> _entityChances;
     private GameConfig _gameConfig;
     private float _currentSpawnFruitPackDelay;
@@ -36,6 +37,17 @@ public class EntitySpawnController : MonoBehaviour
     {
         _gameConfig = gameConfigController.GameConfig;
         _currentSpawnFruitPackDelay = 0;
+        _entityControllersProvider = new EntityControllersProvider
+        {
+            SwipeController = swipeController,
+            LifeCountController = lifeCountController,
+            ComboController = comboController,
+            ScoreCountController = scoreCountController,
+            GameTimeController = gameTimeController,
+            EntitySpawnController = this,
+            EntityRepositoryController = entityRepositoryController,
+            EntityOnGameFieldCheckerController = entityOnGameFieldCheckerController
+        };
         StartCoroutine(DelayBeforeStart());
         FillEntityChancesDict();
     }
@@ -92,27 +104,8 @@ public class EntitySpawnController : MonoBehaviour
             
         spawnedEntityPosition = new Vector3(spawnedEntityPosition.x, spawnedEntityPosition.y, Vector3.zero.z);
         spawnedEntityTransform.localPosition = spawnedEntityPosition;
-        
-        if (entityConfig is FruitConfig)
-        {
-            ((FruitController)spawnedEntity).SetFruitConfig(directionVector, (FruitConfig)entityConfig, swipeController, scoreCountController, lifeCountController, comboController, entityRepositoryController, this, entityOnGameFieldChecker);
-        }
-        else if (entityConfig is BombConfig)
-        {
-            ((BombController)spawnedEntity).SetBombConfig(directionVector, (BombConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
-        }
-        else if (entityConfig is BonusLifeConfig)
-        {
-            ((BonusLifeController)spawnedEntity).SetBonusLifeConfig(directionVector, (BonusLifeConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
-        }
-        else if (entityConfig is FruitFragmentConfig)
-        {
-            ((FruitFragmentController)spawnedEntity).SetFruitFragmentConfig(directionVector, (FruitFragmentConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController,  entityOnGameFieldChecker, sprite!);
-        }
-        else if (entityConfig is BonusFreezeConfig)
-        {
-            ((BonusFreezeController)spawnedEntity).SetBonusFreezeConfig(directionVector, (BonusFreezeConfig)entityConfig, swipeController, lifeCountController, entityRepositoryController, gameTimeController, entityOnGameFieldChecker);
-        }
+
+        spawnedEntity.SetEntityConfig(directionVector, entityConfig, _entityControllersProvider);
     }
 
     private void FillEntityChancesDict()

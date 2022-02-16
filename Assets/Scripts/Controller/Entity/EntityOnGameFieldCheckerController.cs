@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EntityOnGameFieldChecker : MonoBehaviour
+public class EntityOnGameFieldCheckerController : MonoBehaviour
 {
     [SerializeField]
     private GameConfigController gameConfigManager;

@@ -9,52 +9,37 @@ public class EntityController : MonoBehaviour
     [SerializeField] 
     private protected EntityPhysics entityPhysics;
     
-    private protected EntityRepositoryController _entityRepositoryController;
-    private protected SwipeController _swipeController;
-    private protected LifeCountController _lifeCountController;
-    private protected GameConfig _gameConfig;
-    private protected EntityConfig _entityConfig;
-    private protected EntityOnGameFieldChecker _entityOnGameFieldChecker;
-    private protected SpriteRenderer _shadowSpriteRenderer;
-    private protected bool _entityCanCut;
-    private protected delegate void EntityOutOfBorder();
-    private protected event EntityOutOfBorder _entityOutOfBorder; 
+    private protected EntityControllersProvider EntityControllersProvider;
+    private protected GameConfig GameConfig;
+    private protected EntityConfig EntityConfig;
+    private protected bool EntityCanCut;
     
+    private SpriteRenderer _shadowSpriteRenderer;
     private float _rotateSpeed;
-
-    public EntityPhysics EntityPhysics
-    {
-        get { return entityPhysics; }
-    }
     
-    private protected void SetEntityConfig(Vector3 directionVector,
+    public void SetEntityConfig(Vector3 directionVector,
                                 EntityConfig entityConfig,
-                                SwipeController swipeController,
-                                LifeCountController lifeCountController,
-                                EntityRepositoryController entityRepositoryController,
-                                EntityOnGameFieldChecker entityOnGameFieldChecker,
+                                EntityControllersProvider controllersProvider,
                                 Sprite sprite = null)
     {
-        _entityConfig = entityConfig;
-        _swipeController = swipeController;
-        _lifeCountController = lifeCountController;
-        _entityRepositoryController = entityRepositoryController;
-        _entityOnGameFieldChecker = entityOnGameFieldChecker;
-        _gameConfig = entityOnGameFieldChecker.GameConfigManager.GameConfig;
-        _rotateSpeed = Random.Range(0, _entityConfig.RotateSpeed);
+        EntityControllersProvider = controllersProvider;
+        EntityConfig = entityConfig;
+        GameConfig = controllersProvider.EntityOnGameFieldCheckerController.GameConfigManager.GameConfig;
+        
+        _rotateSpeed = Random.Range(0, EntityConfig.RotateSpeed);
         _shadowSpriteRenderer = Instantiate(shadowSpriteRenderer, transform.position, Quaternion.identity, transform.parent);
+        controllersProvider.EntityRepositoryController.Entities.Add(this);
         
-        _entityRepositoryController.Entities.Add(this);
-        _shadowSpriteRenderer.sprite = sprite == null ? _entityConfig.EntitySprite : sprite;
-        spriteRenderer.sprite = sprite == null ? _entityConfig.EntitySprite : sprite;
+        _shadowSpriteRenderer.sprite = sprite == null ? EntityConfig.EntitySprite : sprite;
+        spriteRenderer.sprite = sprite == null ? EntityConfig.EntitySprite : sprite;
         
-        entityPhysics.GravityVector = _gameConfig.GravityVector;
+        entityPhysics.GravityVector = GameConfig.GravityVector;
         entityPhysics.DirectionVector = directionVector;
     }
 
     private protected void EntityDestroy()
     {
-        _entityRepositoryController.Entities.Remove(this);
+        EntityControllersProvider.EntityRepositoryController.Entities.Remove(this);
         Destroy(_shadowSpriteRenderer.gameObject);
         Destroy(gameObject);
     }
@@ -63,14 +48,18 @@ public class EntityController : MonoBehaviour
     {
         UpdateShadowPosition();
         
-        if (_lifeCountController.GameOver)
+        if (EntityControllersProvider.LifeCountController.GameOver)
         {
             return;
         }
         
-        if (!_entityOnGameFieldChecker.EntityOnGameField(transform.position.x, transform.position.y))
+        if (!EntityControllersProvider.EntityOnGameFieldCheckerController.EntityOnGameField(transform.position.x, transform.position.y))
         {
-            _entityOutOfBorder?.Invoke();
+            if (EntityConfig.EntityType == EntityType.Fruit)
+            {
+                EntityControllersProvider.LifeCountController.DecreaseLife();
+            }
+            
             EntityDestroy();
         }
 
@@ -80,24 +69,33 @@ public class EntityController : MonoBehaviour
     
     private void UpdateShadowPosition()
     {
-        var entityPosition = transform.position;
+        var entityTransform = transform;
+        var entityPosition = entityTransform.position;
         entityPosition.y = entityPosition.y - 1.5f;
         entityPosition.z = entityPosition.z + 1;
-        
-        _shadowSpriteRenderer.transform.position = entityPosition;
-        _shadowSpriteRenderer.transform.rotation = transform.rotation;
+
+        var spriteTransform = _shadowSpriteRenderer.transform;
+        spriteTransform.position = entityPosition;
+        spriteTransform.rotation = entityTransform.rotation;
     }
     
     private void EntitySwipeCheckCollision()
     {
-        var from = new Vector3(transform.position.x, transform.position.y, 0);
-        var to = new Vector3(_swipeController.Swipe.transform.position.x, _swipeController.Swipe.transform.position.y, 0);
+        var entityPosition = transform.position;
+        var swipePosition = EntityControllersProvider.SwipeController.Swipe.transform.position;
+        var from = new Vector3(entityPosition.x, entityPosition.y, 0);
+        var to = new Vector3(swipePosition.x, swipePosition.y, 0);
         var distance = Vector3.Distance(from, to);
 
-        if (distance <= _gameConfig.MinDistanceForCutFruit && 
-            _swipeController.Velocity > _gameConfig.MinVelocityForCutFruit)
+        if (distance <= GameConfig.MinDistanceForCutFruit && 
+            EntityControllersProvider.SwipeController.Velocity > GameConfig.MinVelocityForCutFruit)
         {
-            _entityCanCut = true;
+            EntityCanCut = true;
         }
+    }
+
+    public void PushEntity(Vector3 vector)
+    {
+        entityPhysics.DirectionVector = vector;
     }
 }

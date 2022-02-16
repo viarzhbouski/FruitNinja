@@ -870,7 +870,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 683982930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1546902797}
@@ -1849,7 +1849,7 @@ MonoBehaviour:
   scoreCountController: {fileID: 1564027744}
   lifeCountController: {fileID: 1564027745}
   difficultyLogicController: {fileID: 1564027741}
-  entityOnGameFieldChecker: {fileID: 1564027740}
+  entityOnGameFieldCheckerController: {fileID: 1564027740}
   comboController: {fileID: 1564027748}
   gameTimeController: {fileID: 1564027750}
   gameField: {fileID: 1546902797}

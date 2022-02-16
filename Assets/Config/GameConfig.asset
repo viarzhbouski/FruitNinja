@@ -34,11 +34,11 @@ MonoBehaviour:
   bomb: {fileID: 11400000, guid: 735c90a3be801e64d85365fe261181a2, type: 2}
   bonusLifeConfig: {fileID: 11400000, guid: 62201debe516d1042a5df01a09139a81, type: 2}
   bonusFreezeConfig: {fileID: 11400000, guid: c7b0e0469dde2de4aa6bf605edf61f55, type: 2}
-  ratioOfBonusBlocksToFruits: 0
+  ratioOfBonusBlocksToFruits: 0.5
   fruitChance: 1
-  bombChance: 1
-  bonusLifeChance: 0
-  bonusFreezeChance: 0
+  bombChance: 0.1
+  bonusLifeChance: 0.05
+  bonusFreezeChance: 0.07
   spawnZones:
   - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}
   - {fileID: 11400000, guid: 37e0f2fa75c9324448a249c0c5373eb1, type: 2}
