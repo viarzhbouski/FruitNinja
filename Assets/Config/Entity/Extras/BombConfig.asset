@@ -17,4 +17,4 @@ MonoBehaviour:
   speed: 14
   rotateSpeed: 0.3
   entityType: 2
-  explodeForce: 5
+  explodeForce: 6

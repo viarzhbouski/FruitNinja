@@ -7,7 +7,7 @@ public class EntityController : MonoBehaviour
     [SerializeField] 
     private protected SpriteRenderer spriteRenderer;
     [SerializeField] 
-    private protected EntityPhysics entityPhysics;
+    private protected EntityPhysicsController entityPhysicsController;
     
     private protected EntityControllersProvider EntityControllersProvider;
     private protected GameConfig GameConfig;
@@ -33,8 +33,8 @@ public class EntityController : MonoBehaviour
         _shadowSpriteRenderer.sprite = sprite == null ? EntityConfig.EntitySprite : sprite;
         spriteRenderer.sprite = sprite == null ? EntityConfig.EntitySprite : sprite;
         
-        entityPhysics.GravityVector = GameConfig.GravityVector;
-        entityPhysics.DirectionVector = directionVector;
+        entityPhysicsController.GravityVector = GameConfig.GravityVector;
+        entityPhysicsController.DirectionVector = directionVector;
     }
 
     private protected void EntityDestroy()
@@ -47,12 +47,7 @@ public class EntityController : MonoBehaviour
     private protected void UpdateEntity()
     {
         UpdateShadowPosition();
-        
-        if (EntityControllersProvider.LifeCountController.GameOver)
-        {
-            return;
-        }
-        
+
         if (!EntityControllersProvider.EntityOnGameFieldCheckerController.EntityOnGameField(transform.position.x, transform.position.y))
         {
             if (EntityConfig.EntityType == EntityType.Fruit)
@@ -62,9 +57,14 @@ public class EntityController : MonoBehaviour
             
             EntityDestroy();
         }
+        
+        if (EntityControllersProvider.LifeCountController.GameOver)
+        {
+            return;
+        }
 
         EntitySwipeCheckCollision();
-        transform.Rotate(0f, 0f, entityPhysics.DirectionVector.x > 0 ? _rotateSpeed : -_rotateSpeed, Space.Self);
+        transform.Rotate(0f, 0f, entityPhysicsController.DirectionVector.x > 0 ? _rotateSpeed : -_rotateSpeed, Space.Self);
     }
     
     private void UpdateShadowPosition()
@@ -96,6 +96,6 @@ public class EntityController : MonoBehaviour
 
     public void PushEntity(Vector3 vector)
     {
-        entityPhysics.DirectionVector = vector;
+        entityPhysicsController.DirectionVector = vector;
     }
 }

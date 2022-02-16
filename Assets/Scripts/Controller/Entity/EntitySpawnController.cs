@@ -105,7 +105,7 @@ public class EntitySpawnController : MonoBehaviour
         spawnedEntityPosition = new Vector3(spawnedEntityPosition.x, spawnedEntityPosition.y, Vector3.zero.z);
         spawnedEntityTransform.localPosition = spawnedEntityPosition;
 
-        spawnedEntity.SetEntityConfig(directionVector, entityConfig, _entityControllersProvider);
+        spawnedEntity.SetEntityConfig(directionVector, entityConfig, _entityControllersProvider, sprite);
     }
 
     private void FillEntityChancesDict()
