@@ -44,6 +44,7 @@ public class ScoreCountController : MonoBehaviour
         get { return scoreUI; }
     }
     
+    private float _currentDelay;
     private int _cuttedFruitCount;
     private int _cuttedFruitForPacksCount;
     private int _scoreSum;
@@ -53,13 +54,14 @@ public class ScoreCountController : MonoBehaviour
         saveScoreController.LoadBestScore(bestScoreUI);
         lifeCountController.GameOverEvent.AddListener(SaveBestScore);
         _scoreSum = 0;
+        _currentDelay = 0;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         var scoreUIValue = int.Parse(scoreUI.text);
         
-        if (scoreUIValue < _scoreSum)
+        if (scoreUIValue < _scoreSum && _currentDelay <= 0)
         {
             scoreUIValue++;
             scoreAnimation.Play();
@@ -72,6 +74,13 @@ public class ScoreCountController : MonoBehaviour
                 bestScoreAnimation.Play();
                 bestScoreUI.text = scoreUIValue.ToString();
             }
+
+            _currentDelay = gameConfigController.GameConfig.ScoreCountDelay;
+        }
+
+        if (_currentDelay > 0)
+        {
+            _currentDelay -= Time.deltaTime;
         }
     }
 

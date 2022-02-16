@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class BombController : EntityController
@@ -7,7 +6,7 @@ public class BombController : EntityController
     {
         UpdateEntity();
         
-        if (_entityCanCut)
+        if (EntityCanCut)
         {
             BombCut();
         }
@@ -15,41 +14,30 @@ public class BombController : EntityController
 
     private void BombCut()
     {
-        PushFruits();
-        _lifeCountController.DecreaseLife();
+        EntityControllersProvider.LifeCountController.DecreaseLife();
+        PushEntitites();
         SpawnExplodeEffect();
         EntityDestroy();
     }
 
-    private void PushFruits()
+    private void PushEntitites()
     {
-        var fruits = _entityRepositoryController.Entities.Where(e => e is FruitController).ToList();
-        
-        for (var i = 0; i < fruits.Count; i++)
+        var explodeForce = ((BombConfig)EntityConfig).ExplodeForce;
+
+        foreach (var entity in EntityControllersProvider.EntityRepositoryController.Entities)
         {
-            var fruit = (FruitController)fruits[i];
-            var newVector = fruit.transform.position - transform.position;
-            var speed = ((BombConfig)_entityConfig).ExplodeForce - newVector.magnitude;
+            var newVector = entity.transform.position - transform.position;
+            var speed = explodeForce - newVector.magnitude;
             
             if (speed < 0)
                 speed = 0;
             
-            fruit.PushFruit(newVector * speed);
+            entity.PushEntity(newVector * speed);
         }
-    }
-    
-    public void SetBombConfig(Vector3 directionVector,
-        BombConfig bombConfig, 
-        SwipeController swipeController,
-        LifeCountController lifeCountController,
-        EntityRepositoryController entityRepositoryController,
-        EntityOnGameFieldChecker entityOnGameFieldChecker)
-    {
-        SetEntityConfig(directionVector, bombConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
     }
 
     private void SpawnExplodeEffect()
     {
-        Instantiate(_gameConfig.ExplodeEffect, transform.position, Quaternion.identity, transform.parent);
+        Instantiate(GameConfig.ExplodeEffect, transform.position, Quaternion.identity, transform.parent);
     }
 }

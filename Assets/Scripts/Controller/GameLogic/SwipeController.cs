@@ -60,7 +60,7 @@ public class SwipeController : MonoBehaviour
         {
             var touch = Input.GetTouch(0);
             var positon = camera.ScreenToWorldPoint(touch.position);
-            var swipePosition = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 1);
+            var swipePosition = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 5);
             swipe.transform.position = swipePosition;
 
             if (!swipe.activeSelf)
@@ -80,7 +80,7 @@ public class SwipeController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             var positon = camera.ScreenToWorldPoint(Input.mousePosition);
-            var swipePosition = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 1);
+            var swipePosition = new Vector3(positon.x, positon.y, canvasRectTransform.position.z - 5);
             swipe.transform.position = swipePosition;
             
             if (!swipe.activeSelf)

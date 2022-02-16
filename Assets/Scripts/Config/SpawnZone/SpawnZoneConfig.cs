@@ -1,4 +1,3 @@
-using DefaultNamespace;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New SpawnZone", menuName = "Spawn Zone", order = 51)]

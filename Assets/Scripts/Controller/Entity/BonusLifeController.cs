@@ -6,7 +6,7 @@ public class BonusLifeController : EntityController
     {
         UpdateEntity();
         
-        if (_entityCanCut)
+        if (EntityCanCut)
         {
             BonusLifeCut();
         }
@@ -14,24 +14,14 @@ public class BonusLifeController : EntityController
 
     private void BonusLifeCut()
     {
+        EntityControllersProvider.LifeCountController.EncreaseLife();
         SpawnCutBonusLifeEffect();
-        _lifeCountController.EncreaseLife();
         EntityDestroy();
     }
 
-    public void SetBonusLifeConfig(Vector3 directionVector,
-        BonusLifeConfig bonusLifeConfig, 
-        SwipeController swipeController,
-        LifeCountController lifeCountController,
-        EntityRepositoryController entityRepositoryController,
-        EntityOnGameFieldChecker entityOnGameFieldChecker)
-    {
-        SetEntityConfig(directionVector, bonusLifeConfig, swipeController, lifeCountController, entityRepositoryController, entityOnGameFieldChecker);
-    }
-    
     private void SpawnCutBonusLifeEffect()
     {
-        var cutBonusLifeEffect = _gameConfig.CutBonusLifeEffect;
+        var cutBonusLifeEffect = GameConfig.CutBonusLifeEffect;
         Instantiate(cutBonusLifeEffect.gameObject, transform.position, Quaternion.identity, transform.parent);
     }
 }
