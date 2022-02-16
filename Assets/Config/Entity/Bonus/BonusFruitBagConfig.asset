@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb95aa51513e40c0bbeac06a5d8f3f4f, type: 3}
+  m_Name: BonusFruitBagConfig
+  m_EditorClassIdentifier: 
+  entityController: {fileID: -7270242133834948169, guid: fcfd5a8f46672124885cabbccfe071d2, type: 3}
+  entitySprite: {fileID: -4672724981494563026, guid: 2084b8f1fc0518942891d3ff60291676, type: 3}
+  speed: 14
+  rotateSpeed: 0.3
+  entityType: 5
+  fruitSpeed: 6
+  fruitCountInBag: 3
+  fruitSwipeDelay: 0.3

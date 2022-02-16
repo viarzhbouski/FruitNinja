@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EntityController : MonoBehaviour
@@ -16,6 +17,8 @@ public class EntityController : MonoBehaviour
     
     private SpriteRenderer _shadowSpriteRenderer;
     private float _rotateSpeed;
+    private bool _canSwipe;
+
     
     public void SetEntityConfig(Vector3 directionVector,
                                 EntityConfig entityConfig,
@@ -35,6 +38,7 @@ public class EntityController : MonoBehaviour
         
         entityPhysicsController.GravityVector = GameConfig.GravityVector;
         entityPhysicsController.DirectionVector = directionVector;
+        _canSwipe = true;
     }
 
     private protected void EntityDestroy()
@@ -79,8 +83,26 @@ public class EntityController : MonoBehaviour
         spriteTransform.rotation = entityTransform.rotation;
     }
     
+    public void DisableCutEntityByDelay(float delay)
+    {
+        _canSwipe = false;
+        StartCoroutine(DisableCutEntity(delay));
+
+    }
+
+    IEnumerator DisableCutEntity(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _canSwipe = true;
+    }
+    
     private void EntitySwipeCheckCollision()
     {
+        if (!_canSwipe)
+        {
+            return;
+        }
+        
         var entityPosition = transform.position;
         var swipePosition = EntityControllersProvider.SwipeController.Swipe.transform.position;
         var from = new Vector3(entityPosition.x, entityPosition.y, 0);

@@ -4,5 +4,6 @@
     FruitFragment,
     Bomb,
     BonusLife,
-    BonusFreeze
+    BonusFreeze,
+    BonusFruitBag
 }
