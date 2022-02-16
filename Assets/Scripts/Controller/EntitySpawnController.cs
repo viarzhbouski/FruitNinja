@@ -47,7 +47,7 @@ public class EntitySpawnController : MonoBehaviour
             return;
         }
         
-        SpawnFruitPack();
+        SpawnEntityPack();
     }
 
     IEnumerator DelayBeforeStart()
@@ -56,7 +56,7 @@ public class EntitySpawnController : MonoBehaviour
         _canStartGame = true;
     }
 
-    private void SpawnFruitPack()
+    private void SpawnEntityPack()
     {
         if (_currentSpawnFruitPackDelay >= 0)
         {
@@ -66,41 +66,20 @@ public class EntitySpawnController : MonoBehaviour
         
         var spawnZone = GetSpawnZone();
         var position = GetPosition(spawnZone);
-        StartCoroutine(SpawnEntityPack(spawnZone, position));
+        var bonusBlocksAtPack = (int)(difficultyLogicController.FruitCountInPack * _gameConfig.RatioOfBonusBlocksToFruits);
+        var entityConfigPack = GetEntityConfigPack(bonusBlocksAtPack);
+        
+        StartCoroutine(SpawnEntity(entityConfigPack, spawnZone, position));
         
         _currentSpawnFruitPackDelay = difficultyLogicController.FruitPackDelay;
     }
     
-    IEnumerator SpawnEntityPack(SpawnZoneConfig spawnZone, Vector3 position)
+    IEnumerator SpawnEntity(List<EntityConfig> entityConfigsPack, SpawnZoneConfig spawnZone, Vector3 position)
     {
-        // var pack = new List<EntityConfig>();
-        // var bonusBlocksAtPack = (int)(difficultyLogicController.FruitCountInPack * _gameConfig.RatioOfBonusBlocksToFruits);
-        //
-        // for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
-        // {
-        //     var entityConfig = GetEntityConfig();
-        //     
-        //     if (pack.Count(e => e is BombConfig) >= bonusBlocksAtPack)
-        //     {
-        //         i--;
-        //         continue;
-        //     }
-        //     
-        //     pack.Add(entityConfig);
-        // }
-        //
-        // foreach (var entity in pack)
-        // {
-        //     yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
-        //     SpawnEntity(spawnZone, position, entity);
-        // }
-        
-        
-        for (int i = 0; i < difficultyLogicController.FruitCountInPack; i++)
+        for (int i = 0; i < entityConfigsPack.Count; i++)
         {
             yield return new WaitForSeconds(difficultyLogicController.FruitDelay);
-            var entityConfig = GetEntityConfig();
-            SpawnEntity(spawnZone, position, entityConfig);
+            SpawnEntity(spawnZone, position, entityConfigsPack[i]);
         }
     }
 
@@ -147,43 +126,63 @@ public class EntitySpawnController : MonoBehaviour
         };
     }
 
-    private EntityConfig GetEntityConfig()
+    private List<EntityConfig> GetEntityConfigPack(int bonusBlocksAtPack)
     {
-        var sumChance = _entityChances.Values.Sum();
-        var randomNum = Random.Range(0, sumChance);
-        var entityType = EntityType.Fruit;
-        
-        foreach (var item in _entityChances)
+        FruitConfig GetRandomFruit()
         {
-            if (randomNum < item.Value)
-            {
-                if (item.Key == EntityType.BonusLife &&
-                    lifeCountController.CurrentLifeCount == _gameConfig.MaxLifeCount)
-                {
-                    continue;
-                }
-                
-                entityType = item.Key;
-                break;
-            }
-            
-            randomNum -= item.Value;
+            var fruitRandom = Random.Range(0, _gameConfig.Fruits.Count - 1);
+            return _gameConfig.Fruits[fruitRandom];
         }
 
-        switch (entityType)
+        var pack = new List<EntityConfig>();
+        
+        for (var i = 0; i < _gameConfig.FruitCountInPack; i++)
         {
-            case EntityType.Fruit:
-                var fruitRandom = Random.Range(0, _gameConfig.Fruits.Count - 1);
-                return _gameConfig.Fruits[fruitRandom];
-            case EntityType.Bomb:
-                return _gameConfig.Bomb;
-            case EntityType.BonusLife:
-                return _gameConfig.BonusLife;
-            case EntityType.BonusFreeze:
-                return _gameConfig.BonusFreeze;
-            default:
-                return null;
+            var sumChance = _entityChances.Values.Sum();
+            var randomNum = Random.Range(0, sumChance);
+            var entityType = EntityType.Fruit;
+
+            foreach (var item in _entityChances)
+            {
+                if (randomNum < item.Value)
+                {
+                    if (item.Key == EntityType.BonusLife &&
+                        lifeCountController.CurrentLifeCount == _gameConfig.MaxLifeCount)
+                    {
+                        continue;
+                    }
+                    
+                    entityType = item.Key;
+                    break;
+                }
+
+                randomNum -= item.Value;
+            }
+
+            if (pack.Count(e => e.EntityType != EntityType.Fruit) == bonusBlocksAtPack)
+            {
+                pack.Add(GetRandomFruit());
+                continue;
+            }
+
+            switch (entityType)
+            {
+                case EntityType.Fruit:
+                    pack.Add(GetRandomFruit());
+                    break;
+                case EntityType.Bomb:
+                    pack.Add(_gameConfig.Bomb);
+                    break;
+                case EntityType.BonusLife:
+                    pack.Add(_gameConfig.BonusLife);
+                    break;
+                case EntityType.BonusFreeze:
+                    pack.Add(_gameConfig.BonusFreeze);
+                    break;
+            }
         }
+
+        return pack;
     }
     
     private SpawnZoneConfig GetSpawnZone()
