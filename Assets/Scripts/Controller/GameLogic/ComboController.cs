@@ -1,27 +1,22 @@
 using UnityEngine.Events;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class ComboController : MonoBehaviour
 {
     [SerializeField]
     private GameConfigController gameConfigController;
     [SerializeField]
-    private TextMeshProUGUI comboUI;
-    [SerializeField]
-    private Animation comboAnimation;
-    [SerializeField]
-    private AnimationClip showComboClip;
-    [SerializeField]
-    private AnimationClip increaseComboClip;
-    [SerializeField]
-    private AnimationClip destroyComboClip;
-    
+    private Text comboUI;
+
     private UnityEvent _fruitCutEvent = new UnityEvent();
     private int _comboMultiplier;
     private int _combo;
     private float _currentTime;
     private float _currentMultiplierTime;
+
+    private GameConfig GameConfig => gameConfigController.GameConfig;
     
     public UnityEvent FruitCutEvent
     {
@@ -33,7 +28,7 @@ public class ComboController : MonoBehaviour
         get { return _comboMultiplier; }
     }
 
-    void Start()
+    private void Start()
     {
         _comboMultiplier = 1;
         _combo = 1;
@@ -42,7 +37,7 @@ public class ComboController : MonoBehaviour
         _fruitCutEvent.AddListener(FruitOnCut);
     }
 
-    void Update()
+    private void Update()
     {
         if (_currentMultiplierTime > 0) 
         {
@@ -51,7 +46,7 @@ public class ComboController : MonoBehaviour
         else if (_currentMultiplierTime <= 0 && _comboMultiplier > 1)
         {
             _comboMultiplier = 1;
-            comboAnimation.Play(destroyComboClip.name);
+            comboUI.rectTransform.DOScale(Vector3.zero, GameConfig.ComboScaleSpeed);
         }
         
         if (_currentTime > 0) 
@@ -66,25 +61,30 @@ public class ComboController : MonoBehaviour
 
     private void FruitOnCut()
     {
-        _currentTime = gameConfigController.GameConfig.ComboTime;
-        
-        if (_combo == gameConfigController.GameConfig.ComboMax)
+        if (_comboMultiplier == 1)
         {
-            _currentMultiplierTime = gameConfigController.GameConfig.ComboMultiplierTime;
+            comboUI.text = string.Empty;
+        }
+        
+        _currentTime = GameConfig.ComboTime;
+        
+        if (_combo == GameConfig.ComboMax)
+        {
+            _currentMultiplierTime = GameConfig.ComboMultiplierTime;
             _combo = 1;
             
-            if (_comboMultiplier < gameConfigController.GameConfig.ComboMultiplierMax)
+            if (_comboMultiplier < GameConfig.ComboMultiplierMax)
             {
                 _comboMultiplier++;
             }
 
             if (comboUI.text == string.Empty)
             {
-                comboAnimation.Play(showComboClip.name);
+                comboUI.rectTransform.DOScale(Vector3.one, GameConfig.ComboScaleSpeed);
             }
-            else
+            else if (comboUI.rectTransform.localScale.x == Vector3.one.x)
             {
-                comboAnimation.Play(increaseComboClip.name);
+                comboUI.rectTransform.DOPunchScale(GameConfig.ComboPunchScale, GameConfig.ComboPunchScaleSpeed);
             }
             
             comboUI.text = $"x{_comboMultiplier}";

@@ -1,12 +1,13 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameOverPopupController : MonoBehaviour
 {
+    [SerializeField]
+    private GameConfigController gameConfigController;
     [SerializeField]
     private LifeCountController lifeCountController;
     [SerializeField]
@@ -14,37 +15,32 @@ public class GameOverPopupController : MonoBehaviour
     [SerializeField]
     private EntityRepositoryController entityRepositoryController;
     [SerializeField]
-    private GameObject gameOverPopup;
+    private RectTransform gameOverPopup;
     [SerializeField]
-    private TextMeshProUGUI yourScoreUI;
-    [SerializeField]
-    private Animation gameOverPopupAnimation;
-    [SerializeField]
-    private Animation loadSceneAnimation;
-    [SerializeField]
-    private AnimationClip openClip;
-    [SerializeField]
-    private AnimationClip closeClip;
-    [SerializeField]
-    private AnimationClip loadSceneClip;
+    private Text yourScoreUI;
     [SerializeField]
     private Button gameOverPopupRestartButton;
     [SerializeField]
     private Button gameOverPopupMainMenuButton;
     [SerializeField]
-    private float openPopupDelayTime;
-    [SerializeField]
-    private float loadSceneDelayTime;
+    private Image imageForAnim;
+    
+    private bool _popupIsClosed;
+    
+    private GameConfig GameConfig => gameConfigController.GameConfig;
     
     private void Start()
     {
+        imageForAnim.color = Color.black;
+        imageForAnim.DOFade(0f, 0.5f);
         gameOverPopupRestartButton.onClick.AddListener(RestartGameOnClick);
         gameOverPopupMainMenuButton.onClick.AddListener(MainMenuOnClick);
+        _popupIsClosed = true;
     }
 
     private void Update()
     {
-        if (lifeCountController.GameOver && entityRepositoryController.Entities.Count == 0 && !gameOverPopup.activeSelf)
+        if (lifeCountController.GameOver && entityRepositoryController.Entities.Count == 0 && _popupIsClosed)
         {
             OpenGameOverPopup();
         }
@@ -52,16 +48,20 @@ public class GameOverPopupController : MonoBehaviour
 
     private void OpenGameOverPopup()
     {
-        gameOverPopup.SetActive(true);
-        gameOverPopupAnimation.Play(openClip.name);
-        yourScoreUI.text = scoreCountController.ScoreUI.text;
+        _popupIsClosed = false;
+        gameOverPopup.DOScale(Vector3.one / 2f, GameConfig.PopupOpenCloseSpeed);
+        yourScoreUI.DOText(scoreCountController.ScoreUI.text, GameConfig.ScoreCountSpeed, false, ScrambleMode.Numerals);
     }
 
     private void RestartGameOnClick()
     {
         gameOverPopupRestartButton.enabled = false;
         gameOverPopupMainMenuButton.enabled = false;
-        StartCoroutine(RestartGame());
+        
+        gameOverPopup.transform.DOScale(Vector3.zero, GameConfig.PopupOpenCloseSpeed);
+        lifeCountController.ResetLifeCount();
+        scoreCountController.ResetScore();
+        _popupIsClosed = true;
     }
     
     private void MainMenuOnClick()
@@ -73,19 +73,9 @@ public class GameOverPopupController : MonoBehaviour
 
     IEnumerator MainMenu()
     {
-        gameOverPopupAnimation.Play(closeClip.name);
-        loadSceneAnimation.Play(loadSceneClip.name);
-        yield return new WaitForSeconds(loadSceneDelayTime);
+        gameOverPopup.transform.DOScale(Vector3.zero, GameConfig.PopupOpenCloseSpeed);
+        imageForAnim.DOFade(1f, 0.5f);
+        yield return new WaitForSeconds(GameConfig.LoadMainMenuSceneDelay);
         SceneManager.LoadScene(0);
-    }
-    
-    IEnumerator RestartGame()
-    {
-        gameOverPopupAnimation.Play(closeClip.name);
-        yield return new WaitForSeconds(openPopupDelayTime);
-        gameOverPopup.SetActive(false);
-        SceneManager.LoadScene(1);
-        lifeCountController.ResetLifeCount();
-        scoreCountController.ResetScore();
     }
 }

@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class ScoreCountController : MonoBehaviour
 {
@@ -16,16 +18,19 @@ public class ScoreCountController : MonoBehaviour
     [SerializeField]
     private SaveScoreController saveScoreController;
     [SerializeField]
-    private TextMeshProUGUI scoreUI;
+    private Text scoreUI;
     [SerializeField]
-    private TextMeshProUGUI bestScoreUI;
+    private Text bestScoreUI;
     [SerializeField]
-    private Animation scoreAnimation;
-    [SerializeField]
-    private Animation bestScoreAnimation;
+    private RectTransform scoreImage;
     
     private UnityEvent _difficultyDelayEvent = new UnityEvent();
     private UnityEvent _difficultyFruitPackEvent = new UnityEvent();
+    private int _cuttedFruitCount;
+    private int _cuttedFruitForPacksCount;
+    private int _scoreSum;
+
+    private GameConfig GameConfig => gameConfigController.GameConfig;
     
     public UnityEvent DifficultyDelayEvent
     {
@@ -39,49 +44,16 @@ public class ScoreCountController : MonoBehaviour
         set { _difficultyFruitPackEvent = value; }
     }
     
-    public TextMeshProUGUI ScoreUI
+    public Text ScoreUI
     {
         get { return scoreUI; }
     }
-    
-    private float _currentDelay;
-    private int _cuttedFruitCount;
-    private int _cuttedFruitForPacksCount;
-    private int _scoreSum;
     
     private void Start()
     {
         saveScoreController.LoadBestScore(bestScoreUI);
         lifeCountController.GameOverEvent.AddListener(SaveBestScore);
         _scoreSum = 0;
-        _currentDelay = 0;
-    }
-
-    private void Update()
-    {
-        var scoreUIValue = int.Parse(scoreUI.text);
-        
-        if (scoreUIValue < _scoreSum && _currentDelay <= 0)
-        {
-            scoreUIValue++;
-            scoreAnimation.Play();
-            scoreUI.text = scoreUIValue.ToString();
-            
-            var bestScoreUIValue = int.Parse(bestScoreUI.text);
-            
-            if (scoreUIValue >= bestScoreUIValue)
-            {
-                bestScoreAnimation.Play();
-                bestScoreUI.text = scoreUIValue.ToString();
-            }
-
-            _currentDelay = gameConfigController.GameConfig.ScoreCountDelay;
-        }
-
-        if (_currentDelay > 0)
-        {
-            _currentDelay -= Time.deltaTime;
-        }
     }
 
     public void AddScore(int score, Vector3 position)
@@ -89,13 +61,13 @@ public class ScoreCountController : MonoBehaviour
         _cuttedFruitCount++;
         _cuttedFruitForPacksCount++;
         
-        if (_cuttedFruitCount == gameConfigController.GameConfig.CuttedFruitsForDecreaseFruitDelay)
+        if (_cuttedFruitCount == GameConfig.CuttedFruitsForDecreaseFruitDelay)
         {
             _difficultyDelayEvent.Invoke();
             _cuttedFruitCount = 0;
         }
         
-        if (_cuttedFruitForPacksCount == gameConfigController.GameConfig.CuttedFruitsForEncreaseFruitInPack)
+        if (_cuttedFruitForPacksCount == GameConfig.CuttedFruitsForEncreaseFruitInPack)
         {
             _difficultyFruitPackEvent.Invoke();
             _cuttedFruitForPacksCount = 0;
@@ -103,7 +75,20 @@ public class ScoreCountController : MonoBehaviour
         
         _scoreSum += score;
         
-        var rot = Quaternion.Euler(0, 0, Random.Range(gameConfigController.GameConfig.ScoreTextRotationMin, gameConfigController.GameConfig.ScoreTextRotationMax));
+        scoreUI.DOText(_scoreSum.ToString(), GameConfig.ScoreCountSpeed, false, ScrambleMode.Numerals);
+        var bestScoreUIValue = int.Parse(bestScoreUI.text);
+        
+        if (_scoreSum >= bestScoreUIValue)
+        {
+            bestScoreUI.DOText(_scoreSum.ToString(), GameConfig.ScoreCountSpeed, false, ScrambleMode.Numerals);
+        }
+        
+        if (scoreImage.localScale.x == Vector3.right.x)
+        {
+            scoreImage.DOPunchScale(GameConfig.ScoreImageScale, GameConfig.ScoreImageSpeed);
+        }
+
+        var rot = Quaternion.Euler(0, 0, Random.Range(GameConfig.ScoreTextRotationMin, GameConfig.ScoreTextRotationMax));
         var spawnedScoreText = Instantiate(scoreTextPrefab, position, rot, canvas.transform);
         spawnedScoreText.text = $"+{score}";
     }

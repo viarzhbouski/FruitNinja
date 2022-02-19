@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   delayBeforeStart: 3
-  startLifeCount: 3
+  startLifeCount: 5
   maxLifeCount: 5
   gravityVector: {x: 0, y: -7, z: 0}
   xMinBorder: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
   ratioOfBonusBlocksToFruits: 0.5
   fruitChance: 1
   bombChance: 0.05
-  bonusLifeChance: 0.01
+  bonusLifeChance: 1
   bonusFreezeChance: 0.02
   bonusFruitBagChance: 0.03
   spawnZones:
@@ -64,8 +64,15 @@ MonoBehaviour:
   explodeEffect: {fileID: 6268700189231865453, guid: 94b76e00ca8f12347bc971cd5c1eea24, type: 3}
   scoreTextRotationMin: -20
   scoreTextRotationMax: 20
-  scoreCountDelay: 0.005
+  scoreCountSpeed: 0.5
+  scoreImageScale: {x: 0.5, y: 0.5, z: 0}
+  scoreImageSpeed: 0.2
   comboMax: 2
   comboMultiplierMax: 5
   comboTime: 0.1
   comboMultiplierTime: 5
+  comboScaleSpeed: 0.2
+  comboPunchScale: {x: 0.5, y: 0.5, z: 0}
+  comboPunchScaleSpeed: 0.2
+  popupOpenCloseSpeed: 0.2
+  loadMainMenuSceneDelay: 1
