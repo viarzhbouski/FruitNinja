@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EntityController : MonoBehaviour
 {
@@ -39,11 +42,25 @@ public class EntityController : MonoBehaviour
         entityPhysicsController.GravityVector = GameConfig.GravityVector;
         entityPhysicsController.DirectionVector = directionVector;
         _canSwipe = true;
+        
+        if (EntityConfig.EntityType != EntityType.FruitFragment)
+        {
+            EntityScale();
+        }
+    }
+
+    private void EntityScale()
+    {
+        transform.DOScale(1.25f, 1.5f).onComplete += () =>
+        {
+            transform.DOScale(1f, 1.5f);
+        };
     }
 
     private protected void EntityDestroy()
     {
         EntityControllersProvider.EntityRepositoryController.Entities.Remove(this);
+        
         Destroy(_shadowSpriteRenderer.gameObject);
         Destroy(gameObject);
     }

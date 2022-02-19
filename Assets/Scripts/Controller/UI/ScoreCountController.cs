@@ -29,7 +29,8 @@ public class ScoreCountController : MonoBehaviour
     private int _cuttedFruitCount;
     private int _cuttedFruitForPacksCount;
     private int _scoreSum;
-
+    private bool _bestScoreReached;
+    
     private GameConfig GameConfig => gameConfigController.GameConfig;
     
     public UnityEvent DifficultyDelayEvent
@@ -54,6 +55,7 @@ public class ScoreCountController : MonoBehaviour
         saveScoreController.LoadBestScore(bestScoreUI);
         lifeCountController.GameOverEvent.AddListener(SaveBestScore);
         _scoreSum = 0;
+        _bestScoreReached = false;
     }
 
     public void AddScore(int score, Vector3 position)
@@ -76,9 +78,13 @@ public class ScoreCountController : MonoBehaviour
         _scoreSum += score;
         
         scoreUI.DOText(_scoreSum.ToString(), GameConfig.ScoreCountSpeed, false, ScrambleMode.Numerals);
-        var bestScoreUIValue = int.Parse(bestScoreUI.text);
-        
-        if (_scoreSum >= bestScoreUIValue)
+
+        if (!_bestScoreReached)
+        {
+            _bestScoreReached = _scoreSum >= int.Parse(bestScoreUI.text);
+        }
+
+        if (_bestScoreReached)
         {
             bestScoreUI.DOText(_scoreSum.ToString(), GameConfig.ScoreCountSpeed, false, ScrambleMode.Numerals);
         }
