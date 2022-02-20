@@ -1,26 +1,26 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
-using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
+    [SerializeField] 
+    private Image imageForAnim;
     [SerializeField]
     private SaveScoreController saveScoreController;
     [SerializeField]
-    private TextMeshProUGUI bestScoreUI;
+    private Text bestScoreUI;
     [SerializeField]
     private Button startGameButton;
     [SerializeField]
-    private Animation loadSceneAnimation;
-    [SerializeField]
-    private AnimationClip loadSceneClip;
-    [SerializeField]
     private float loadSceneDelayTime;
     
-    void Start()
+    private void Start()
     {
+        imageForAnim.color = Color.black;
+        imageForAnim.DOFade(0f, 0.5f);
         startGameButton.onClick.AddListener(StartGameOnClick);
         saveScoreController.LoadBestScore(bestScoreUI);
     }
@@ -33,7 +33,7 @@ public class MainMenuController : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        loadSceneAnimation.Play(loadSceneClip.name);
+        imageForAnim.DOFade(1f, 0.5f);
         yield return new WaitForSeconds(loadSceneDelayTime);
         SceneManager.LoadScene(1);
     }

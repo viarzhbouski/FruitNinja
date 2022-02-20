@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BonusFruitBagController : EntityController
 {
+    private const float SpreadingValue = 0.5f;
+    
     private void Update()
     {
         UpdateEntity();
@@ -18,7 +20,7 @@ public class BonusFruitBagController : EntityController
         {
             var fruitNum = Random.Range(0, GameConfig.Fruits.Count - 1);
             var fruitConfig = GameConfig.Fruits[fruitNum];
-            var vector = new Vector3(Random.Range(-0.5f, 0.5f),  1f, 0);
+            var vector = new Vector2(Random.Range(-SpreadingValue, SpreadingValue),  Vector2.up.y);
             var directionVector = vector * GameConfig.BonusFruitBag.FruitSpeed;
             var entityController = EntityControllersProvider.EntitySpawnController.SpawnEntity(directionVector, transform.position, fruitConfig);
             

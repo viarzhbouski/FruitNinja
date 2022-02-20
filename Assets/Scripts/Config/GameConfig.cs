@@ -102,7 +102,11 @@ public class GameConfig : ScriptableObject
     [SerializeField]
     private int scoreTextRotationMax;
     [SerializeField]
-    private float scoreCountDelay;
+    private float scoreCountSpeed;
+    [SerializeField]
+    private Vector3 scoreImageScale;
+    [SerializeField]
+    private float scoreImageSpeed;
     
     [Header("\tCOMBO")]
     [SerializeField]
@@ -113,6 +117,28 @@ public class GameConfig : ScriptableObject
     public float comboTime;
     [SerializeField]
     public float comboMultiplierTime;
+    [SerializeField]
+    public float comboScaleSpeed;
+    [SerializeField]
+    public Vector3 comboPunchScale;
+    [SerializeField]
+    public float comboPunchScaleSpeed;
+    
+    [Header("\tGAMEOVER POPUP")]
+    [SerializeField]
+    public float popupOpenCloseSpeed;
+    [SerializeField]
+    public float loadMainMenuSceneDelay;
+
+    public float PopupOpenCloseSpeed
+    {
+        get { return popupOpenCloseSpeed; }
+    }
+    
+    public float LoadMainMenuSceneDelay
+    {
+        get { return loadMainMenuSceneDelay; }
+    }
     
     public int ComboMax
     {
@@ -134,6 +160,21 @@ public class GameConfig : ScriptableObject
         get { return comboMultiplierTime; }
     }
     
+    public float ComboScaleSpeed
+    {
+        get { return comboScaleSpeed; }
+    }
+    
+    public Vector3 ComboPunchScale
+    {
+        get { return comboPunchScale; }
+    }
+    
+    public float ComboPunchScaleSpeed
+    {
+        get { return comboPunchScaleSpeed; }
+    }
+    
     public int ScoreTextRotationMin
     {
         get { return scoreTextRotationMin; }
@@ -144,9 +185,19 @@ public class GameConfig : ScriptableObject
         get { return scoreTextRotationMax; }
     }
     
-    public float ScoreCountDelay
+    public float ScoreCountSpeed
     {
-        get { return scoreCountDelay; }
+        get { return scoreCountSpeed; }
+    }
+    
+    public Vector3 ScoreImageScale
+    {
+        get { return scoreImageScale; }
+    }
+    
+    public float ScoreImageSpeed
+    {
+        get { return scoreImageSpeed; }
     }
     
     public float XMinBorder

@@ -13,7 +13,6 @@ public class SwipeController : MonoBehaviour
     [SerializeField]
     private bool mobile;
     
-    private Vector3 _velocityVector;
     private Vector3 _previousPosition;
     private float _velocity;
     
@@ -32,14 +31,12 @@ public class SwipeController : MonoBehaviour
         get { return camera; }
     }
     
-    void Update()
+    private void Update()
     {
         if (lifeCountController.GameOver)
         {
             return;
         }
-        
-        _previousPosition = swipe.transform.position;
         
         switch (mobile)
         {
@@ -50,7 +47,7 @@ public class SwipeController : MonoBehaviour
                 PcInput();
                 break;
         }
-
+        
         CalculateSwipeVelocity();
     }
 
@@ -94,11 +91,10 @@ public class SwipeController : MonoBehaviour
             swipe.SetActive(false);
         }
     }
-
+    
     private void CalculateSwipeVelocity()
     {
-        var currentVelocity = (swipe.transform.position - _previousPosition) / Time.deltaTime;
-        _velocityVector = Vector3.Lerp(_velocityVector, currentVelocity, 0.1f);
-        _velocity = _velocityVector.magnitude;
+        _velocity = Vector2.Distance(swipe.transform.position, _previousPosition) / Time.deltaTime;
+        _previousPosition = swipe.transform.position;
     }
 }

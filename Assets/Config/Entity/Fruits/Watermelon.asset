@@ -16,6 +16,8 @@ MonoBehaviour:
   entitySprite: {fileID: 8532703672136922592, guid: a752765296cd2c2478cc3b445218bb45, type: 3}
   speed: 14
   rotateSpeed: 0.3
-  chance: 0.8
+  scaleSpeed: 1.5
+  scaleSizeLimit: 1.25
+  entityType: 0
   score: 10
   fruitColor: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
