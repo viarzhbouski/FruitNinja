@@ -48,7 +48,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ad844b98e3fff4e4d8d919f48ef5e365, type: 2}
   - {fileID: 11400000, guid: 0c8905d403a1e1b43b83146e44737ded, type: 2}
   minDistanceForCutFruit: 1
-  minVelocityForCutFruit: 80
+  minVelocityForCutFruit: 50
   fruitCountInPack: 2
   maxFruitCountInPack: 6
   cuttedFruitsForEncreaseFruitInPack: 20

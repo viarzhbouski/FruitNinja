@@ -18,8 +18,8 @@ public class EntityController : MonoBehaviour
     private protected bool EntityCanCut;
     
     private SpriteRenderer _shadowSpriteRenderer;
-    private float _rotateSpeed;
     private bool _canSwipe;
+    private float _rotateSpeed;
     
     private const float ShadowOffsetX = 1f;
     private const float ShadowOffsetY = 1.5f;
@@ -33,11 +33,10 @@ public class EntityController : MonoBehaviour
         EntityControllersProvider = controllersProvider;
         EntityConfig = entityConfig;
         GameConfig = controllersProvider.EntityOnGameFieldCheckerController.GameConfigManager.GameConfig;
-        
-        _rotateSpeed = Random.Range(-EntityConfig.RotateSpeed, EntityConfig.RotateSpeed);
         _shadowSpriteRenderer = Instantiate(shadowSpriteRenderer, transform.position, Quaternion.identity, transform.parent);
         controllersProvider.EntityRepositoryController.Entities.Add(this);
-        
+
+        _rotateSpeed = Random.Range(0, 2) == 0 ? -EntityConfig.RotateSpeed : EntityConfig.RotateSpeed;
         _shadowSpriteRenderer.sprite = sprite == null ? EntityConfig.EntitySprite : sprite;
         spriteRenderer.sprite = sprite == null ? EntityConfig.EntitySprite : sprite;
         
@@ -70,7 +69,8 @@ public class EntityController : MonoBehaviour
     private protected void UpdateEntity()
     {
         UpdateShadowPosition();
-
+        EntityRotate();
+        
         if (!EntityControllersProvider.EntityOnGameFieldCheckerController.EntityOnGameField(transform.position.x, transform.position.y))
         {
             if (EntityConfig.EntityType == EntityType.Fruit)
@@ -87,13 +87,11 @@ public class EntityController : MonoBehaviour
         }
 
         EntitySwipeCheckCollision();
-        EntityRotate();
     }
 
     private void EntityRotate()
     {
-        transform.Rotate(Quaternion.identity.x, Quaternion.identity.y, entityPhysicsController.DirectionVector.x > Vector3.zero.x ? _rotateSpeed 
-                                                                                                                                        : -_rotateSpeed, Space.Self);
+        transform.Rotate(Quaternion.identity.x, Quaternion.identity.y, _rotateSpeed, Space.Self);
     }
 
     private void UpdateShadowPosition()

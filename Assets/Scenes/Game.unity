@@ -1774,7 +1774,7 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 1317859917}
   camera: {fileID: 519420031}
   swipe: {fileID: 683982930}
-  mobile: 1
+  mobile: 0
 --- !u!114 &1564027743
 MonoBehaviour:
   m_ObjectHideFlags: 0
