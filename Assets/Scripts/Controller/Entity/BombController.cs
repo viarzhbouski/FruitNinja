@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class BombController : EntityController
 {
-    void Update()
+    private const float DefaultSpeed = 1f;
+    
+    private void Update()
     {
         UpdateEntity();
         
@@ -23,14 +25,25 @@ public class BombController : EntityController
     private void PushEntitites()
     {
         var explodeForce = ((BombConfig)EntityConfig).ExplodeForce;
-
+        var explodeRadius = ((BombConfig)EntityConfig).ExplodeRadius;
+        
         foreach (var entity in EntityControllersProvider.EntityRepositoryController.Entities)
         {
+            if (entity.Equals(this))
+            {
+                continue;
+            }
+            
             var newVector = entity.transform.position - transform.position;
+            if (newVector.magnitude > explodeRadius)
+            {
+                continue;
+            }
+            
             var speed = explodeForce - newVector.magnitude;
             
             if (speed < 0)
-                speed = 0;
+                speed = DefaultSpeed;
             
             entity.PushEntity(newVector * speed);
         }

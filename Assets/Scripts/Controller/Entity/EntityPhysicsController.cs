@@ -17,7 +17,7 @@ public class EntityPhysicsController : MonoBehaviour
         set { _directionVector = value; }
     }
     
-    void Update()
+    private void Update()
     {
         _directionVector = _directionVector + (_gravityVector * Time.deltaTime);
         transform.position = transform.position + (_directionVector * Time.deltaTime);

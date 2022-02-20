@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BonusLifeController : EntityController
 {
-    void Update()
+    private void Update()
     {
         UpdateEntity();
         

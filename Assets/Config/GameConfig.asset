@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f334d01e573dda448229163376e6e4f, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  delayBeforeStart: 3
+  delayBeforeStart: 1.5
   startLifeCount: 5
   maxLifeCount: 5
   gravityVector: {x: 0, y: -7, z: 0}
@@ -37,9 +37,9 @@ MonoBehaviour:
   bonusFruitBagConfig: {fileID: 11400000, guid: 3935879820ef2ef4eb524ce4d39b4fc1, type: 2}
   ratioOfBonusBlocksToFruits: 0.5
   fruitChance: 1
-  bombChance: 0.05
-  bonusLifeChance: 1
-  bonusFreezeChance: 0.02
+  bombChance: 0.07
+  bonusLifeChance: 0.01
+  bonusFreezeChance: 0.05
   bonusFruitBagChance: 0.03
   spawnZones:
   - {fileID: 11400000, guid: 5dc1c76734158004e9f747acb85dff95, type: 2}

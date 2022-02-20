@@ -15,6 +15,12 @@ public class EntityConfig : ScriptableObject
     private float rotateSpeed;
     
     [SerializeField]
+    private float scaleSpeed;
+    
+    [SerializeField]
+    private float scaleSizeLimit;
+    
+    [SerializeField]
     private EntityType entityType;
     
     public EntityController EntityController
@@ -35,6 +41,16 @@ public class EntityConfig : ScriptableObject
     public float RotateSpeed
     {
         get { return rotateSpeed; }
+    }
+    
+    public float ScaleSpeed
+    {
+        get { return scaleSpeed; }
+    }
+    
+    public float ScaleSizeLimit
+    {
+        get { return scaleSizeLimit; }
     }
     
     public EntityType EntityType

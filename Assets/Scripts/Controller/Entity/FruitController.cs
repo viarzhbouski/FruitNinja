@@ -1,10 +1,10 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class FruitController : EntityController
 {
+    private Vector2 _fruitSpritePivot = new Vector2(0.5f, 0.75f);
+    
     private void Update()
     {
         UpdateEntity();
@@ -31,14 +31,13 @@ public class FruitController : EntityController
     {
         var offsetY = spriteRenderer.sprite.texture.height / 2;
         var startY = 0;
-        var pivot = new Vector2(0.5f, 0.75f);
         var fragmentConfig = GameConfig.FruitFragment;
 
         for (var i = 0; i < 2; i++)
         {
             var texture = spriteRenderer.sprite.texture;
             var rect = new Rect(0, startY, texture.width, offsetY);
-            var fragmentSprite = Sprite.Create(texture, rect, pivot);
+            var fragmentSprite = Sprite.Create(texture, rect, _fruitSpritePivot);
             
             var x = Random.Range(-fragmentConfig.Speed, fragmentConfig.Speed);
             var y = Random.Range(-fragmentConfig.Speed, fragmentConfig.Speed);
@@ -47,7 +46,7 @@ public class FruitController : EntityController
             EntityControllersProvider.EntitySpawnController.SpawnEntity(directionVector, transform.position, fragmentConfig, fragmentSprite);
             
             startY += offsetY;
-            pivot.y -= 0.5f;
+            _fruitSpritePivot.y -= 0.5f;
         }
     }
 

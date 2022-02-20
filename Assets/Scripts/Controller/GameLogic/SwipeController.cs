@@ -32,7 +32,7 @@ public class SwipeController : MonoBehaviour
         get { return camera; }
     }
     
-    void Update()
+    private void Update()
     {
         if (lifeCountController.GameOver)
         {

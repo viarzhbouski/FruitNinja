@@ -15,6 +15,8 @@ public class GameOverPopupController : MonoBehaviour
     [SerializeField]
     private EntityRepositoryController entityRepositoryController;
     [SerializeField]
+    private DifficultyLogicController difficultyLogicController;
+    [SerializeField]
     private RectTransform gameOverPopup;
     [SerializeField]
     private Text yourScoreUI;
@@ -58,10 +60,15 @@ public class GameOverPopupController : MonoBehaviour
         gameOverPopupRestartButton.enabled = false;
         gameOverPopupMainMenuButton.enabled = false;
         
-        gameOverPopup.transform.DOScale(Vector3.zero, GameConfig.PopupOpenCloseSpeed);
-        lifeCountController.ResetLifeCount();
-        scoreCountController.ResetScore();
-        _popupIsClosed = true;
+        gameOverPopup.transform.DOScale(Vector3.zero, GameConfig.PopupOpenCloseSpeed).onComplete += () =>
+        {
+            gameOverPopupRestartButton.enabled = true;
+            gameOverPopupMainMenuButton.enabled = true;
+            lifeCountController.ResetLifeCount();
+            scoreCountController.ResetScore();
+            difficultyLogicController.ResetDiffucult();
+            _popupIsClosed = true;
+        };
     }
     
     private void MainMenuOnClick()

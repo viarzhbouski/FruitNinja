@@ -33,7 +33,7 @@ public class EntitySpawnController : MonoBehaviour
     private float _currentSpawnFruitPackDelay;
     private bool _canStartGame;
 
-    void Start()
+    private void Start()
     {
         _gameConfig = gameConfigController.GameConfig;
         _currentSpawnFruitPackDelay = 0;
@@ -52,7 +52,7 @@ public class EntitySpawnController : MonoBehaviour
         FillEntityChancesDict();
     }
     
-    void Update()
+    private void Update()
     {
         if (lifeCountController.GameOver || !_canStartGame)
         {

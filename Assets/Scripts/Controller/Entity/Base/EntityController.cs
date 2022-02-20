@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -21,8 +20,11 @@ public class EntityController : MonoBehaviour
     private SpriteRenderer _shadowSpriteRenderer;
     private float _rotateSpeed;
     private bool _canSwipe;
-
     
+    private const float ShadowOffsetX = 1f;
+    private const float ShadowOffsetY = 1.5f;
+    private const float DefaultEntityScale = 1f;
+
     public void SetEntityConfig(Vector3 directionVector,
                                 EntityConfig entityConfig,
                                 EntityControllersProvider controllersProvider,
@@ -32,7 +34,7 @@ public class EntityController : MonoBehaviour
         EntityConfig = entityConfig;
         GameConfig = controllersProvider.EntityOnGameFieldCheckerController.GameConfigManager.GameConfig;
         
-        _rotateSpeed = Random.Range(0, EntityConfig.RotateSpeed);
+        _rotateSpeed = Random.Range(-EntityConfig.RotateSpeed, EntityConfig.RotateSpeed);
         _shadowSpriteRenderer = Instantiate(shadowSpriteRenderer, transform.position, Quaternion.identity, transform.parent);
         controllersProvider.EntityRepositoryController.Entities.Add(this);
         
@@ -51,9 +53,9 @@ public class EntityController : MonoBehaviour
 
     private void EntityScale()
     {
-        transform.DOScale(1.25f, 1.5f).onComplete += () =>
+        transform.DOScale(EntityConfig.ScaleSizeLimit, EntityConfig.ScaleSpeed).onComplete += () =>
         {
-            transform.DOScale(1f, 1.5f);
+            transform.DOScale(DefaultEntityScale, EntityConfig.ScaleSpeed);
         };
     }
 
@@ -85,15 +87,21 @@ public class EntityController : MonoBehaviour
         }
 
         EntitySwipeCheckCollision();
-        transform.Rotate(0f, 0f, entityPhysicsController.DirectionVector.x > 0 ? _rotateSpeed : -_rotateSpeed, Space.Self);
+        EntityRotate();
     }
-    
+
+    private void EntityRotate()
+    {
+        transform.Rotate(Quaternion.identity.x, Quaternion.identity.y, entityPhysicsController.DirectionVector.x > Vector3.zero.x ? _rotateSpeed 
+                                                                                                                                        : -_rotateSpeed, Space.Self);
+    }
+
     private void UpdateShadowPosition()
     {
         var entityTransform = transform;
         var entityPosition = entityTransform.position;
-        entityPosition.y = entityPosition.y - 1.5f;
-        entityPosition.z = entityPosition.z + 1;
+        entityPosition.y = entityPosition.y - ShadowOffsetY;
+        entityPosition.z = entityPosition.z + ShadowOffsetX;
 
         var spriteTransform = _shadowSpriteRenderer.transform;
         spriteTransform.position = entityPosition;
@@ -122,8 +130,8 @@ public class EntityController : MonoBehaviour
         
         var entityPosition = transform.position;
         var swipePosition = EntityControllersProvider.SwipeController.Swipe.transform.position;
-        var from = new Vector3(entityPosition.x, entityPosition.y, 0);
-        var to = new Vector3(swipePosition.x, swipePosition.y, 0);
+        var from = new Vector2(entityPosition.x, entityPosition.y);
+        var to = new Vector2(swipePosition.x, swipePosition.y);
         var distance = Vector3.Distance(from, to);
 
         if (distance <= GameConfig.MinDistanceForCutFruit && 

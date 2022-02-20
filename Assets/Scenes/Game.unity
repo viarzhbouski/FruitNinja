@@ -1839,6 +1839,7 @@ MonoBehaviour:
   lifeCountController: {fileID: 1564027745}
   scoreCountController: {fileID: 1564027744}
   entityRepositoryController: {fileID: 1564027749}
+  difficultyLogicController: {fileID: 1564027741}
   gameOverPopup: {fileID: 2029898402}
   yourScoreUI: {fileID: 1037858374}
   gameOverPopupRestartButton: {fileID: 1897788702}
