@@ -1,17 +1,16 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class LifeController : MonoBehaviour
 {
-    [SerializeField]
-    private Animation animation;
-    [SerializeField]
-    private AnimationClip increaseClip;
-    [SerializeField]
-    private AnimationClip decreaseClip;
-    
-    public void PlayInitAnimation() => animation.Play(increaseClip.name);
-    
-    public void PlayDestroyAnimation() => animation.Play(decreaseClip.name);
+    public void PlayInitAnimation() => transform.DOScale(Vector3.one, 0.5f);
 
-    public void DeleteLifeImage() => Destroy(gameObject);
+    public void PlayDestroyAnimation(LifeCountController lifeCountController)
+    {
+        transform.DOScale(Vector3.zero, 0.5f).onComplete += () =>
+        {
+            lifeCountController.ResizeLifeGrid();
+            Destroy(gameObject);
+        };
+    }
 }

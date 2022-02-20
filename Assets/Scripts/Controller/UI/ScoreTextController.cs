@@ -1,23 +1,29 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class ScoreTextController : MonoBehaviour
 {
     [SerializeField]
-    private Animation animation;
+    private float showSpeed;
     [SerializeField]
-    private AnimationClip destroyScoreClip;
+    private float hideSpeed;
     [SerializeField]
     private float delayTime;
     
-    void Start()
+    private void Start()
     {
         StartCoroutine(PlayDestroyScoreClipAnimation());
     }
 
     IEnumerator PlayDestroyScoreClipAnimation()
     {
+        transform.DOScale(Vector3.one, showSpeed);
         yield return new WaitForSeconds(delayTime);
-        animation.Play(destroyScoreClip.name);
+        
+        transform.DOScale(Vector3.zero, hideSpeed).onComplete += () =>
+        {
+            Destroy(gameObject);
+        };
     }
 }

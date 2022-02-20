@@ -1,13 +1,22 @@
-using TMPro;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SaveScoreController : MonoBehaviour
 {
-    public void SaveBestScore(TextMeshProUGUI scoreUI) => PlayerPrefs.SetString("Score", scoreUI.text);
+    public void SaveBestScore(Text scoreUI) => PlayerPrefs.SetString("Score", scoreUI.text);
     
-    public void LoadBestScore(TextMeshProUGUI scoreUI)
+    public void LoadBestScore(Text scoreUI)
     {
         var score = PlayerPrefs.GetString("Score");
-        scoreUI.text = !string.IsNullOrEmpty(score) ? score : "0";
+        
+        if (!string.IsNullOrEmpty(score))
+        {
+            scoreUI.DOText(score, 0.2f, false, ScrambleMode.Numerals);
+        }
+        else
+        {
+            scoreUI.text = "0";
+        }
     }
 }

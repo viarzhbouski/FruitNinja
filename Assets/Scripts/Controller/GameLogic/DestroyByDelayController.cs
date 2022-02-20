@@ -6,7 +6,7 @@ public class DestroyByDelayController : MonoBehaviour
     [SerializeField]
     private float delay;
     
-    void Start()
+    private void Start()
     {
         StartCoroutine(DestroyByDelay());
     }

@@ -1,25 +1,33 @@
-using System;
 using UnityEngine;
 
 public class GameTimeController : MonoBehaviour
 {
     private float _freezeTime;
+    private const float DefaultTime = 1f;
 
     private void Start()
     {
-        _freezeTime = 1f;
+        _freezeTime = DefaultTime;
+        
     }
 
     private void Update()
     {
-        Time.timeScale += (1f / _freezeTime) * Time.unscaledDeltaTime;
-        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+        if (_freezeTime > DefaultTime)
+        {
+            Time.timeScale = DefaultTime / _freezeTime;
+            _freezeTime -= DefaultTime * Time.unscaledDeltaTime;
+        }
+        else
+        {
+            Time.timeScale = DefaultTime;
+            _freezeTime = DefaultTime;
+        }
     }
 
     public void FreezeTime(float freezeForce, float freezeTime)
     {
         _freezeTime = freezeTime;
         Time.timeScale = freezeForce;
-        Time.fixedDeltaTime = Time.timeScale * 0.02f;
     }
 }

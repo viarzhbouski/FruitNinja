@@ -10,7 +10,7 @@ public class EntityRepositoryController : MonoBehaviour
         get { return _entities; }
     }
     
-    void Start()
+    private void Start()
     {
         _entities = new List<EntityController>();
     }
