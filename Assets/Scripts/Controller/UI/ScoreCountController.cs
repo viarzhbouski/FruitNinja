@@ -108,6 +108,7 @@ public class ScoreCountController : MonoBehaviour
     
     public void ResetScore()
     {
+        _scoreSum = 0;
         var currentScore = 0;
         scoreUI.text = currentScore.ToString();
     }
