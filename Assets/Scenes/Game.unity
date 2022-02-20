@@ -1774,7 +1774,7 @@ MonoBehaviour:
   canvasRectTransform: {fileID: 1317859917}
   camera: {fileID: 519420031}
   swipe: {fileID: 683982930}
-  mobile: 0
+  mobile: 1
 --- !u!114 &1564027743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1822,6 +1822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeImagePrefab: {fileID: -8529464346311313664, guid: d60356fb231e7b043ab1f056189ad3f2, type: 3}
   lifeGrid: {fileID: 1638390927}
+  gridLayoutGroup: {fileID: 1638390928}
   gameConfigController: {fileID: 1564027743}
 --- !u!114 &1564027746
 MonoBehaviour:
@@ -1920,18 +1921,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638390926}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -399}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -398.9998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1317859917}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 675, y: -50}
-  m_SizeDelta: {x: -1450, y: 100}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 609.4089, y: -25}
+  m_SizeDelta: {x: -1318.8177, y: -50}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1638390928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,12 +1951,12 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 2
-  m_StartCorner: 3
-  m_StartAxis: 1
+  m_StartCorner: 1
+  m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 0, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
+  m_Constraint: 1
+  m_ConstraintCount: 1
 --- !u!222 &1638390929
 CanvasRenderer:
   m_ObjectHideFlags: 0

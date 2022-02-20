@@ -4,10 +4,11 @@ public class GameTimeController : MonoBehaviour
 {
     private float _freezeTime;
     private const float DefaultTime = 1f;
-    
+
     private void Start()
     {
         _freezeTime = DefaultTime;
+        
     }
 
     private void Update()

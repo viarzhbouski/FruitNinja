@@ -30,6 +30,7 @@ public class ScoreCountController : MonoBehaviour
     private int _cuttedFruitForPacksCount;
     private int _scoreSum;
     private bool _bestScoreReached;
+    private bool _canAnimScoreImage;
     
     private GameConfig GameConfig => gameConfigController.GameConfig;
     
@@ -56,6 +57,7 @@ public class ScoreCountController : MonoBehaviour
         lifeCountController.GameOverEvent.AddListener(SaveBestScore);
         _scoreSum = 0;
         _bestScoreReached = false;
+        _canAnimScoreImage = true;
     }
 
     public void AddScore(int score, Vector3 position)
@@ -89,9 +91,13 @@ public class ScoreCountController : MonoBehaviour
             bestScoreUI.DOText(_scoreSum.ToString(), GameConfig.ScoreCountSpeed, false, ScrambleMode.Numerals);
         }
         
-        if (scoreImage.localScale.x == Vector3.right.x)
+        if (_canAnimScoreImage)
         {
-            scoreImage.DOPunchScale(GameConfig.ScoreImageScale, GameConfig.ScoreImageSpeed);
+            _canAnimScoreImage = false;
+            scoreImage.DOPunchScale(GameConfig.ScoreImageScale, GameConfig.ScoreImageSpeed).onComplete += () =>
+            {
+                _canAnimScoreImage = true;
+            };
         }
 
         var rot = Quaternion.Euler(0, 0, Random.Range(GameConfig.ScoreTextRotationMin, GameConfig.ScoreTextRotationMax));
